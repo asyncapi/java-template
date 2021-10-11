@@ -3,7 +3,7 @@
  * Check the files in the `template` folder to see how to import and use them within a template.
  */
 import { Indent, IndentationTypes, withIndendation } from '@asyncapi/generator-react-sdk';
-
+import { asyncApiTypeToJavaType, createJavaArgsFromProperties } from '../utils/Types.utils'
 /*
   * Each component has a `childrenContent` property.
   * It is the processed children content of a component into a pure string. You can use it for compositions in your component.
@@ -50,11 +50,7 @@ return `
   private ConnectionHelper ch = null;`
 }
 
-export function createJavaArgs(properties){
-  return Object.entries(properties).map(([name, property]) => {
-      return `${toJavaType(property.type())} ${name}`
-  })
-}
+
 
 export function passJavaArgs(properties){  return Object.entries(properties).map(([name, property]) => {
       return `${name}`
@@ -63,7 +59,7 @@ export function passJavaArgs(properties){  return Object.entries(properties).map
 
 export function defineJavaVars(properties){
   return Object.entries(properties).map(([name, property]) => {
-      return `public ${toJavaType(property.type())} ${name};`
+      return `public ${asyncApiTypeToJavaType(property.type())} ${name};`
   })
 }
 
@@ -75,43 +71,7 @@ export function setJavaVars(properties){
   })
 }
 
-function toJavaType(asyncApiType) {
-  switch (asyncApiType){
-    
-    case "integer":
-      return "int"
 
-    case "long":
-      return "Long"
-
-    case "float":
-      return "float"
-
-    case "double":
-      return "double"
-
-    case "string":
-      return "String"
-      
-    case "byte":
-      return "byte"
-  
-    case "binary":
-      return "String"
-
-    case "boolean":
-      return "boolean"
-
-    case "date":
-      return "String"
-
-    case "dateTime":
-      return "String"
-
-    case "password":
-      return "String"
-  }
-}
 
 export function ClassConstructor({ childrenContent, name, properties }) {
   let propertiesString = `String type`;
@@ -119,7 +79,7 @@ export function ClassConstructor({ childrenContent, name, properties }) {
 
   console.log(`Constructing ${name}, properties`, properties)
   if(properties){
-    propertiesString = createJavaArgs(properties);
+    propertiesString = createJavaArgsFromProperties(properties);
 
   }
 

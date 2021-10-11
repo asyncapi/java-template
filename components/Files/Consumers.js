@@ -2,7 +2,7 @@ import { File, render } from '@asyncapi/generator-react-sdk';
 import {ImportModels, PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, Close} from '../Common';
 import {ProducerConstructor, SendMessage } from '../Producer';
 import {ConsumerDeclaration, ConsumerImports, ConsumerConstructor, ReceiveMessage } from '../Consumer';
-
+import { toJavaClassName } from '../../utils/String.utils';
 
 
 export function Consumers(asyncapi, channels, params){
@@ -45,10 +45,3 @@ export function Consumers(asyncapi, channels, params){
       }
     });
   }
-
-  function toJavaClassName(name){
-    let components = name.split('/')
-  
-    return components.map(item => item.charAt(0).toUpperCase() + item.slice(1)).join('');
-  }
-  
