@@ -50,33 +50,30 @@ return `
   private ConnectionHelper ch = null;`
 }
 
-function createJavaArgs(properties){
+export function createJavaArgs(properties){
   return Object.entries(properties).map(([name, property]) => {
       return `${toJavaType(property.type())} ${name}`
   })
 }
 
-function passJavaArgs(properties){
-  return Object.entries(properties).map(([name, property]) => {
+export function passJavaArgs(properties){  return Object.entries(properties).map(([name, property]) => {
       return `${name}`
   })
 }
 
-function defineJavaVars(properties){
+export function defineJavaVars(properties){
   return Object.entries(properties).map(([name, property]) => {
       return `public ${toJavaType(property.type())} ${name};`
   })
 }
 
-function setJavaVars(properties){
+export function setJavaVars(properties){
   return Object.entries(properties).map(([name, property]) => {
       return `
   this.${name} = ${name};
 `
   })
 }
-
-
 
 function toJavaType(asyncApiType) {
   switch (asyncApiType){
@@ -168,51 +165,7 @@ import com.fasterxml.jackson.annotation.JsonView;
   `
 }
 
-export function ImportModels({ messages }) {
-  const namesList = Object.entries(messages)
-    .map(([messageName, message]) => {
-      return `import com.ibm.mq.samples.jms.models.${messageName.charAt(0).toUpperCase() + messageName.slice(1)};`
-    });
-
-  return namesList;
-}
-
-// Send Message
-
-export function SendMessage({ asyncApi, channel }) {
-  // TODO one of can be used in message apparently?
-  let properties = channel.subscribe().message().payload().properties();
-
-  let args = createJavaArgs(properties);
-
-  let message = channel.subscribe().message();
-  
-  console.log("name", channel.subscribe().message())
-
-  //TODO remove hardcode
-  
-  return `
-  public void sendSingle(${args.join(', ')}) {
-      // First create instance of model
-      Serializable single = new Single(
-          ${passJavaArgs(properties)}
-      );
-
-      try{
-          ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-          String json = ow.writeValueAsString(single);
-  
-          System.out.println(json);
-
-          this.producer.send(destination, json);
-          
-      }catch (JsonProcessingException e){
-          System.out.println(e);
-      }
-  }`
-}
-
-function getMqValues(url, val) {
+export function getMqValues(url, val) {
   var reg = new RegExp("(?<=ibmmq://.*/).*/.*", "gm");
   const splitVals = reg.exec(url).toString().split("/");
   if (val == 'qmgr')
@@ -222,185 +175,15 @@ function getMqValues(url, val) {
     
   }
   
-function URLtoHost(url) {
+export function URLtoHost(url) {
     const u = new URL(url);
     return u.host;
   }
-function URLtoPort(url, defaultPort) {
+export function URLtoPort(url, defaultPort) {
     const u = new URL(url);
     return u.port || defaultPort;
   }
 
-
-export function ConsumerConstructor({asyncapi, name, params}) {
-  const url = asyncapi.server('production1').url() 
-  let qmgr = getMqValues(url,'qmgr')
-  let mqChannel = getMqValues(url,'mqChannel')
-  let host = URLtoHost(url)
-  let domain = host.split(':', 1)
-  return `
-    String id = null;
-
-    switch(type){
-        case CONSUMER_SUB :
-            id = "Basic sub";
-            break;
-        case CONSUMER_GET :
-            id = "Basic Get";
-            break;
-    }
-
-    LoggingHelper.init(logger);
-    logger.info("Sub application is starting");
-
-    Connection myConnection = new Connection(
-      "${domain}",
-      ${ URLtoPort(url, 1414) },
-      "${mqChannel}",
-      "${qmgr}",
-      "${params.user}",
-      "${params.password}",
-      "single/released",
-      "single/released",
-      null);
-
-    ch = new ConnectionHelper(id, myConnection);
-
-    logger.info("created connection factory");
-
-    context = ch.getContext();
-    logger.info("context created");
-
-    switch(type){
-        case CONSUMER_SUB :
-            destination = ch.getTopicDestination();
-            break;
-        case CONSUMER_GET :
-            destination = ch.getDestination();
-            break;
-    }
-
-    logger.info("destination created");
-`
-}
-
-export function ProducerConstructor({asyncapi, name, params}) {
-  const url = asyncapi.server('production1').url() 
-  let qmgr = getMqValues(url,'qmgr')
-  let mqChannel = getMqValues(url,'mqChannel')
-  let host = URLtoHost(url)
-  let domain = host.split(':', 1)
-
-  return `
-    String id = null;
-
-    switch(type){
-        case PRODUCER_PUT :
-            id = "Basic put";
-            break;
-        case PRODUCER_PUB :
-            id = "Basic pub";
-            break;
-    }
-
-    LoggingHelper.init(logger);
-    logger.info("Sub application is starting");
-
-
-    Connection myConnection = new Connection(
-      "${domain}",
-      ${ URLtoPort(url, 1414) },
-      "${mqChannel}",
-      "${qmgr}",
-      "${params.user}",
-      "${params.password}",
-      "single/released",
-      "single/released",
-      null);
-
-      ch = new ConnectionHelper(id, myConnection);
-      logger.info("created connection factory");
-
-  
-
-      context = ch.getContext();
-      logger.info("context created");
-
-      switch(type){
-          case PRODUCER_PUB :
-              destination = ch.getTopicDestination();
-              break;
-          case PRODUCER_PUT :
-              destination = ch.getDestination();
-              break;
-      }
-
-      // Set so no JMS headers are sent.
-      ch.setTargetClient(destination);
-
-      logger.info("destination created");
-
-      producer = context.createProducer();
-`
-}
-
-export function ReceiveMessage({ asyncApi, channel }) {
-  // TODO one of can be used in message apparently?
-  let properties = channel.subscribe().message().payload().properties();
-
-  let args = createJavaArgs(properties);
-
-  let message = channel.subscribe().message();
-  
-  console.log("name", channel.subscribe().message())
-
-  //TODO remove hardcode
-  
-  return `
-  public void receive(int requestTimeout) {
-    boolean continueProcessing = true;
-
-    consumer = context.createConsumer(destination);
-    logger.info("consumer created");
-
-    while (continueProcessing) {
-        try {
-            Message receivedMessage = consumer.receive(requestTimeout);
-            if (receivedMessage == null) {
-                logger.info("No message received from this endpoint");
-              //    continueProcessing = false;       THIS IS COMMENTED FOR TESTING PURPOSES, UNCOMMENT WHEN DONE
-            } else {
-              if (receivedMessage instanceof TextMessage) {
-                  TextMessage textMessage = (TextMessage) receivedMessage;
-                  try {
-                      logger.info("Received message: " + textMessage.getText());
-                      Single receivedSingleObject = new ObjectMapper().readValue(textMessage.getText(), Single.class); // HARDCODED, REACTIFY
-
-                      System.out.println("TYPE: " + receivedSingleObject.getClass().getName()); // REMOVE THIS EVENTUALLY BUT GOOD FOR DEMO
-                      System.out.println(receivedSingleObject.toString()); // REMOVE EITHER THIS OR logger.info(Received...
-
-                  } catch (JMSException jmsex) {
-                      recordFailure(jmsex);
-                  } catch (JsonProcessingException jsonproex) {
-                      recordFailure(jsonproex);
-                  }
-              } else if (receivedMessage instanceof Message) {
-                  logger.info("Message received was not of type TextMessage.");
-              } else {
-                  logger.info("Received object not of JMS Message type!");
-              }
-            }
-        } catch (JMSRuntimeException jmsex) {
-            jmsex.printStackTrace();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-            }
-        }
-     }
-  }
-`
-}
 
 export function RecordFaliure({ asyncApi }) {
   
@@ -442,26 +225,6 @@ export function ProcessJMSException({ asyncApi }) {
 `
 }
 
-export function ModelClassVariables({ asyncApi, message }) {
-  // TODO one of can be used in message apparently?
-  console.log("Message", message)
-
-  let argsString = defineJavaVars(message.payload().properties());
-
-  
-  console.log("Args", argsString)
-
-  return argsString.join(`
-  `)
-}
-
-export function ModelConstructor({ asyncApi, message }) {
-  // TODO one of can be used in message apparently?
-  console.log("Message", message)
-
-  return(setJavaVars(message.payload().properties()).join(''));
-}
-
 export function Close({ asyncApi, channel }) {
   // TODO one of can be used in message apparently?
   return `
@@ -470,7 +233,3 @@ public void close() {
     ch = null;
 }`
 }
-
-
-
-

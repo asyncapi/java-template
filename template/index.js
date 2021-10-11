@@ -1,12 +1,17 @@
 import { File, render } from '@asyncapi/generator-react-sdk';
 
 // Import custom components from file 
-import {PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, ImportModels, SendMessage,
-  ConsumerConstructor, ProducerConstructor, ReceiveMessage, RecordFaliure, ProcessJMSException, ModelClassVariables, ModelConstructor, Close} from '../components/common';
+import {PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, Close} from '../components/Common';
+
+import {ConsumerDeclaration, ConsumerImports, ConsumerConstructor, ReceiveMessage } from '../components/Consumer';
+
+import {ProducerConstructor, SendMessage } from '../components/Producer';
+
+import {ImportModels, ModelClassVariables, ModelConstructor } from '../components/Model';
+
+
 import {Connection } from '../components/Connection';
 import {ConnectionHelper} from '../components/ConnectionHelper';
-import {ConsumerImports} from '../components/consumer/ConsumerImports'
-import {ConsumerDeclaration} from '../components/consumer/ConsumerDeclaration'
 import {LoggingHelper} from '../components/LoggingHelper'
 import {DemoSubscriber } from '../components/demo/DemoSubscriber'
 import {DemoProducer } from '../components/demo/DemoProducer'
@@ -141,7 +146,7 @@ function SubsciberGenerators(asyncapi, channels, params){
             <ConsumerDeclaration name={channelName} />
   
             <ClassConstructor name={className}>
-              <ConsumerConstructor asyncapi={asyncapi} params={params} name={className}/>
+              <ConsumerConstructor asyncapi={asyncapi} params={params} name={name}/>
             </ClassConstructor>
       
             <ReceiveMessage asyncapi={asyncapi} name={channelName} channel={channel}></ReceiveMessage>
@@ -176,7 +181,7 @@ function ProducerGenerators(asyncapi, channels, params){
             <ClassHeader/>
   
             <ClassConstructor name={className}>
-                <ProducerConstructor asyncapi={asyncapi} params={params} name={className}/>
+                <ProducerConstructor asyncapi={asyncapi} params={params} name={name}/>
               
             </ClassConstructor>
             
@@ -198,7 +203,6 @@ function toJavaClassName(name){
 }
 
 
-
 function HeaderContent({ asyncapi }){
   const messages = asyncapi.components().messages();
 
@@ -209,5 +213,3 @@ ${render(<ImportModels messages={messages} />)}
       `
 }
 
-
-// 
