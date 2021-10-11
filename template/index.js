@@ -1,13 +1,8 @@
 import { File, render } from '@asyncapi/generator-react-sdk';
 
 // Import custom components from file 
-import {PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, Close} from '../components/Common';
+import {ImportModels, PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, Close} from '../components/Common';
 
-import {ConsumerDeclaration, ConsumerImports, ConsumerConstructor, ReceiveMessage } from '../components/Consumer';
-
-import {ProducerConstructor, SendMessage } from '../components/Producer';
-
-import {ImportModels, ModelClassVariables, ModelConstructor } from '../components/Model';
 
 
 import {Connection } from '../components/Connection';
@@ -16,6 +11,9 @@ import {LoggingHelper} from '../components/LoggingHelper'
 import {DemoSubscriber } from '../components/demo/DemoSubscriber'
 import {DemoProducer } from '../components/demo/DemoProducer'
 
+import { Models } from '../components/Files/Models'
+import { Producers } from '../components/Files/Producers'
+import { Consumers } from '../components/Files/Consumers'
 /* 
  * Each template to be rendered must have as a root component a File component,
  * otherwise it will be skipped.
@@ -40,10 +38,10 @@ export default function({ asyncapi, params }) {
   // Make folder
 
   let toRender = {
-      producerGenerators: ProducerGenerators(asyncapi, channels, params),
+      producers: Producers(asyncapi, channels, params),
       connectionHelper: ConnectionHelperRenderer(asyncapi),
-      modelClasses: ModelClasses(asyncapi.components().messages()),
-      subscriberGenerators: SubsciberGenerators(asyncapi, channels, params),
+      models: Models(asyncapi.components().messages()),
+      consumers: Consumers(asyncapi, channels, params),
       loggingHelper: LoggingHelperRenderer(asyncapi),
       connectionRender: ConnectionRender(asyncapi),
       demoProducer: ProducerDemoRenderer(asyncapi),
@@ -54,35 +52,6 @@ export default function({ asyncapi, params }) {
   return Object.entries(toRender).map(([name, renderFunction]) => {
     return renderFunction
   }).flat();
-}
-
-
-function ModelClasses(messages){
-  return Object.entries(messages).map(([messageName, message]) => {
-    let messageNameUpperCase = messageName.charAt(0).toUpperCase() + messageName.slice(1);
-    
-    return (
-      <File name={`/com/ibm/mq/samples/jms/models/${messageNameUpperCase}.java`}>
-        <PackageDeclaration path={`com.ibm.mq.samples.jms.models`} />
-        <ImportDeclaration path={`java.io.Serializable`} />
-
-        
-        <Class name={messageNameUpperCase} implementsClass="Serializable">
-          {/* Declare local class vars */}
-          
-          <ModelClassVariables message={message}></ModelClassVariables>
-
-          <ClassConstructor name={messageNameUpperCase} properties={message.payload().properties()}>
-            <ModelConstructor message={message}/>
-          </ClassConstructor>
-
-          <ClassConstructor name={messageNameUpperCase}>
-            super();
-          </ClassConstructor>
-        </Class>
-      </File>
-    )
-  });
 }
 
 function LoggingHelperRenderer(asyncapi){
@@ -125,80 +94,8 @@ function ConnectionHelperRenderer(asyncapi){
   )
 }
 
-function SubsciberGenerators(asyncapi, channels, params){
-  return Object.entries(channels).map(([channelName, channel]) => {
-    const name = channelName
-    const className = toJavaClassName(channelName) + 'Subscriber'
-    console.log("Working for", name)
-
-    console.log("channel, " ,channel)
-
-    // Resolve associated messages this subscriber should support
-    // TODO not just import all
-    const messages = asyncapi.components().messages();
-
-    if(channel.subscribe){
-      return (
-      
-        <File name={`/com/ibm/mq/samples/jms/${className}.java`}>
-          <PackageDeclaration path="com.ibm.mq.samples.jms"></PackageDeclaration>
-          <ConsumerImports asyncapi={asyncapi}></ConsumerImports>
-
-          <ImportModels messages={messages}></ImportModels>
-  
-          <Class name={className}>
-            <ConsumerDeclaration name={channelName} />
-  
-            <ClassConstructor name={className}>
-              <ConsumerConstructor asyncapi={asyncapi} params={params} name={name}/>
-            </ClassConstructor>
-      
-            <ReceiveMessage asyncapi={asyncapi} name={channelName} channel={channel}></ReceiveMessage>
-            
-            <RecordFaliure></RecordFaliure>
-            <ProcessJMSException></ProcessJMSException>
-            <Close></Close>
-          </Class>
-        </File>
-  
-      );
-    }
-  });
-}
-
-function ProducerGenerators(asyncapi, channels, params){
-  return Object.entries(channels).map(([channelName, channel]) => {
-    const name = channelName
-    const className = toJavaClassName(channelName) + 'Producer'
-    console.log("Working for", name)
-    
 
 
-    if(channel.publish){
-      return (
-      
-        <File name={`/com/ibm/mq/samples/jms/${className}.java`}>
-          
-          <HeaderContent asyncapi={asyncapi}></HeaderContent>
-  
-          <Class name={className}>
-            <ClassHeader/>
-  
-            <ClassConstructor name={className}>
-                <ProducerConstructor asyncapi={asyncapi} params={params} name={name}/>
-              
-            </ClassConstructor>
-            
-            <SendMessage asyncapi={asyncapi} name={channelName} channel={channel}></SendMessage>
-            <Close></Close>
-            
-          </Class>
-        </File>
-  
-      );
-    }
-  });
-}
 
 function toJavaClassName(name){
   let components = name.split('/')
@@ -207,13 +104,5 @@ function toJavaClassName(name){
 }
 
 
-function HeaderContent({ asyncapi }){
-  const messages = asyncapi.components().messages();
 
-  return `
-${render(<PackageDeclaration path="com.ibm.mq.samples.jms"></PackageDeclaration>)}
-${render(<Imports/>)}
-${render(<ImportModels messages={messages} />)}
-      `
-}
 

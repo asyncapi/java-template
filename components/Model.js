@@ -19,12 +19,3 @@ export function ModelClassVariables({ asyncApi, message }) {
     return argsString.join(`
     `)
   }
-  
-  export function ImportModels({ messages }) {
-    const namesList = Object.entries(messages)
-      .map(([messageName, message]) => {
-        return `import com.ibm.mq.samples.jms.models.${messageName.charAt(0).toUpperCase() + messageName.slice(1)};`
-      });
-  
-    return namesList;
-  }
