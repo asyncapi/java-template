@@ -27,7 +27,7 @@ return `
     import javax.jms.JMSRuntimeException;
     import javax.jms.JMSException;
     
-    import com.fasterxml.jackson.databind.ObjectMapper; ß
+    import com.fasterxml.jackson.databind.ObjectMapper;
     import com.fasterxml.jackson.databind.ObjectWriter; 
     import com.fasterxml.jackson.core.JsonProcessingException;
     import com.fasterxml.jackson.annotation.JsonView;

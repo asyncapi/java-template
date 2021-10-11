@@ -75,6 +75,10 @@ function ModelClasses(messages){
           <ClassConstructor name={messageNameUpperCase} properties={message.payload().properties()}>
             <ModelConstructor message={message}/>
           </ClassConstructor>
+
+          <ClassConstructor name={messageNameUpperCase}>
+            super();
+          </ClassConstructor>
         </Class>
       </File>
     )
