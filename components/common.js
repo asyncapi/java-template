@@ -2,7 +2,6 @@
  * Below you can see how to create reusable chunks/components/helpers.
  * Check the files in the `template` folder to see how to import and use them within a template.
  */
-
 import { Indent, IndentationTypes, withIndendation } from '@asyncapi/generator-react-sdk';
 
 /*
@@ -24,14 +23,6 @@ import { Indent, IndentationTypes, withIndendation } from '@asyncapi/generator-r
   * 
   * then output from RootComponent will be `some text at the beginning: some text at the end.`.
   */
-export function HTML({ childrenContent }) {
-  return `
-<!DOCTYPE html>
-<html lang="en">
-${childrenContent}
-</html>
-`;
-}
 
 export function Class({ childrenContent, name, implementsClass }) {
   let implementsString = "";
@@ -59,9 +50,28 @@ return `
   private ConnectionHelper ch = null;`
 }
 
-function createJavaArgs(properties){
+export function createJavaArgs(properties){
   return Object.entries(properties).map(([name, property]) => {
       return `${toJavaType(property.type())} ${name}`
+  })
+}
+
+export function passJavaArgs(properties){  return Object.entries(properties).map(([name, property]) => {
+      return `${name}`
+  })
+}
+
+export function defineJavaVars(properties){
+  return Object.entries(properties).map(([name, property]) => {
+      return `public ${toJavaType(property.type())} ${name};`
+  })
+}
+
+export function setJavaVars(properties){
+  return Object.entries(properties).map(([name, property]) => {
+      return `
+  this.${name} = ${name};
+`
   })
 }
 
@@ -155,47 +165,71 @@ import com.fasterxml.jackson.annotation.JsonView;
   `
 }
 
+export function getMqValues(url, val) {
+  var reg = new RegExp("(?<=ibmmq://.*/).*/.*", "gm");
+  const splitVals = reg.exec(url).toString().split("/");
+  if (val == 'qmgr')
+      return splitVals[0];
+  if (val == 'mqChannel')
+      return splitVals[1];
+    
+  }
+  
+export function URLtoHost(url) {
+    const u = new URL(url);
+    return u.host;
+  }
+export function URLtoPort(url, defaultPort) {
+    const u = new URL(url);
+    return u.port || defaultPort;
+  }
 
 
-
-/*
- * If you need indent content inside template you can use `withIndendation` function or wrap content between `Indent` component.
- * The mentioned helper and component can be imported from `@asyncapi/generator-react-sdk` package.
- * 
- * `withIndendation` function performs action on pure string, but `Indent` can wraps part of template.
- * You can see usage both cases below.
- * 
- * Also you can see how to create components using composition.
- * You can use another component with the given parameters for the given use-case.
- */
-export function Head({ title, cssLinks = [] }) {
-  const links = cssLinks.map(link => `<link rel="stylesheet" href="${link}">\n`).join('');
-
-  const content = `
-<head>
-  <meta charset="utf-8">
-  <title>${title}</title>
-${withIndendation(links, 2, IndentationTypes.SPACES)}
-</head>  
-`;
-
-  return (
-    <Indent size={2} type={IndentationTypes.SPACES}>
-      {content}
-    </Indent>
-  );
+export function RecordFaliure({ asyncApi }) {
+  
+  //TODO remove hardcode
+  
+  return `
+  private void recordFailure(Exception ex) {
+    if (ex != null) {
+        if (ex instanceof JMSException) {
+            processJMSException((JMSException) ex);
+        } else {
+            logger.warning(ex.getMessage());
+        }
+    }
+    logger.info("FAILURE");
+    return;
+  }
+`
 }
 
-export function Body({ childrenContent }) {
-  const content = `
-<body>
-${withIndendation(childrenContent, 2, IndentationTypes.SPACES)}
-</body>
-`;
+export function ProcessJMSException({ asyncApi }) {
+  
+  //TODO remove hardcode
+  
+  return `
+  private void processJMSException(JMSException jmsex) {
+    logger.warning(jmsex.getMessage());
+    Throwable innerException = jmsex.getLinkedException();
+    logger.warning("Exception is: " + jmsex);
+    if (innerException != null) {
+        logger.warning("Inner exception(s):");
+    }
+    while (innerException != null) {
+        logger.warning(innerException.getMessage());
+        innerException = innerException.getCause();
+    }
+    return;
+}
+`
+}
 
-  return (
-    <Indent size={2} type={IndentationTypes.SPACES}>
-      {content}
-    </Indent>
-  );
+export function Close({ asyncApi, channel }) {
+  // TODO one of can be used in message apparently?
+  return `
+public void close() {
+    ch.closeContext();
+    ch = null;
+}`
 }

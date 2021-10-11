@@ -1,28 +1,21 @@
 import { File, render } from '@asyncapi/generator-react-sdk';
 
 // Import custom components from file 
-import { HTML, Head, Body, PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor} from '../components/common';
-import { ListChannels } from '../components/ListChannels';
-import { ImportModels } from '../components/ImportModels';
-import { DiagramContent } from '../components/DiagramContent';
-import { normalizeSchemaName } from '../helpers/normalizeSchemaName';
-import { SendMessage } from '../components/producer/FunctionSendMessage';
-import { ConnectionHelper } from '../components/ConnectionHelper';
-import { ProducerDeclaration, CreateConnection } from '../components/producer/ProducerDeclaration';
-import {ConsumerImports} from '../components/consumer/ConsumerImports'
-import {ConsumerDeclaration} from '../components/consumer/ConsumerDeclaration'
-import {ConsumerConstructor} from '../components/consumer/ConsumerConstructor'
-import {ProducerConstructor} from '../components/producer/ProducerConstructor'
+import {PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, Close} from '../components/Common';
+
+import {ConsumerDeclaration, ConsumerImports, ConsumerConstructor, ReceiveMessage } from '../components/Consumer';
+
+import {ProducerConstructor, SendMessage } from '../components/Producer';
+
+import {ImportModels, ModelClassVariables, ModelConstructor } from '../components/Model';
+
+
+import {Connection } from '../components/Connection';
+import {ConnectionHelper} from '../components/ConnectionHelper';
 import {LoggingHelper} from '../components/LoggingHelper'
-import { ReceiveMessage } from '../components/consumer/FunctionReceiveMessage';
-import { Connection } from '../components/Connection';
-import {RecordFaliure} from '../components/consumer/FunctionRecordFaliure'
-import {ProcessJMSException} from '../components/consumer/FunctionProcessJMSException'
-import { ModelClassVariables } from '../components/models/ModelClassVariables';
-import {ModelConstructor } from '../components/models/ModelConstructor'
 import {DemoSubscriber } from '../components/demo/DemoSubscriber'
 import {DemoProducer } from '../components/demo/DemoProducer'
-import { Close } from '../components/producer/FunctionClose'
+
 /* 
  * Each template to be rendered must have as a root component a File component,
  * otherwise it will be skipped.
@@ -41,10 +34,6 @@ export default function({ asyncapi, params }) {
 
   console.log(params.user)
 
-  const cssLinks = [
-    'https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css',
-    'style.css',
-  ];
 
   const channels = asyncapi.channels();
   
@@ -85,6 +74,10 @@ function ModelClasses(messages){
 
           <ClassConstructor name={messageNameUpperCase} properties={message.payload().properties()}>
             <ModelConstructor message={message}/>
+          </ClassConstructor>
+
+          <ClassConstructor name={messageNameUpperCase}>
+            super();
           </ClassConstructor>
         </Class>
       </File>
@@ -157,7 +150,7 @@ function SubsciberGenerators(asyncapi, channels, params){
             <ConsumerDeclaration name={channelName} />
   
             <ClassConstructor name={className}>
-              <ConsumerConstructor asyncapi={asyncapi} params={params} name={className}/>
+              <ConsumerConstructor asyncapi={asyncapi} params={params} name={name}/>
             </ClassConstructor>
       
             <ReceiveMessage asyncapi={asyncapi} name={channelName} channel={channel}></ReceiveMessage>
@@ -192,7 +185,7 @@ function ProducerGenerators(asyncapi, channels, params){
             <ClassHeader/>
   
             <ClassConstructor name={className}>
-                <ProducerConstructor asyncapi={asyncapi} params={params} name={className}/>
+                <ProducerConstructor asyncapi={asyncapi} params={params} name={name}/>
               
             </ClassConstructor>
             
@@ -213,38 +206,6 @@ function toJavaClassName(name){
   return components.map(item => item.charAt(0).toUpperCase() + item.slice(1)).join('');
 }
 
-function ProducerFile({ asyncapi, channelName, channel}){
-  console.log(channelName)
-  return (
-  <File name={`${channelName}.java`}>
-      
-      <HeaderContent asyncapi={asyncapi}></HeaderContent>
-
-      <Class name="BasicProducer">
-        <ClassHeader/>
-
-        <ClassConstructor>
-
-        </ClassConstructor>
-
-      </Class>
-    </File>
-  );
-}
-
-// function messageSenders({ asyncapi, messageName, message}){
-//   const namesList = Object.entries(channels)
-//   .map(([channelName, channel]) => {
-//     if (
-//       (operationType === 'publish' && channel.hasPublish()) || 
-//       (operationType === 'subscribe' && channel.hasSubscribe())
-//     ) {
-//       return  `<li><strong>${channelName}</strong></li>`;
-//     }
-//   })
-
-//   return namesList
-// }
 
 function HeaderContent({ asyncapi }){
   const messages = asyncapi.components().messages();
@@ -255,3 +216,4 @@ ${render(<Imports/>)}
 ${render(<ImportModels messages={messages} />)}
       `
 }
+
