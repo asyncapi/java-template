@@ -12,7 +12,7 @@ export function ConsumerDeclaration({name}) {
     }
      
 
-export function ConsumerImports({ asyncApi, messageNames }) {
+export function ConsumerImports({ asyncApi, messageNames, params }) {
 return `
     import java.util.logging.*;
     import java.io.Serializable;
@@ -31,10 +31,10 @@ return `
     import com.fasterxml.jackson.annotation.JsonView;
     
     
-    import com.ibm.mq.samples.jms.ConnectionHelper;
-    import com.ibm.mq.samples.jms.LoggingHelper;
-    import com.ibm.mq.samples.jms.Connection;
-    import com.ibm.mq.samples.jms.PubSubBase;
+    import ${params.package}.ConnectionHelper;
+    import ${params.package}.LoggingHelper;
+    import ${params.package}.Connection;
+    import ${params.package}.PubSubBase;
         
     `
 }
@@ -47,8 +47,6 @@ export function ReceiveMessage({ asyncApi, channel }) {
   
     let message = channel.subscribe().message();
     
-    console.log("name", channel.subscribe().message())
-  
     //TODO remove hardcode
     
     return `

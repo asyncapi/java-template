@@ -1,4 +1,4 @@
-export function ConnectionHelper(){
+export function ConnectionHelper(params){
     return `
     /*
 * (c) Copyright IBM Corporation 2019
@@ -16,7 +16,7 @@ export function ConnectionHelper(){
 * limitations under the License.
 */
 
-package com.ibm.mq.samples.jms;
+package ${params.params.package};
 
 import java.util.logging.*;
 
@@ -29,12 +29,12 @@ import com.ibm.msg.client.jms.JmsFactoryFactory;
 import com.ibm.msg.client.wmq.WMQConstants;
 
 import com.ibm.mq.jms.MQDestination;
-import com.ibm.mq.samples.jms.Connection;
+import ${params.params.package}.Connection;
 
 public class ConnectionHelper {
 
     private static final Level LOGLEVEL = Level.ALL;
-    private static final Logger logger = Logger.getLogger("com.ibm.mq.samples.jms");
+    private static final Logger logger = Logger.getLogger("${params.params.package}");
     public static final int USE_CONNECTION_STRING = -1;
 
     // Create variables for the connection to MQ

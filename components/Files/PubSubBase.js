@@ -1,7 +1,8 @@
 import { File, render } from '@asyncapi/generator-react-sdk';
+import { toJavaClassName, javaPackageToPath } from '../../utils/String.utils';
 
-function getPubSubContent(){
-    return `package com.ibm.mq.samples.jms;
+function getPubSubContent(params){
+    return `package ${params.package};
 
     import java.util.logging.*;
     import java.util.Map;
@@ -10,8 +11,8 @@ function getPubSubContent(){
     import com.fasterxml.jackson.databind.ObjectMapper; 
     import com.fasterxml.jackson.databind.ObjectWriter; 
 
-    import com.ibm.mq.samples.jms.ConnectionHelper;
-    import com.ibm.mq.samples.jms.LoggingHelper;
+    import ${params.package}.ConnectionHelper;
+    import ${params.package}.LoggingHelper;
     
     import javax.jms.Destination;
     import javax.jms.JMSContext;
@@ -21,7 +22,7 @@ function getPubSubContent(){
     
     public class PubSubBase {
         
-        protected static final Logger logger = Logger.getLogger("com.ibm.mq.samples.jms");
+        protected static final Logger logger = Logger.getLogger("${params.package}");
         
         protected ConnectionHelper ch = null;
         protected JMSContext context = null;
@@ -112,10 +113,11 @@ function getPubSubContent(){
 }
 
 
-export function PubSubBase(){
+export function PubSubBase(params){
+  const packagePath = javaPackageToPath(params.package);
   return (
-    <File name={`/com/ibm/mq/samples/jms/PubSubBase.java`}>
-      {getPubSubContent()}
+    <File name={`${packagePath}PubSubBase.java`}>
+      {getPubSubContent(params)}
     </File>
   )
   

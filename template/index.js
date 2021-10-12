@@ -1,12 +1,14 @@
 import { File, render } from '@asyncapi/generator-react-sdk';
 
 // Import custom components from file 
-import {ImportModels, PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, EnvJson, Close} from '../components/Common';
+import {ImportModels, PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, EnvJson, Close } from '../components/Common';
+import { javaPackageToPath } from '../utils/String.utils';
 
 
 import {Connection } from '../components/Connection';
 import {ConnectionHelper} from '../components/ConnectionHelper';
 import {LoggingHelper} from '../components/LoggingHelper'
+import {PomHelper} from '../components/PomHelper'
 import {DemoSubscriber } from '../components/demo/DemoSubscriber'
 import {DemoProducer } from '../components/demo/DemoProducer'
 
@@ -30,24 +32,22 @@ export default function({ asyncapi, params }) {
     return null;
   }
 
-  console.log(params.user)
-
-
   const channels = asyncapi.channels();
   
   // Make folder
 
   let toRender = {
       producers: Producers(asyncapi, channels, params),
-      connectionHelper: ConnectionHelperRenderer(asyncapi),
-      models: Models(asyncapi.components().messages()),
+      connectionHelper: ConnectionHelperRenderer(asyncapi, params),
+      models: Models(asyncapi.components().messages(), params),
       consumers: Consumers(asyncapi, channels, params),
-      loggingHelper: LoggingHelperRenderer(asyncapi),
-      connectionRender: ConnectionRender(asyncapi),
-      demoProducer: ProducerDemoRenderer(asyncapi),
-      DemoSubscriber: SubscriberDemoRenderer(asyncapi),
+      loggingHelper: LoggingHelperRenderer(asyncapi, params),
+      connectionRender: ConnectionRender(asyncapi, params),
+      demoProducer: ProducerDemoRenderer(asyncapi, params),
+      DemoSubscriber: SubscriberDemoRenderer(asyncapi, params),
       envJson: EnvJsonRenderer(asyncapi, params),
-      pubSubBase: PubSubBase()
+      pubSubBase: PubSubBase(params),
+      pomXml: PomXmlRenderer(params)
   }
 
   // schemas is an instance of the Map
@@ -56,42 +56,47 @@ export default function({ asyncapi, params }) {
   }).flat();
 }
 
-function LoggingHelperRenderer(asyncapi){
+function LoggingHelperRenderer(asyncapi, params){
+  const filePath = javaPackageToPath(params.package) + "LoggingHelper.java";
   return (
-      <File name='/com/ibm/mq/samples/jms/LoggingHelper.java'>
-        <LoggingHelper></LoggingHelper>
+      <File name={filePath}>
+        <LoggingHelper params={params}></LoggingHelper>
       </File>
   )
 }
 
-function SubscriberDemoRenderer(asyncapi){
+function SubscriberDemoRenderer(asyncapi, params){
+  const filePath = javaPackageToPath(params.package) + "DemoSubscriber.java";
   return (
-      <File name='/com/ibm/mq/samples/jms/DemoSubscriber.java'>
-        <DemoSubscriber></DemoSubscriber>
+      <File name={filePath}>
+        <DemoSubscriber params={params}></DemoSubscriber>
       </File>
   )
 }
 
-function ProducerDemoRenderer(asyncapi){
+function ProducerDemoRenderer(asyncapi, params){
+  const filePath = javaPackageToPath(params.package) + "DemoProducer.java";
   return (
-      <File name='/com/ibm/mq/samples/jms/DemoProducer.java'>
-        <DemoProducer></DemoProducer>
+      <File name={filePath}>
+        <DemoProducer params={params}></DemoProducer>
       </File>
   )
 }
 
-function ConnectionRender(asyncapi){
+function ConnectionRender(asyncapi, params){
+  const filePath = javaPackageToPath(params.package) + "Connection.java";
   return (
-      <File name='/com/ibm/mq/samples/jms/Connection.java'>
-        <Connection></Connection>
+      <File name={filePath}>
+        <Connection params={params}></Connection>
       </File>
   )
 }
 
-function ConnectionHelperRenderer(asyncapi){
+function ConnectionHelperRenderer(asyncapi, params){
+  const filePath = javaPackageToPath(params.package) + "ConnectionHelper.java";
   return (
-      <File name='/com/ibm/mq/samples/jms/ConnectionHelper.java'>
-        <ConnectionHelper></ConnectionHelper>
+      <File name={filePath}>
+        <ConnectionHelper params={params}></ConnectionHelper>
       </File>
   )
 }
@@ -108,22 +113,20 @@ function SubsciberGenerators(asyncapi, channels, params){
   return Object.entries(channels).map(([channelName, channel]) => {
     const name = channelName
     const className = toJavaClassName(channelName) + 'Subscriber'
-    console.log("Working for", name)
-
-    console.log("channel, " ,channel)
 
     // Resolve associated messages this subscriber should support
     // TODO not just import all
     const messages = asyncapi.components().messages();
+    const packageName = javaPackageToPath(params.package);
 
     if(channel.subscribe){
       return (
       
-        <File name={`/com/ibm/mq/samples/jms/${className}.java`}>
-          <PackageDeclaration path="com.ibm.mq.samples.jms"></PackageDeclaration>
-          <ConsumerImports asyncapi={asyncapi}></ConsumerImports>
+        <File name={`${packageName}${className}.java`}>
+          <PackageDeclaration path={params.package}></PackageDeclaration>
+          <ConsumerImports asyncapi={asyncapi} params={params}></ConsumerImports>
 
-          <ImportModels messages={messages}></ImportModels>
+          <ImportModels messages={messages} params={params}></ImportModels>
   
           <Class name={className}>
             <ConsumerDeclaration name={channelName} />
@@ -149,14 +152,13 @@ function ProducerGenerators(asyncapi, channels, params){
   return Object.entries(channels).map(([channelName, channel]) => {
     const name = channelName
     const className = toJavaClassName(channelName) + 'Producer'
-    console.log("Working for", name)
   });
 }
 
-
-
-function toJavaClassName(name){
-  let components = name.split('/')
-
-  return components.map(item => item.charAt(0).toUpperCase() + item.slice(1)).join('');
+function PomXmlRenderer(params){
+  return (
+      <File name='/pom.xml'>
+        <PomHelper params={params}></PomHelper>
+      </File>
+  )
 }

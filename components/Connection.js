@@ -1,6 +1,6 @@
-export function Connection(){
+export function Connection(params){
     return `
-package com.ibm.mq.samples.jms;
+package ${params.params.package};
 
 public class Connection {
     public String HOST;
