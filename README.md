@@ -50,7 +50,7 @@ ag https://bit.ly/asyncapi ./ -o output -p server=production
 
 ```
 ### JMS Template Tutorial
-For complete instructions on generating the Java and subsequently using it to send messages with MQ, please see the template specific [Tutorial](/template/TUTORIAL.md).
+For complete instructions on generating the Java and subsequently using it to send messages with MQ, please see the template specific [Tutorial](./template/TUTORIAL.md).
 
 ## Template configuration
 
