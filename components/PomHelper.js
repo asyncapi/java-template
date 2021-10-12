@@ -1,3 +1,5 @@
+export function PomHelper(params){
+    return `
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   (c) Copyright IBM Corporation 2020
@@ -22,7 +24,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.ibm.mq.samples.jms</groupId>
+  <groupId>${params.params.package}</groupId>
   <artifactId>asyncapi-mq-jms-generator</artifactId>
   <version>0.1.0</version>
 
@@ -119,7 +121,7 @@
             <configuration>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>com.ibm.mq.samples.jms.BasicSub</mainClass>
+                  <mainClass>${params.params.package}.DemoProducer</mainClass>
                 </transformer>
               </transformers>
               <filters>
@@ -141,3 +143,5 @@
 
   </build>
 </project>
+`
+}

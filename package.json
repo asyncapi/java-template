@@ -85,6 +85,11 @@
         "description": "TMP.",
         "required": false,
         "default": "passw0rd"
+      },
+      "package": {
+        "description": "TMP.",
+        "required": false,
+        "default": "com.ibm.mq.samples.jms"
       }
     },
     "nonRenderableFiles": [

@@ -3,7 +3,7 @@
  * Check the files in the `template` folder to see how to import and use them within a template.
  */
 import { Indent, IndentationTypes, withIndendation } from '@asyncapi/generator-react-sdk';
-
+import { asyncApiTypeToJavaType, createJavaArgsFromProperties } from '../utils/Types.utils'
 /*
   * Each component has a `childrenContent` property.
   * It is the processed children content of a component into a pure string. You can use it for compositions in your component.
@@ -24,14 +24,21 @@ import { Indent, IndentationTypes, withIndendation } from '@asyncapi/generator-r
   * then output from RootComponent will be `some text at the beginning: some text at the end.`.
   */
 
-export function Class({ childrenContent, name, implementsClass }) {
+export function Class({ childrenContent, name, implementsClass, extendsClass }) {
   let implementsString = "";
 
   if(implementsClass != null){
     implementsString = `implements ${implementsClass}`
   }
+
+  let extendsString = "";
+
+  if(extendsClass != null){
+    extendsString = `extends ${extendsClass}`
+  }
+
   return `
-public class ${name} ${implementsString}{
+public class ${name} ${implementsString} ${extendsString}{
   ${childrenContent}
 }
 `;
@@ -39,84 +46,16 @@ public class ${name} ${implementsString}{
 
 export function ClassHeader({ }) {
 return `
-  private static final Logger logger = Logger.getLogger("com.ibm.mq.samples.jms");
-
-  private JMSContext context = null;
-  private Destination destination = null;
   private JMSProducer producer = null;
-  private ConnectionHelper ch = null;`
-}
-
-export function createJavaArgs(properties){
-  return Object.entries(properties).map(([name, property]) => {
-      return `${toJavaType(property.type())} ${name}`
-  })
-}
-
-export function passJavaArgs(properties){  return Object.entries(properties).map(([name, property]) => {
-      return `${name}`
-  })
-}
-
-export function defineJavaVars(properties){
-  return Object.entries(properties).map(([name, property]) => {
-      return `public ${toJavaType(property.type())} ${name};`
-  })
-}
-
-export function setJavaVars(properties){
-  return Object.entries(properties).map(([name, property]) => {
-      return `
-  this.${name} = ${name};
 `
-  })
-}
-
-function toJavaType(asyncApiType) {
-  switch (asyncApiType){
-    
-    case "integer":
-      return "int"
-
-    case "long":
-      return "Long"
-
-    case "float":
-      return "float"
-
-    case "double":
-      return "double"
-
-    case "string":
-      return "String"
-      
-    case "byte":
-      return "byte"
-  
-    case "binary":
-      return "String"
-
-    case "boolean":
-      return "boolean"
-
-    case "date":
-      return "String"
-
-    case "dateTime":
-      return "String"
-
-    case "password":
-      return "String"
-  }
 }
 
 export function ClassConstructor({ childrenContent, name, properties }) {
   let propertiesString = "";
   
 
-  console.log(`Constructing ${name}, properties`, properties)
   if(properties){
-    propertiesString = createJavaArgs(properties);
+    propertiesString = createJavaArgsFromProperties(properties);
 
   }
 
@@ -137,12 +76,9 @@ export function ImportDeclaration({ path }) {
 import ${path};`
 }
 
-export function Imports() {
+export function Imports(params) {
   return `
 import java.util.logging.*;
-import java.util.Map;
-import java.util.List;
-import java.nio.file.Paths;
 import java.io.Serializable;
 
 import javax.jms.Destination;
@@ -153,14 +89,16 @@ import javax.jms.JMSRuntimeException;
 import javax.jms.ObjectMessage;
 
 
-import com.ibm.mq.samples.jms.ConnectionHelper;
-import com.ibm.mq.samples.jms.LoggingHelper;
-import com.ibm.mq.samples.jms.Connection;
+import ${params.params.package}.ConnectionHelper;
+import ${params.params.package}.LoggingHelper;
+import ${params.params.package}.Connection;
+import ${params.params.package}.PubSubBase;
 
 import com.fasterxml.jackson.databind.ObjectMapper; 
 import com.fasterxml.jackson.databind.ObjectWriter; 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.annotation.JsonView;
+
 
   `
 }
@@ -253,4 +191,12 @@ export function EnvJson({ asyncapi, params})
     }]
   }
   `
+}
+export function ImportModels({ messages, params }) {
+  const namesList = Object.entries(messages)
+    .map(([messageName, message]) => {
+      return `import ${params.package}.models.${messageName.charAt(0).toUpperCase() + messageName.slice(1)};`
+    });
+
+  return namesList;
 }

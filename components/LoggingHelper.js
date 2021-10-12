@@ -1,4 +1,4 @@
-export function LoggingHelper(){
+export function LoggingHelper(params){
     return `
     /*
     * (c) Copyright IBM Corporation 2019
@@ -16,7 +16,7 @@ export function LoggingHelper(){
     * limitations under the License.
     */
     
-    package com.ibm.mq.samples.jms;
+    package ${params.params.package};
     
     import java.util.logging.*;
     

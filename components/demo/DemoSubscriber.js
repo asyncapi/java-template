@@ -4,14 +4,14 @@
 */
 
 
-export function DemoSubscriber({ asyncApi, message }) {
+export function DemoSubscriber({ asyncApi, message, params }) {
 
     
     return `
-package com.ibm.mq.samples.jms;
+package ${params.package};
 
-import com.ibm.mq.samples.jms.SingleReleasedSubscriber;
-import com.ibm.mq.samples.jms.ConnectionHelper;
+import ${params.package}.SingleReleasedSubscriber;
+import ${params.package}.ConnectionHelper;
 
 public class DemoSubscriber {
 
