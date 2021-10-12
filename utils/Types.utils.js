@@ -77,23 +77,3 @@ export function createJavaArgsFromProperties(properties){
       return `${asyncApiTypeToJavaType(property.type())} ${name}`
   })
 }
-
-// export function defineJavaVars(properties){
-//   return Object.entries(properties).map(([name, property]) => {
-//       return `public ${toJavaType(property.type())} ${name};`
-//   })
-// }
-
-// export function setJavaVars(properties){
-//   return Object.entries(properties).map(([name, property]) => {
-//       return `
-//   this.${name} = ${name};
-// `
-//   })
-// }
-
-// export function passJavaArgs(properties){  return Object.entries(properties).map(([name, property]) => {
-//   return `${name}`
-// })
-// }
-
