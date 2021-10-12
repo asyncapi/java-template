@@ -7,7 +7,7 @@ module.exports = {
 
 
 async function createFolderStructure(generator){
-  const packagePath = "/" + generator.templateParams.package.replace(".", "/") + "/";
+  const packagePath = "/" + generator.templateParams.package.split('.').join('/') + "/";
 
   const targetDir = generator.targetDir;
   const packageDir = targetDir + packagePath;

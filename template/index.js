@@ -8,6 +8,7 @@ import { javaPackageToPath } from '../utils/String.utils';
 import {Connection } from '../components/Connection';
 import {ConnectionHelper} from '../components/ConnectionHelper';
 import {LoggingHelper} from '../components/LoggingHelper'
+import {PomHelper} from '../components/PomHelper'
 import {DemoSubscriber } from '../components/demo/DemoSubscriber'
 import {DemoProducer } from '../components/demo/DemoProducer'
 
@@ -45,7 +46,8 @@ export default function({ asyncapi, params }) {
       demoProducer: ProducerDemoRenderer(asyncapi, params),
       DemoSubscriber: SubscriberDemoRenderer(asyncapi, params),
       envJson: EnvJsonRenderer(asyncapi, params),
-      pubSubBase: PubSubBase(params)
+      pubSubBase: PubSubBase(params),
+      pomXml: PomXmlRenderer(params)
   }
 
   // schemas is an instance of the Map
@@ -121,7 +123,7 @@ function SubsciberGenerators(asyncapi, channels, params){
       return (
       
         <File name={`${packageName}${className}.java`}>
-          <PackageDeclaration path="com.ibm.mq.samples.jms"></PackageDeclaration>
+          <PackageDeclaration path={params.package}></PackageDeclaration>
           <ConsumerImports asyncapi={asyncapi} params={params}></ConsumerImports>
 
           <ImportModels messages={messages} params={params}></ImportModels>
@@ -153,10 +155,10 @@ function ProducerGenerators(asyncapi, channels, params){
   });
 }
 
-
-
-function toJavaClassName(name){
-  let components = name.split('/')
-
-  return components.map(item => item.charAt(0).toUpperCase() + item.slice(1)).join('');
+function PomXmlRenderer(params){
+  return (
+      <File name='/pom.xml'>
+        <PomHelper params={params}></PomHelper>
+      </File>
+  )
 }

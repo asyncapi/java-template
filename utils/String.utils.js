@@ -9,5 +9,5 @@ export function toJavaClassName(name){
   }
 
 export function javaPackageToPath(pkg) {
-  return "/" + pkg.replace(".", "/") + "/";
+  return "/" + pkg.split('.').join('/') + "/";
 }
