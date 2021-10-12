@@ -61,6 +61,7 @@ export function SendMessage({ asyncApi, channel }) {
             // convert JSON file to map
             Map<Object, List<Map>> map = mapper.readValue(Paths.get("env.json").toFile(), Map.class);
             MQ_ENDPOINTS = map.get("MQ_ENDPOINTS");
+            // TODO : Allow switching between multiple endpoints
             MQFirst = MQ_ENDPOINTS.get(0);
         
       } catch (Exception ex) {
