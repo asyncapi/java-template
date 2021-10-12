@@ -1,7 +1,7 @@
 import { File, render } from '@asyncapi/generator-react-sdk';
 import {ImportModels, PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, Close} from '../Common';
-import {ModelClassVariables, ModelConstructor } from '../Model';
 import {ProducerConstructor, SendMessage } from '../Producer';
+import { toJavaClassName } from '../../utils/String.utils';
 
 export function Producers(asyncapi, channels, params){
     return Object.entries(channels).map(([channelName, channel]) => {
@@ -37,11 +37,6 @@ export function Producers(asyncapi, channels, params){
     });
   }
   
-  function toJavaClassName(name){
-    let components = name.split('/')
-  
-    return components.map(item => item.charAt(0).toUpperCase() + item.slice(1)).join('');
-  }
   
   function HeaderContent({ asyncapi }){
     const messages = asyncapi.components().messages();
