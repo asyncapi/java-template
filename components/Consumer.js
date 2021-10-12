@@ -4,8 +4,6 @@ export function ConsumerDeclaration({name}) {
     return `
       private static final Logger logger = Logger.getLogger("com.ibm.mq.samples.jms");
     
-      public static final String CONSUMER_SUB = "topic";
-    
       private JMSContext context = null;
       private Destination destination = null;
       private JMSConsumer consumer = null;

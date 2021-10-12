@@ -19,7 +19,7 @@ public class DemoProducer {
 
     public static void main(String[] args) {
         
-        SingleReleasedProducer bp = new SingleReleasedProducer(SingleReleasedProducer.PRODUCER_PUB);
+        SingleReleasedProducer bp = new SingleReleasedProducer();
         bp.sendSingle("This I Promise You", "*NSYNC", "No Strings Attached", "Pop", 268);
         bp.close();
     }

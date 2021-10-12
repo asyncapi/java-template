@@ -41,8 +41,6 @@ export function ClassHeader({ }) {
 return `
   private static final Logger logger = Logger.getLogger("com.ibm.mq.samples.jms");
 
-  public static final String PRODUCER_PUB = "topic";
-
   private JMSContext context = null;
   private Destination destination = null;
   private JMSProducer producer = null;
@@ -113,7 +111,7 @@ function toJavaType(asyncApiType) {
 }
 
 export function ClassConstructor({ childrenContent, name, properties }) {
-  let propertiesString = `String type`;
+  let propertiesString = "";
   
 
   console.log(`Constructing ${name}, properties`, properties)
