@@ -1,5 +1,5 @@
-import { getMqValues, URLtoHost, URLtoPort, passJavaArgs } from './Common';
-import { createJavaArgsFromProperties } from '../utils/Types.utils'
+import { getMqValues, URLtoHost, URLtoPort } from './Common';
+import { createJavaArgsFromProperties, passJavaArgs } from '../utils/Types.utils'
 
 // Send Message
 export function SendMessage({ asyncApi, channel }) {

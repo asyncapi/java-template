@@ -1,17 +1,17 @@
-import { setJavaVars, defineJavaVars } from './Common';
+import { setLocalVariables, defineVariablesForProperties } from '../utils/Types.utils';
 
 export function ModelConstructor({ asyncApi, message }) {
     // TODO one of can be used in message apparently?
     console.log("Message", message)
   
-    return(setJavaVars(message.payload().properties()).join(''));
+    return(setLocalVariables(message.payload().properties()).join(''));
   }
 
 export function ModelClassVariables({ asyncApi, message }) {
     // TODO one of can be used in message apparently?
     console.log("Message", message)
   
-    let argsString = defineJavaVars(message.payload().properties());
+    let argsString = defineVariablesForProperties(message.payload().properties());
   
     
     console.log("Args", argsString)
@@ -19,3 +19,5 @@ export function ModelClassVariables({ asyncApi, message }) {
     return argsString.join(`
     `)
   }
+
+  

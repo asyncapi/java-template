@@ -50,29 +50,6 @@ return `
   private ConnectionHelper ch = null;`
 }
 
-
-
-export function passJavaArgs(properties){  return Object.entries(properties).map(([name, property]) => {
-      return `${name}`
-  })
-}
-
-export function defineJavaVars(properties){
-  return Object.entries(properties).map(([name, property]) => {
-      return `public ${asyncApiTypeToJavaType(property.type())} ${name};`
-  })
-}
-
-export function setJavaVars(properties){
-  return Object.entries(properties).map(([name, property]) => {
-      return `
-  this.${name} = ${name};
-`
-  })
-}
-
-
-
 export function ClassConstructor({ childrenContent, name, properties }) {
   let propertiesString = `String type`;
   
