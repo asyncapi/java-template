@@ -41,7 +41,6 @@ export function ClassHeader({ }) {
 return `
   private static final Logger logger = Logger.getLogger("com.ibm.mq.samples.jms");
 
-  public static final String PRODUCER_PUT = "queue";
   public static final String PRODUCER_PUB = "topic";
 
   private JMSContext context = null;
