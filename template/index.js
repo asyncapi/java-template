@@ -14,6 +14,7 @@ import {DemoProducer } from '../components/demo/DemoProducer'
 import { Models } from '../components/Files/Models'
 import { Producers } from '../components/Files/Producers'
 import { Consumers } from '../components/Files/Consumers'
+import { PubSubBase } from '../components/Files/PubSubBase';
 /* 
  * Each template to be rendered must have as a root component a File component,
  * otherwise it will be skipped.
@@ -45,7 +46,8 @@ export default function({ asyncapi, params }) {
       loggingHelper: LoggingHelperRenderer(asyncapi),
       connectionRender: ConnectionRender(asyncapi),
       demoProducer: ProducerDemoRenderer(asyncapi),
-      DemoSubscriber: SubscriberDemoRenderer(asyncapi)
+      DemoSubscriber: SubscriberDemoRenderer(asyncapi),
+      pubSubBase: PubSubBase()
   }
 
   // schemas is an instance of the Map

@@ -43,39 +43,17 @@ export function SendMessage({ asyncApi, channel }) {
     let domain = host.split(':', 1)
   
     return `
+      super();
       String id = null;
       id = "Basic pub";
   
-      LoggingHelper.init(logger);
       logger.info("Sub application is starting");
   
   
-      Connection myConnection = new Connection(
-        "${domain}",
-        ${ URLtoPort(url, 1414) },
-        "${mqChannel}",
-        "${qmgr}",
-        "${params.user}",
-        "${params.password}",
-        "${name}",
-        "${name}",
-        null);
-  
-        ch = new ConnectionHelper(id, myConnection);
-        logger.info("created connection factory");
-  
-    
-  
-        context = ch.getContext();
-        logger.info("context created");
-  
-        destination = ch.getTopicDestination();
+      this.createConnection("${name}", "${name}", id);
   
         // Set so no JMS headers are sent.
         ch.setTargetClient(destination);
-  
-        logger.info("destination created");
-  
         producer = context.createProducer();
   `
   }

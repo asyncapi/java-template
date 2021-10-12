@@ -26,7 +26,7 @@ export function Consumers(asyncapi, channels, params){
   
             <ImportModels messages={messages}></ImportModels>
     
-            <Class name={className}>
+            <Class name={className} extendsClass="PubSubBase">
               <ConsumerDeclaration name={channelName} />
     
               <ClassConstructor name={className}>
@@ -34,10 +34,7 @@ export function Consumers(asyncapi, channels, params){
               </ClassConstructor>
         
               <ReceiveMessage asyncapi={asyncapi} name={channelName} channel={channel}></ReceiveMessage>
-              
-              <RecordFaliure></RecordFaliure>
-              <ProcessJMSException></ProcessJMSException>
-              <Close></Close>
+
             </Class>
           </File>
     

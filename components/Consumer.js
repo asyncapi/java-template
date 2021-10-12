@@ -4,15 +4,10 @@ import { createJavaArgsFromProperties } from '../utils/Types.utils'
 
 export function ConsumerDeclaration({name}) {
     return `
-      private static final Logger logger = Logger.getLogger("com.ibm.mq.samples.jms");
-    
       public static final String CONSUMER_SUB = "topic";
       public static final String CONSUMER_GET = "queue";
-    
-      private JMSContext context = null;
-      private Destination destination = null;
+
       private JMSConsumer consumer = null;
-      private ConnectionHelper ch = null;
     `
     }
      
@@ -38,6 +33,7 @@ return `
     import com.ibm.mq.samples.jms.ConnectionHelper;
     import com.ibm.mq.samples.jms.LoggingHelper;
     import com.ibm.mq.samples.jms.Connection;
+    import com.ibm.mq.samples.jms.PubSubBase;
         
     `
 }
@@ -107,33 +103,11 @@ export function ReceiveMessage({ asyncApi, channel }) {
     let host = URLtoHost(url)
     let domain = host.split(':', 1)
     return `
+      super();
       String id = null;
       id = "Basic sub";
-  
-      LoggingHelper.init(logger);
       logger.info("Sub application is starting");
-  
-      Connection myConnection = new Connection(
-        "${domain}",
-        ${ URLtoPort(url, 1414) },
-        "${mqChannel}",
-        "${qmgr}",
-        "${params.user}",
-        "${params.password}",
-        "${name}",
-        "${name}",
-        null);
-  
-      ch = new ConnectionHelper(id, myConnection);
-  
-      logger.info("created connection factory");
-  
-      context = ch.getContext();
-      logger.info("context created");
-  
-      destination = ch.getTopicDestination();
-  
-  
-      logger.info("destination created");
+
+      this.createConnection("${name}", "${name}", id);
   `
   }
