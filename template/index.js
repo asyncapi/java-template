@@ -39,15 +39,15 @@ export default function({ asyncapi, params }) {
 
   let toRender = {
       producers: Producers(asyncapi, channels, params),
-      connectionHelper: ConnectionHelperRenderer(asyncapi),
-      models: Models(asyncapi.components().messages()),
+      connectionHelper: ConnectionHelperRenderer(asyncapi, params),
+      models: Models(asyncapi.components().messages(), params),
       consumers: Consumers(asyncapi, channels, params),
-      loggingHelper: LoggingHelperRenderer(asyncapi),
-      connectionRender: ConnectionRender(asyncapi),
-      demoProducer: ProducerDemoRenderer(asyncapi),
-      DemoSubscriber: SubscriberDemoRenderer(asyncapi),
+      loggingHelper: LoggingHelperRenderer(asyncapi, params),
+      connectionRender: ConnectionRender(asyncapi, params),
+      demoProducer: ProducerDemoRenderer(asyncapi, params),
+      DemoSubscriber: SubscriberDemoRenderer(asyncapi, params),
       envJson: EnvJsonRenderer(asyncapi, params),
-      pubSubBase: PubSubBase()
+      pubSubBase: PubSubBase(params)
   }
 
   // schemas is an instance of the Map
@@ -56,42 +56,42 @@ export default function({ asyncapi, params }) {
   }).flat();
 }
 
-function LoggingHelperRenderer(asyncapi){
+function LoggingHelperRenderer(asyncapi, params){
   return (
       <File name='/com/ibm/mq/samples/jms/LoggingHelper.java'>
-        <LoggingHelper></LoggingHelper>
+        <LoggingHelper params={params}></LoggingHelper>
       </File>
   )
 }
 
-function SubscriberDemoRenderer(asyncapi){
+function SubscriberDemoRenderer(asyncapi, params){
   return (
       <File name='/com/ibm/mq/samples/jms/DemoSubscriber.java'>
-        <DemoSubscriber></DemoSubscriber>
+        <DemoSubscriber params={params}></DemoSubscriber>
       </File>
   )
 }
 
-function ProducerDemoRenderer(asyncapi){
+function ProducerDemoRenderer(asyncapi, params){
   return (
       <File name='/com/ibm/mq/samples/jms/DemoProducer.java'>
-        <DemoProducer></DemoProducer>
+        <DemoProducer params={params}></DemoProducer>
       </File>
   )
 }
 
-function ConnectionRender(asyncapi){
+function ConnectionRender(asyncapi, params){
   return (
       <File name='/com/ibm/mq/samples/jms/Connection.java'>
-        <Connection></Connection>
+        <Connection params={params}></Connection>
       </File>
   )
 }
 
-function ConnectionHelperRenderer(asyncapi){
+function ConnectionHelperRenderer(asyncapi, params){
   return (
       <File name='/com/ibm/mq/samples/jms/ConnectionHelper.java'>
-        <ConnectionHelper></ConnectionHelper>
+        <ConnectionHelper params={params}></ConnectionHelper>
       </File>
   )
 }
@@ -121,9 +121,9 @@ function SubsciberGenerators(asyncapi, channels, params){
       
         <File name={`/com/ibm/mq/samples/jms/${className}.java`}>
           <PackageDeclaration path="com.ibm.mq.samples.jms"></PackageDeclaration>
-          <ConsumerImports asyncapi={asyncapi}></ConsumerImports>
+          <ConsumerImports asyncapi={asyncapi} params={params}></ConsumerImports>
 
-          <ImportModels messages={messages}></ImportModels>
+          <ImportModels messages={messages} params={params}></ImportModels>
   
           <Class name={className}>
             <ConsumerDeclaration name={channelName} />

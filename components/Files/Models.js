@@ -3,13 +3,13 @@ import {PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, Clas
 import {ImportModels, ModelClassVariables, ModelConstructor } from '../Model';
 
 
-export function Models(messages){
+export function Models(messages, params){
     return Object.entries(messages).map(([messageName, message]) => {
       let messageNameUpperCase = messageName.charAt(0).toUpperCase() + messageName.slice(1);
 
       return (
         <File name={`/com/ibm/mq/samples/jms/models/${messageNameUpperCase}.java`}>
-          <PackageDeclaration path={`com.ibm.mq.samples.jms.models`} />
+          <PackageDeclaration path={`${params.package}.models`} />
           <ImportDeclaration path={`java.io.Serializable`} />
 
 

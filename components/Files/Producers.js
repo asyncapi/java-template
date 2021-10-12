@@ -16,7 +16,7 @@ export function Producers(asyncapi, channels, params){
         
           <File name={`/com/ibm/mq/samples/jms/${className}.java`}>
             
-            <HeaderContent asyncapi={asyncapi}></HeaderContent>
+            <HeaderContent asyncapi={asyncapi} params={params}></HeaderContent>
     
             <Class name={className} extendsClass="PubSubBase">
               <ClassHeader/>
@@ -37,12 +37,11 @@ export function Producers(asyncapi, channels, params){
   }
   
   
-  function HeaderContent({ asyncapi }){
+  function HeaderContent({ asyncapi, params }){
     const messages = asyncapi.components().messages();
-  
     return `
-  ${render(<PackageDeclaration path="com.ibm.mq.samples.jms"></PackageDeclaration>)}
-  ${render(<Imports/>)}
-  ${render(<ImportModels messages={messages} />)}
+  ${render(<PackageDeclaration path={params.package}></PackageDeclaration>)}
+  ${render(<Imports params={params}></Imports>)}
+  ${render(<ImportModels messages={messages} params={params} />)}
         `
   }

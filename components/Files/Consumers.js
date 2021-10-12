@@ -21,10 +21,10 @@ export function Consumers(asyncapi, channels, params){
         return (
         
           <File name={`/com/ibm/mq/samples/jms/${className}.java`}>
-            <PackageDeclaration path="com.ibm.mq.samples.jms"></PackageDeclaration>
-            <ConsumerImports asyncapi={asyncapi}></ConsumerImports>
+            <PackageDeclaration path={params.package}></PackageDeclaration>
+            <ConsumerImports asyncapi={asyncapi} params={params}></ConsumerImports>
   
-            <ImportModels messages={messages}></ImportModels>
+            <ImportModels messages={messages} params={params}></ImportModels>
     
             <Class name={className} extendsClass="PubSubBase">
               <ConsumerDeclaration name={channelName} />

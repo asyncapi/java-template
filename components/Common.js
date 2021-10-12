@@ -80,7 +80,7 @@ export function ImportDeclaration({ path }) {
 import ${path};`
 }
 
-export function Imports() {
+export function Imports(params) {
   return `
 import java.util.logging.*;
 import java.io.Serializable;
@@ -93,10 +93,10 @@ import javax.jms.JMSRuntimeException;
 import javax.jms.ObjectMessage;
 
 
-import com.ibm.mq.samples.jms.ConnectionHelper;
-import com.ibm.mq.samples.jms.LoggingHelper;
-import com.ibm.mq.samples.jms.Connection;
-import com.ibm.mq.samples.jms.PubSubBase;
+import ${params.params.package}.ConnectionHelper;
+import ${params.params.package}.LoggingHelper;
+import ${params.params.package}.Connection;
+import ${params.params.package}.PubSubBase;
 
 import com.fasterxml.jackson.databind.ObjectMapper; 
 import com.fasterxml.jackson.databind.ObjectWriter; 
@@ -196,10 +196,10 @@ export function EnvJson({ asyncapi, params})
   }
   `
 }
-export function ImportModels({ messages }) {
+export function ImportModels({ messages, params }) {
   const namesList = Object.entries(messages)
     .map(([messageName, message]) => {
-      return `import com.ibm.mq.samples.jms.models.${messageName.charAt(0).toUpperCase() + messageName.slice(1)};`
+      return `import ${params.package}.models.${messageName.charAt(0).toUpperCase() + messageName.slice(1)};`
     });
 
   return namesList;
