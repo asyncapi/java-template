@@ -143,6 +143,9 @@ import ${path};`
 export function Imports() {
   return `
 import java.util.logging.*;
+import java.util.Map;
+import java.util.List;
+import java.nio.file.Paths;
 import java.io.Serializable;
 
 import javax.jms.Destination;
@@ -232,4 +235,25 @@ public void close() {
     ch.closeContext();
     ch = null;
 }`
+}
+
+export function EnvJson({ asyncapi, params})
+{
+  const url = asyncapi.server(params.server).url() 
+  let qmgr = getMqValues(url,'qmgr')
+  let mqChannel = getMqValues(url,'mqChannel')
+  let host = URLtoHost(url)
+  let domain = host.split(':', 1)
+  return`
+  {
+    "MQ_ENDPOINTS": [{
+      "HOST": "${domain}",
+      "PORT": "${ URLtoPort(url, 1414) }",
+      "CHANNEL": "${mqChannel}",
+      "QMGR": "${qmgr}",
+      "APP_USER": "${params.user}",
+      "APP_PASSWORD": "${params.password}"
+    }]
+  }
+  `
 }

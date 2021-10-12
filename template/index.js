@@ -1,13 +1,14 @@
 import { File, render } from '@asyncapi/generator-react-sdk';
 
 // Import custom components from file 
-import {PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, Close} from '../components/Common';
+import {PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, EnvJson, Close} from '../components/Common';
 
 import {ConsumerDeclaration, ConsumerImports, ConsumerConstructor, ReceiveMessage } from '../components/Consumer';
 
 import {ProducerConstructor, SendMessage } from '../components/Producer';
 
 import {ImportModels, ModelClassVariables, ModelConstructor } from '../components/Model';
+
 
 
 import {Connection } from '../components/Connection';
@@ -47,7 +48,8 @@ export default function({ asyncapi, params }) {
       loggingHelper: LoggingHelperRenderer(asyncapi),
       connectionRender: ConnectionRender(asyncapi),
       demoProducer: ProducerDemoRenderer(asyncapi),
-      DemoSubscriber: SubscriberDemoRenderer(asyncapi)
+      DemoSubscriber: SubscriberDemoRenderer(asyncapi),
+      envJson: EnvJsonRenderer(asyncapi, params)
   }
 
   // schemas is an instance of the Map
@@ -121,6 +123,14 @@ function ConnectionHelperRenderer(asyncapi){
   return (
       <File name='/com/ibm/mq/samples/jms/ConnectionHelper.java'>
         <ConnectionHelper></ConnectionHelper>
+      </File>
+  )
+}
+
+function EnvJsonRenderer(asyncapi, params){
+  return (
+      <File name='/env.json'>
+        <EnvJson asyncapi={asyncapi} params={params}></EnvJson>
       </File>
   )
 }

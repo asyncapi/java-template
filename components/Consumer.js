@@ -18,6 +18,10 @@ export function ConsumerDeclaration({name}) {
 export function ConsumerImports({ asyncApi, messageNames }) {
 return `
     import java.util.logging.*;
+    import java.util.Map;
+    import java.util.List;
+    import java.nio.file.Paths;
+    import java.io.Serializable;
     
     import javax.jms.Destination;
     import javax.jms.JMSConsumer;
@@ -107,20 +111,36 @@ export function ReceiveMessage({ asyncApi, channel }) {
     return `
       String id = null;
       id = "Basic sub";
+
+      List<Map> MQ_ENDPOINTS = null;
+      Map MQFirst = null;
   
       LoggingHelper.init(logger);
       logger.info("Sub application is starting");
   
-      Connection myConnection = new Connection(
-        "${domain}",
-        ${ URLtoPort(url, 1414) },
-        "${mqChannel}",
-        "${qmgr}",
-        "${params.user}",
-        "${params.password}",
-        "${name}",
-        "${name}",
-        null);
+        try {
+            // create object mapper instance
+            ObjectMapper mapper = new ObjectMapper();
+        
+            // convert JSON file to map
+            Map<Object, List<Map>> map = mapper.readValue(Paths.get("env.json").toFile(), Map.class);
+            MQ_ENDPOINTS = map.get("MQ_ENDPOINTS");
+            MQFirst = MQ_ENDPOINTS.get(0);
+        
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        Connection myConnection = new Connection(
+            MQFirst.get("HOST").toString(),
+            Integer.parseInt(MQFirst.get("PORT").toString()),
+            MQFirst.get("CHANNEL").toString(),
+            MQFirst.get("QMGR").toString(),
+            MQFirst.get("APP_USER").toString(),
+            MQFirst.get("APP_PASSWORD").toString(),
+            "${name}",
+            "${name}",
+            null);
   
       ch = new ConnectionHelper(id, myConnection);
   
