@@ -4,11 +4,11 @@ import { createJavaArgsFromProperties, passJavaArgs } from '../utils/Types.utils
 // Send Message
 export function SendMessage({ asyncApi, channel }) {
     // TODO one of can be used in message apparently?
-    let properties = channel.subscribe().message().payload().properties();
+    let properties = channel.publish().message().payload().properties();
   
     let args = createJavaArgsFromProperties(properties);
   
-    let message = channel.subscribe().message();
+    let message = channel.publish().message();
     
     //TODO remove hardcode
     
