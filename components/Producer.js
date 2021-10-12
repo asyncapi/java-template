@@ -34,6 +34,9 @@ export function SendMessage({ asyncApi, channel }) {
         }
     }`
   }
+
+
+
   
   export function ProducerConstructor({asyncapi, name, params}) {
     const url = asyncapi.server('production1').url() 
@@ -45,18 +48,34 @@ export function SendMessage({ asyncApi, channel }) {
     return `
       String id = null;
       id = "Basic pub";
+
+      List<Map> MQ_ENDPOINTS = null;
+      Map MQFirst = null;
   
       LoggingHelper.init(logger);
       logger.info("Sub application is starting");
-  
-  
+
+      try {
+            // create object mapper instance
+            ObjectMapper mapper = new ObjectMapper();
+        
+            // convert JSON file to map
+            Map<Object, List<Map>> map = mapper.readValue(Paths.get("env.json").toFile(), Map.class);
+            MQ_ENDPOINTS = map.get("MQ_ENDPOINTS");
+            // TODO : Allow switching between multiple endpoints
+            MQFirst = MQ_ENDPOINTS.get(0);
+        
+      } catch (Exception ex) {
+            ex.printStackTrace();
+      }
+
       Connection myConnection = new Connection(
-        "${domain}",
-        ${ URLtoPort(url, 1414) },
-        "${mqChannel}",
-        "${qmgr}",
-        "${params.user}",
-        "${params.password}",
+        MQFirst.get("HOST").toString(),
+        Integer.parseInt(MQFirst.get("PORT").toString()),
+        MQFirst.get("CHANNEL").toString(),
+        MQFirst.get("QMGR").toString(),
+        MQFirst.get("APP_USER").toString(),
+        MQFirst.get("APP_PASSWORD").toString(),
         "${name}",
         "${name}",
         null);

@@ -1,8 +1,7 @@
 import { File, render } from '@asyncapi/generator-react-sdk';
 
 // Import custom components from file 
-import {ImportModels, PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, Close} from '../components/Common';
-
+import {ImportModels, PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, EnvJson, Close} from '../components/Common';
 
 
 import {Connection } from '../components/Connection';
@@ -45,7 +44,8 @@ export default function({ asyncapi, params }) {
       loggingHelper: LoggingHelperRenderer(asyncapi),
       connectionRender: ConnectionRender(asyncapi),
       demoProducer: ProducerDemoRenderer(asyncapi),
-      DemoSubscriber: SubscriberDemoRenderer(asyncapi)
+      DemoSubscriber: SubscriberDemoRenderer(asyncapi),
+      envJson: EnvJsonRenderer(asyncapi, params)
   }
 
   // schemas is an instance of the Map
@@ -94,6 +94,62 @@ function ConnectionHelperRenderer(asyncapi){
   )
 }
 
+function EnvJsonRenderer(asyncapi, params){
+  return (
+      <File name='/env.json'>
+        <EnvJson asyncapi={asyncapi} params={params}></EnvJson>
+      </File>
+  )
+}
+
+function SubsciberGenerators(asyncapi, channels, params){
+  return Object.entries(channels).map(([channelName, channel]) => {
+    const name = channelName
+    const className = toJavaClassName(channelName) + 'Subscriber'
+    console.log("Working for", name)
+
+    console.log("channel, " ,channel)
+
+    // Resolve associated messages this subscriber should support
+    // TODO not just import all
+    const messages = asyncapi.components().messages();
+
+    if(channel.subscribe){
+      return (
+      
+        <File name={`/com/ibm/mq/samples/jms/${className}.java`}>
+          <PackageDeclaration path="com.ibm.mq.samples.jms"></PackageDeclaration>
+          <ConsumerImports asyncapi={asyncapi}></ConsumerImports>
+
+          <ImportModels messages={messages}></ImportModels>
+  
+          <Class name={className}>
+            <ConsumerDeclaration name={channelName} />
+  
+            <ClassConstructor name={className}>
+              <ConsumerConstructor asyncapi={asyncapi} params={params} name={name}/>
+            </ClassConstructor>
+      
+            <ReceiveMessage asyncapi={asyncapi} name={channelName} channel={channel}></ReceiveMessage>
+            
+            <RecordFaliure></RecordFaliure>
+            <ProcessJMSException></ProcessJMSException>
+            <Close></Close>
+          </Class>
+        </File>
+  
+      );
+    }
+  });
+}
+
+function ProducerGenerators(asyncapi, channels, params){
+  return Object.entries(channels).map(([channelName, channel]) => {
+    const name = channelName
+    const className = toJavaClassName(channelName) + 'Producer'
+    console.log("Working for", name)
+  });
+}
 
 
 
@@ -102,7 +158,3 @@ function toJavaClassName(name){
 
   return components.map(item => item.charAt(0).toUpperCase() + item.slice(1)).join('');
 }
-
-
-
-
