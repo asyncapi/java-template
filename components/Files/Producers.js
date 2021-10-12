@@ -10,7 +10,7 @@ export function Producers(asyncapi, channels, params){
       const packagePath = javaPackageToPath(params.package);
   
   
-      if(channel.publish){
+      if(channel.publish()){
         return (
         
           <File name={`${packagePath}${className}.java`}>
