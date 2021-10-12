@@ -24,14 +24,21 @@ import { asyncApiTypeToJavaType, createJavaArgsFromProperties } from '../utils/T
   * then output from RootComponent will be `some text at the beginning: some text at the end.`.
   */
 
-export function Class({ childrenContent, name, implementsClass }) {
+export function Class({ childrenContent, name, implementsClass, extendsClass }) {
   let implementsString = "";
 
   if(implementsClass != null){
     implementsString = `implements ${implementsClass}`
   }
+
+  let extendsString = "";
+
+  if(extendsClass != null){
+    extendsString = `extends ${extendsClass}`
+  }
+
   return `
-public class ${name} ${implementsString}{
+public class ${name} ${implementsString} ${extendsString}{
   ${childrenContent}
 }
 `;
@@ -39,15 +46,11 @@ public class ${name} ${implementsString}{
 
 export function ClassHeader({ }) {
 return `
-  private static final Logger logger = Logger.getLogger("com.ibm.mq.samples.jms");
-
   public static final String PRODUCER_PUT = "queue";
   public static final String PRODUCER_PUB = "topic";
 
-  private JMSContext context = null;
-  private Destination destination = null;
   private JMSProducer producer = null;
-  private ConnectionHelper ch = null;`
+`
 }
 
 export function ClassConstructor({ childrenContent, name, properties }) {
@@ -80,9 +83,6 @@ import ${path};`
 export function Imports() {
   return `
 import java.util.logging.*;
-import java.util.Map;
-import java.util.List;
-import java.nio.file.Paths;
 import java.io.Serializable;
 
 import javax.jms.Destination;
@@ -96,11 +96,13 @@ import javax.jms.ObjectMessage;
 import com.ibm.mq.samples.jms.ConnectionHelper;
 import com.ibm.mq.samples.jms.LoggingHelper;
 import com.ibm.mq.samples.jms.Connection;
+import com.ibm.mq.samples.jms.PubSubBase;
 
 import com.fasterxml.jackson.databind.ObjectMapper; 
 import com.fasterxml.jackson.databind.ObjectWriter; 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.annotation.JsonView;
+
 
   `
 }

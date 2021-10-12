@@ -18,7 +18,7 @@ export function Producers(asyncapi, channels, params){
             
             <HeaderContent asyncapi={asyncapi}></HeaderContent>
     
-            <Class name={className}>
+            <Class name={className} extendsClass="PubSubBase">
               <ClassHeader/>
     
               <ClassConstructor name={className}>
@@ -27,7 +27,6 @@ export function Producers(asyncapi, channels, params){
               </ClassConstructor>
               
               <SendMessage asyncapi={asyncapi} name={channelName} channel={channel}></SendMessage>
-              <Close></Close>
               
             </Class>
           </File>

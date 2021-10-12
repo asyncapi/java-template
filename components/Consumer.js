@@ -4,15 +4,10 @@ import { createJavaArgsFromProperties } from '../utils/Types.utils'
 
 export function ConsumerDeclaration({name}) {
     return `
-      private static final Logger logger = Logger.getLogger("com.ibm.mq.samples.jms");
-    
       public static final String CONSUMER_SUB = "topic";
       public static final String CONSUMER_GET = "queue";
-    
-      private JMSContext context = null;
-      private Destination destination = null;
+
       private JMSConsumer consumer = null;
-      private ConnectionHelper ch = null;
     `
     }
      
@@ -20,9 +15,6 @@ export function ConsumerDeclaration({name}) {
 export function ConsumerImports({ asyncApi, messageNames }) {
 return `
     import java.util.logging.*;
-    import java.util.Map;
-    import java.util.List;
-    import java.nio.file.Paths;
     import java.io.Serializable;
     
     import javax.jms.Destination;
@@ -42,6 +34,7 @@ return `
     import com.ibm.mq.samples.jms.ConnectionHelper;
     import com.ibm.mq.samples.jms.LoggingHelper;
     import com.ibm.mq.samples.jms.Connection;
+    import com.ibm.mq.samples.jms.PubSubBase;
         
     `
 }
@@ -111,50 +104,11 @@ export function ReceiveMessage({ asyncApi, channel }) {
     let host = URLtoHost(url)
     let domain = host.split(':', 1)
     return `
+      super();
       String id = null;
       id = "Basic sub";
-
-      List<Map> MQ_ENDPOINTS = null;
-      Map MQFirst = null;
-  
-      LoggingHelper.init(logger);
       logger.info("Sub application is starting");
-  
-        try {
-            // create object mapper instance
-            ObjectMapper mapper = new ObjectMapper();
-        
-            // convert JSON file to map
-            Map<Object, List<Map>> map = mapper.readValue(Paths.get("env.json").toFile(), Map.class);
-            MQ_ENDPOINTS = map.get("MQ_ENDPOINTS");
-            // TODO : Allow switching between multiple endpoints
-            MQFirst = MQ_ENDPOINTS.get(0);
-        
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
 
-        Connection myConnection = new Connection(
-            MQFirst.get("HOST").toString(),
-            Integer.parseInt(MQFirst.get("PORT").toString()),
-            MQFirst.get("CHANNEL").toString(),
-            MQFirst.get("QMGR").toString(),
-            MQFirst.get("APP_USER").toString(),
-            MQFirst.get("APP_PASSWORD").toString(),
-            "${name}",
-            "${name}",
-            null);
-  
-      ch = new ConnectionHelper(id, myConnection);
-  
-      logger.info("created connection factory");
-  
-      context = ch.getContext();
-      logger.info("context created");
-  
-      destination = ch.getTopicDestination();
-  
-  
-      logger.info("destination created");
+      this.createConnection("${name}", "${name}", id);
   `
   }
