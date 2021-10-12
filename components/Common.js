@@ -46,15 +46,12 @@ public class ${name} ${implementsString} ${extendsString}{
 
 export function ClassHeader({ }) {
 return `
-  public static final String PRODUCER_PUT = "queue";
-  public static final String PRODUCER_PUB = "topic";
-
   private JMSProducer producer = null;
 `
 }
 
 export function ClassConstructor({ childrenContent, name, properties }) {
-  let propertiesString = `String type`;
+  let propertiesString = "";
   
 
   if(properties){

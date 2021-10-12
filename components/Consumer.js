@@ -4,9 +4,6 @@ import { createJavaArgsFromProperties } from '../utils/Types.utils'
 
 export function ConsumerDeclaration({name}) {
     return `
-      public static final String CONSUMER_SUB = "topic";
-      public static final String CONSUMER_GET = "queue";
-
       private JMSConsumer consumer = null;
     `
     }

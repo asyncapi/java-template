@@ -19,7 +19,7 @@ public class DemoSubscriber {
 
     public static void main(String[] args) {
         
-        SingleReleasedSubscriber bc = new SingleReleasedSubscriber(SingleReleasedSubscriber.CONSUMER_SUB);
+        SingleReleasedSubscriber bc = new SingleReleasedSubscriber();
         
         bc.receive(TIMEOUT);
         bc.close();
