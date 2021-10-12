@@ -1,6 +1,4 @@
-import { getMqValues, URLtoHost, URLtoPort } from './Common';
-import { createJavaArgsFromProperties } from '../utils/Types.utils'
-
+import { getMqValues, URLtoHost, URLtoPort, createJavaArgs } from './Common';
 
 export function ConsumerDeclaration({name}) {
     return `
@@ -50,7 +48,7 @@ export function ReceiveMessage({ asyncApi, channel }) {
     // TODO one of can be used in message apparently?
     let properties = channel.subscribe().message().payload().properties();
   
-    let args = createJavaArgsFromProperties(properties);
+    let args = createJavaArgs(properties);
   
     let message = channel.subscribe().message();
     
