@@ -1,4 +1,3 @@
-
 const path = require('path');
 const fs = require('fs');
 
@@ -8,13 +7,11 @@ module.exports = {
 
 
 async function createFolderStructure(generator){
+  const packagePath = "/" + generator.templateParams.package.replace(".", "/") + "/";
+
   const targetDir = generator.targetDir;
-  const packageDir = targetDir + '/com/ibm/mq/samples/jms'
+  const packageDir = targetDir + packagePath;
 
-
-  console.log(generator);
-  console.log("GENERATORRRRRRR")
-  
   fs.mkdirSync(packageDir, {recursive: true});
-  fs.mkdirSync(targetDir + '/com/ibm/mq/samples/jms/models');
+  fs.mkdirSync(targetDir + packagePath + 'models');
 }

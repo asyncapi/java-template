@@ -57,7 +57,6 @@ export function ClassConstructor({ childrenContent, name, properties }) {
   let propertiesString = `String type`;
   
 
-  console.log(`Constructing ${name}, properties`, properties)
   if(properties){
     propertiesString = createJavaArgsFromProperties(properties);
 

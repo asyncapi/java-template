@@ -7,3 +7,7 @@ export function toJavaClassName(name){
   
     return components.map(item => item.charAt(0).toUpperCase() + item.slice(1)).join('');
   }
+
+export function javaPackageToPath(pkg) {
+  return "/" + pkg.replace(".", "/") + "/";
+}

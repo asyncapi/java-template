@@ -1,4 +1,5 @@
 import { File, render } from '@asyncapi/generator-react-sdk';
+import { toJavaClassName, javaPackageToPath } from '../../utils/String.utils';
 
 function getPubSubContent(params){
     return `package ${params.package};
@@ -113,8 +114,9 @@ function getPubSubContent(params){
 
 
 export function PubSubBase(params){
+  const packagePath = javaPackageToPath(params.package);
   return (
-    <File name={`/com/ibm/mq/samples/jms/PubSubBase.java`}>
+    <File name={`${packagePath}PubSubBase.java`}>
       {getPubSubContent(params)}
     </File>
   )

@@ -10,8 +10,6 @@ export function SendMessage({ asyncApi, channel }) {
   
     let message = channel.subscribe().message();
     
-    console.log("name", channel.subscribe().message())
-  
     //TODO remove hardcode
     
     return `
