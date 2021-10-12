@@ -13,6 +13,7 @@
 - [Supported protocols](#supported-protocols)
 - [How to use the template](#how-to-use-the-template)
   - [CLI](#cli)
+  - [JMS Template Tutorial](#jms-template-tutorial)
 - [Template configuration](#template-configuration)
 - [Development](#development)
 
@@ -48,7 +49,8 @@ npm install -g @asyncapi/generator
 ag https://bit.ly/asyncapi ./ -o output -p server=production
 
 ```
-For instructions on running the generated Java, please see the template specific [README](template/README.md).
+### JMS Template Tutorial
+For complete instructions on generating the Java and subsequently using it to send messages with MQ, please see the template specific [Tutorial](/template/TUTORIAL.md).
 
 ## Template configuration
 
@@ -87,3 +89,6 @@ There are two ways you can work on template development:
   # assumption is that generator sources are cloned on the same level as the template
   ../generator/cli.js https://bit.ly/asyncapi ./ -o output
   ```
+# Here we should have Docker Info
+# Here we should add more information to the Development section
+We need to also explain to people in this file where important code aspects live. If someone was using our template where would they add their logic to change things etc.
