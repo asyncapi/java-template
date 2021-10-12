@@ -107,8 +107,8 @@ export function ReceiveMessage({ asyncApi, channel }) {
       super();
       String id = null;
       id = "Basic sub";
-
       logger.info("Sub application is starting");
+
       this.createConnection("${name}", "${name}", id);
   `
   }

@@ -49,10 +49,12 @@ export function SendMessage({ asyncApi, channel }) {
       super();
       String id = null;
       id = "Basic pub";
-      
+  
       logger.info("Sub application is starting");
-
+  
+  
       this.createConnection("${name}", "${name}", id);
+  
         // Set so no JMS headers are sent.
         ch.setTargetClient(destination);
         producer = context.createProducer();
