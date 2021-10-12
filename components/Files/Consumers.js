@@ -15,7 +15,7 @@ export function Consumers(asyncapi, channels, params){
       const messages = asyncapi.components().messages();
       const packagePath = javaPackageToPath(params.package);
 
-      if(channel.subscribe){
+      if(channel.subscribe()){
         return (
         
           <File name={`${packagePath}${className}.java`}>
