@@ -32,20 +32,14 @@ return `
     import ${params.package}.LoggingHelper;
     import ${params.package}.Connection;
     import ${params.package}.PubSubBase;
+    import ${params.package}.models.ModelContract;
         
     `
 }
 
 export function ReceiveMessage({ asyncApi, channel }) {
     // TODO one of can be used in message apparently?
-    let properties = channel.subscribe().message().payload().properties();
-  
-    let args = createJavaArgsFromProperties(properties);
-  
-    let message = channel.subscribe().message();
-    
-    //TODO remove hardcode
-    
+
     return `
     public void receive(int requestTimeout) {
       boolean continueProcessing = true;
@@ -64,7 +58,7 @@ export function ReceiveMessage({ asyncApi, channel }) {
                     TextMessage textMessage = (TextMessage) receivedMessage;
                     try {
                         logger.info("Received message: " + textMessage.getText());
-                        Single receivedSingleObject = new ObjectMapper().readValue(textMessage.getText(), Single.class); // HARDCODED, REACTIFY
+                        ModelContract receivedSingleObject = new ObjectMapper().readValue(textMessage.getText(), ModelContract.class); // HARDCODED, REACTIFY
   
                         System.out.println("TYPE: " + receivedSingleObject.getClass().getName()); // REMOVE THIS EVENTUALLY BUT GOOD FOR DEMO
                         System.out.println(receivedSingleObject.toString()); // REMOVE EITHER THIS OR logger.info(Received...
