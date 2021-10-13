@@ -77,3 +77,39 @@ export function createJavaArgsFromProperties(properties){
       return `${asyncApiTypeToJavaType(property.type())} ${name}`
   })
 }
+
+/*
+ * Helper class to create Java constructor input from asyncapi properties
+ */
+export function createJavaConstructorArgs(properties){
+  return Object.entries(properties).map(([name, property]) => {
+    return `${asyncApiTypeToDemoValue(property.type())}`
+  })
+}
+
+/* 
+ * Generates an example value from asyncAPI datatype in Java
+ */
+export function asyncApiTypeToDemoValue(asyncApiType) {
+  switch (asyncApiType){
+      case ("integer" || "long"):
+        return parseInt(Math.random() * 1000);
+
+      case ("float" || "double"):
+        return Math.random();
+
+      case ("string" || "binary" || "password"):
+        var words = ['ASyncAPI', 'IBM', 'Java', 'React', 'Hackathon', 'Community', 'Open Source', 'MQ', 'JMS', 'Publish', 'Subscribe', 'Topic', 'Demo', 'Example', 'Template', 'Producer', 'Consumer', 'Generator', 'Message', 'Endpoint'];
+        return '"' + words[Math.floor(Math.random()*words.length)] + '"';
+
+      case "byte":
+        return 0 + (int)(Math.random() * ((127 - 1) + 1))
+
+      case "boolean":
+        var words = ['true', 'false'];
+        return words[Math.floor(Math.random()*words.length)];
+
+      case ("date" || "dateTime"):
+        return (new Date()).toISOString().split('T')[0]
+  }
+}

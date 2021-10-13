@@ -4,25 +4,20 @@
 */
 
 
-export function DemoProducer({ asyncApi, message, params, messageName, className }) {
-    
-    
+export function DemoProducer({ asyncApi, message, params, messageName, className, constructorArgs }) {
     return `
 package ${params.package};
 
 import ${params.package}.${className}Producer;
 import ${params.package}.ConnectionHelper;
-import ${params.package}.Models.${messageName};
+import ${params.package}.models.${messageName};
 
 public class DemoProducer {
-
-    private static final int TIMEOUT = 10000; // 10 Seconnds
-
     public static void main(String[] args) {
-        ${messageName} message = new ${messageName}();
-        SingleReleasedProducer bp = new ${className}Producer();
-        bp.send(message);
-        bp.close();
+        ${messageName} message = new ${messageName}(${constructorArgs});
+        SingleReleasedProducer producer = new ${className}Producer();
+        producer.send(message);
+        producer.close();
     }
 }`
 }

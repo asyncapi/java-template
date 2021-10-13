@@ -19,10 +19,10 @@ public class DemoSubscriber {
 
     public static void main(String[] args) {
         
-        ${className}Subscriber bc = new ${className}Subscriber();
+        ${className}Subscriber consumer = new ${className}Subscriber();
         
-        bc.receive(TIMEOUT);
-        bc.close();
+        consumer.receive(TIMEOUT);
+        consumer.close();
     }
 }`
 }

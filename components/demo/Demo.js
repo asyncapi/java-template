@@ -2,6 +2,7 @@ import { DemoSubscriber } from '../demo/DemoSubscriber'
 import { DemoProducer } from '../demo/DemoProducer'
 import { javaPackageToPath, toJavaClassName } from '../../utils/String.utils';
 import { File, render } from '@asyncapi/generator-react-sdk';
+import { createJavaConstructorArgs } from '../../utils/Types.utils';
 
 export function Demo(asyncapi, params) {
     let channels = asyncapi.channels();
@@ -36,15 +37,16 @@ export function Demo(asyncapi, params) {
     }
 
     let messageNameTitleCase = targetMessageName.charAt(0).toUpperCase() + targetMessageName.slice(1);
-    
+
     // Handle producer creation
     const producerPath = javaPackageToPath(params.package) + "DemoProducer.java";
     const subscriberPath = javaPackageToPath(params.package) + "DemoSubscriber.java";
     const className = toJavaClassName(channelName);
 
+    const constructorArgs = createJavaConstructorArgs(targetPayloadProperties).join(', ');
     return [(
             <File name={producerPath}>
-                <DemoProducer params={params} messageName={messageNameTitleCase} message={targetPayloadProperties} className={className}></DemoProducer>
+                <DemoProducer params={params} messageName={messageNameTitleCase} message={targetPayloadProperties} className={className} constructorArgs={constructorArgs}></DemoProducer>
             </File>     
     ), (
             <File name={subscriberPath}>
