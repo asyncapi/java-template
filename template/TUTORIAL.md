@@ -128,7 +128,7 @@ These commands will allow you to run the template publisher/subscriber model usi
     # CHANGE THE TEMPLATE NAME
 2. Run the AsyncAPI Generator
     ```
-    ag ./asyncapi.yaml ./ibmmq-jms-template -o ./output -p server=production1 -p user=[MQ_USERNAME] -p password=[MQ_PASSWORD]
+    ag ./asyncapi.yaml ./template-3 -o ./output -p server=production1 -p user=[MQ_USERNAME] -p password=[MQ_PASSWORD]
     ```
     **Note:** The syntax of the above command is shown below. You do not need to run the below line, it is for informational purposes only.
     ```
