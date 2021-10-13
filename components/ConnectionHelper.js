@@ -48,11 +48,12 @@ public class ConnectionHelper {
     private String CIPHER_SUITE = null;
     private static String CCDTURL;
 
+    private String TOPIC_PREFIX = "${params.params.topic_prefix}";
+
     JMSContext context;
 
     public ConnectionHelper (String id, Connection connection) {
 
-        //initialiseLogging();
         mqConnectionVariables(connection);
         logger.info("Get application is starting");
 
@@ -80,7 +81,7 @@ public class ConnectionHelper {
     }
 
     public Destination getTopicDestination () {
-        return context.createTopic("topic://" + TOPIC_NAME);
+        return context.createTopic("topic://" + TOPIC_PREFIX + TOPIC_NAME);
 
     }
 
@@ -122,19 +123,6 @@ public class ConnectionHelper {
 
     private void setJMSProperties(JmsConnectionFactory cf, String id) {
         try {
-            // if (null == CCDTURL) {
-            //     if (USE_CONNECTION_STRING == index) {
-            //         cf.setStringProperty(WMQConstants.WMQ_CONNECTION_NAME_LIST, ConnectionString);
-            //     } else {
-            //         cf.setStringProperty(WMQConstants.WMQ_HOST_NAME, HOST);
-            //         cf.setIntProperty(WMQConstants.WMQ_PORT, PORT);
-            //     }
-            //     cf.setStringProperty(WMQConstants.WMQ_CHANNEL, CHANNEL);
-            // } else {
-            //     logger.info("Will be making use of CCDT File " + CCDTURL);
-            //     cf.setStringProperty(WMQConstants.WMQ_CCDTURL, CCDTURL);
-            // }
-
             cf.setStringProperty(WMQConstants.WMQ_HOST_NAME, HOST);
             cf.setIntProperty(WMQConstants.WMQ_PORT, PORT);
             cf.setStringProperty(WMQConstants.WMQ_CHANNEL, CHANNEL);

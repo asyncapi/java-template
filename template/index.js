@@ -32,7 +32,7 @@ import { Producers } from '../components/Files/Producers'
 import { Consumers } from '../components/Files/Consumers'
 import { PubSubBase } from '../components/Files/PubSubBase';
 import { ModelContract } from '../components/ModelContract';
-
+import { Readme } from '../components/Readme';
 /* 
  * Each template to be rendered must have as a root component a File component,
  * otherwise it will be skipped.
@@ -64,7 +64,8 @@ export default function({ asyncapi, params }) {
       pubSubBase: PubSubBase(params),
       pomXml: PomXmlRenderer(params),
       demo: Demo(asyncapi, params),
-      ModelContract: ModelContractRenderer(params)
+      ModelContract: ModelContractRenderer(params),
+      readmeRenderer: ReadmeRenderer(asyncapi, params)
   }
 
   // schemas is an instance of the Map
@@ -172,6 +173,14 @@ function PomXmlRenderer(params){
   return (
       <File name='/pom.xml'>
         <PomHelper params={params}></PomHelper>
+      </File>
+  )
+}
+
+function ReadmeRenderer(asyncapi, params){
+  return (
+      <File name='/README.md'>
+        <Readme asyncapi={asyncapi} params={params}></Readme>
       </File>
   )
 }
