@@ -61,16 +61,19 @@ function LoggingHelperRenderer(asyncapi, params){
   const filePath = javaPackageToPath(params.package) + "LoggingHelper.java";
   return (
       <File name={filePath}>
-        <LoggingHelper params={params}></LoggingHelper>
+        <PackageDeclaration path={params.package} />
+        <LoggingHelper></LoggingHelper>
       </File>
   )
 }
 
 function ModelContractRenderer(params){
   const filePath = javaPackageToPath(params.package) + "models/ModelContract.java";
+  const pkg = params.package + '.models';
   return (
       <File name={filePath}>
-        <ModelContract params={params}></ModelContract>
+        <PackageDeclaration path={pkg} />
+        <ModelContract></ModelContract>
       </File>
   )
 }
@@ -79,7 +82,8 @@ function ConnectionRender(asyncapi, params){
   const filePath = javaPackageToPath(params.package) + "Connection.java";
   return (
       <File name={filePath}>
-        <Connection params={params}></Connection>
+        <PackageDeclaration path={params.package} />
+        <Connection></Connection>
       </File>
   )
 }
@@ -88,6 +92,7 @@ function ConnectionHelperRenderer(asyncapi, params){
   const filePath = javaPackageToPath(params.package) + "ConnectionHelper.java";
   return (
       <File name={filePath}>
+        <PackageDeclaration path={params.package} />
         <ConnectionHelper params={params}></ConnectionHelper>
       </File>
   )

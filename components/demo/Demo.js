@@ -3,6 +3,7 @@ import { DemoProducer } from '../demo/DemoProducer'
 import { javaPackageToPath, toJavaClassName } from '../../utils/String.utils';
 import { File, render } from '@asyncapi/generator-react-sdk';
 import { createJavaConstructorArgs } from '../../utils/Types.utils';
+import { PackageDeclaration } from '../Common';
 
 export function Demo(asyncapi, params) {
     let channels = asyncapi.channels();
@@ -46,10 +47,12 @@ export function Demo(asyncapi, params) {
     const constructorArgs = createJavaConstructorArgs(targetPayloadProperties).join(', ');
     return [(
             <File name={producerPath}>
+                <PackageDeclaration path={params.package} />
                 <DemoProducer params={params} messageName={messageNameTitleCase} message={targetPayloadProperties} className={className} constructorArgs={constructorArgs}></DemoProducer>
             </File>     
     ), (
             <File name={subscriberPath}>
+                <PackageDeclaration path={params.package} />
                 <DemoSubscriber params={params} className={className}></DemoSubscriber>
             </File>
     )]

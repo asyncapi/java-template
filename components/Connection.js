@@ -1,7 +1,5 @@
-export function Connection(params){
+export function Connection(){
     return `
-package ${params.params.package};
-
 public class Connection {
     public String HOST;
     public int PORT;

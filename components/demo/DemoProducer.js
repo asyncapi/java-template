@@ -6,8 +6,6 @@
 
 export function DemoProducer({ asyncApi, message, params, messageName, className, constructorArgs }) {
     return `
-package ${params.package};
-
 import ${params.package}.${className}Producer;
 import ${params.package}.ConnectionHelper;
 import ${params.package}.models.${messageName};

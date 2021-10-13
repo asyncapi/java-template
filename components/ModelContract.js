@@ -1,7 +1,5 @@
-export function ModelContract(params){
+export function ModelContract(){
     return `
-package ${params.params.package}.models;
-
 import java.io.Serializable;
 
 public class ModelContract implements Serializable {

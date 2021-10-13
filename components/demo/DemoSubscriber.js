@@ -8,8 +8,6 @@ export function DemoSubscriber({ asyncApi, message, params, className }) {
 
     
     return `
-package ${params.package};
-
 import ${params.package}.${className}Subscriber;
 import ${params.package}.ConnectionHelper;
 

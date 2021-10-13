@@ -2,7 +2,7 @@ export function PomHelper(params){
     return `
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  (c) Copyright IBM Corporation 2020
+  (c) Copyright IBM Corporation 2021
 
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
