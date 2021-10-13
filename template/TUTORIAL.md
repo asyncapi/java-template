@@ -9,22 +9,6 @@ This file provides example commands which can be used to run the Java Template p
 You will need a running instance of MQ with a queue named `QM1`, instructions of how to run MQ on a container and create this queue can be found [here](https://developer.ibm.com/tutorials/mq-connect-app-queue-manager-containers/). If you are new to MQ, or want a refresher, you can click [here](https://ibm.biz/learn-mq).
 <br></br>
 
-### Create an MQ Topic
-To run this tutorial you will need an MQ topic on a queue named `QM1`, instructions on creating an MQ instance with this queue are in the above section. This tutorial provides a YAML file which will attempt to use a topic named `single/released`. To create the topic with the correct permissions:
-1. Navigate to the UI of your MQ instance
-2. Click 'Manage' on the side menu and navigate to the queue 'QM1'
-3. Click the 'Topics' tab at the top of the page
-4. Click the 'Create' button
-5. Enter `single/released` for both the 'Topic name' and 'Topic string'
-6. Click 'Create'
-7. Click on `single/released`, the topic you have just created
-8. Click 'View configuration' at the top of the page
-9. Click the 'Security' tab
-10. Click 'Add'
-11. Enter the Username `app`
-12. Click the 'Admin access' drop down
-13. Check the box for 'Permissions to operate privileged commands' and click 'Add'
-
 ### Install Maven
 For instructions on installing maven for your operating system, please see the [Apache Maven site](https://maven.apache.org/install.html).
 <br></br>
@@ -50,8 +34,9 @@ git clone git@github.ibm.com:InSynQ/template-3.git
 ```
 
 ## Running the Publisher/Subscriber Template
-These commands will allow you to run the template publisher/subscriber model using IBM MQ. 
-1. From the directory you created in the prerequisites, `./asyncapi-java-template` in the example commands, create the following YAML file by copying the entire below box of code and pressing enter. If using windows, use `type` instead of `cat` at the beginning of the command. Should you wish to use your own YAML file, name it `asyncapi.yaml` and move on to the next step. **Note:** If using your own YAML file, your topic name is the `channel`. You will need to follow the above steps to 'Create an MQ Topic' with your topic name replacing `single/released`
+These commands will allow you to run the Java Template publisher/subscriber model using IBM MQ. 
+1. From the directory you created in the prerequisites, `~/asyncapi-java-template` in the example commands, create the following YAML file by copying the entire below box of code and pressing enter.
+<br>If using windows, use `type` instead of `cat` at the beginning of the command.<br>Should you wish to use your own YAML file, name it `asyncapi.yaml` and move on to the next step.
     ```
     cat <<EOT >> asyncapi.yaml
     asyncapi: 2.0.0
@@ -125,14 +110,14 @@ These commands will allow you to run the template publisher/subscriber model usi
                 description: Track length in seconds
     EOT
     ```
-    # CHANGE THE TEMPLATE NAME
+    # CHANGE THE TEMPLATE NAME IN STEP 2 AND 3
 2. Install the required NodeJS dependencies from the template folder, then return to the `asyncapi-java-tutorial` folder.
 ```
 cd template-3
 npm install
 cd ..
 ```
-3. Run the AsyncAPI Generator. **Note:** You may need to change the username and password values if you have not followed the IBM MQ tutorial.
+3. Run the AsyncAPI Generator. <br>**Note:** You may need to change the username and password values if you have not followed the IBM MQ tutorial.
     ```
     ag ./asyncapi.yaml ./template-3 -o ./output -p server=production1 -p user=app -p password=passw0rd
     ```
@@ -156,7 +141,7 @@ cd ..
     ```
     java -cp target/asyncapi-mq-jms-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoSubscriber
     ```
-8. In a seperate terminal, still from the same `output` directory as the previous command, run your generated Publisher   
+8. In a seperate terminal, navigate to the `output` directory above and run your generated Publisher   
     ```
     cd ~/asyncapi-java-tutorial/output
     java -cp target/asyncapi-mq-jms-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoProducer

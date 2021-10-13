@@ -70,22 +70,22 @@
         "description": "Custom location of the AsyncAPI file that you provided as an input in generation. By default it is located in the root of the output directory"
       },
       "user": {
-        "description": "TMP.",
+        "description": "User for the IBM MQ instance",
         "required": false,
         "default": "app"
       },
       "password": {
-        "description": "TMP.",
+        "description": "Password for the IBM MQ instance",
         "required": false,
         "default": "passw0rd"
       },
       "package": {
-        "description": "TMP.",
+        "description": "Java package name for generated code",
         "required": false,
         "default": "com.ibm.mq.samples.jms"
       },
       "topic_prefix": {
-        "description": "TMP.",
+        "description": "MQ topic prefix. Default will work with dev MQ instance",
         "required": false,
         "default": "dev//"
       }
