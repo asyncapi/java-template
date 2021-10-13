@@ -4,13 +4,13 @@
 */
 
 
-export function DemoSubscriber({ asyncApi, message, params }) {
+export function DemoSubscriber({ asyncApi, message, params, className }) {
 
     
     return `
 package ${params.package};
 
-import ${params.package}.SingleReleasedSubscriber;
+import ${params.package}.${className}Subscriber;
 import ${params.package}.ConnectionHelper;
 
 public class DemoSubscriber {
@@ -19,10 +19,10 @@ public class DemoSubscriber {
 
     public static void main(String[] args) {
         
-        SingleReleasedSubscriber bc = new SingleReleasedSubscriber();
+        ${className}Subscriber consumer = new ${className}Subscriber();
         
-        bc.receive(TIMEOUT);
-        bc.close();
+        consumer.receive(TIMEOUT);
+        consumer.close();
     }
 }`
 }

@@ -2,29 +2,19 @@ import { getMqValues, URLtoHost, URLtoPort } from './Common';
 import { createJavaArgsFromProperties, passJavaArgs } from '../utils/Types.utils'
 
 // Send Message
-export function SendMessage({ asyncApi, channel }) {
-    // TODO one of can be used in message apparently?
-    let properties = channel.publish().message().payload().properties();
-  
-    let args = createJavaArgsFromProperties(properties);
-  
-    let message = channel.publish().message();
-    
-    //TODO remove hardcode
-    
+export function SendMessage() {
     return `
-    public void sendSingle(${args.join(', ')}) {
+    public void send(ModelContract modelContract) {
         // First create instance of model
-        Serializable single = new Single(
-            ${passJavaArgs(properties)}
-        );
-  
+
+        Serializable modelInstance = (Serializable) modelContract;
+
         try{
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            String json = ow.writeValueAsString(single);
+            String json = ow.writeValueAsString(modelInstance);
     
             System.out.println(json);
-  
+    
             this.producer.send(destination, json);
             
         }catch (JsonProcessingException e){

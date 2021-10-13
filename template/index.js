@@ -1,21 +1,22 @@
 import { File, render } from '@asyncapi/generator-react-sdk';
 
 // Import custom components from file 
-import {ImportModels, PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, EnvJson, Close } from '../components/Common';
+import { ImportModels, PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, EnvJson, Close } from '../components/Common';
 import { javaPackageToPath } from '../utils/String.utils';
 
 
-import {Connection } from '../components/Connection';
-import {ConnectionHelper} from '../components/ConnectionHelper';
-import {LoggingHelper} from '../components/LoggingHelper'
-import {PomHelper} from '../components/PomHelper'
-import {DemoSubscriber } from '../components/demo/DemoSubscriber'
-import {DemoProducer } from '../components/demo/DemoProducer'
+import { Connection } from '../components/Connection';
+import { ConnectionHelper} from '../components/ConnectionHelper';
+import { LoggingHelper} from '../components/LoggingHelper'
+import { PomHelper} from '../components/PomHelper'
+import { Demo } from '../components/demo/Demo'
 
 import { Models } from '../components/Files/Models'
 import { Producers } from '../components/Files/Producers'
 import { Consumers } from '../components/Files/Consumers'
 import { PubSubBase } from '../components/Files/PubSubBase';
+import { ModelContract } from '../components/ModelContract';
+
 /* 
  * Each template to be rendered must have as a root component a File component,
  * otherwise it will be skipped.
@@ -43,11 +44,11 @@ export default function({ asyncapi, params }) {
       consumers: Consumers(asyncapi, channels, params),
       loggingHelper: LoggingHelperRenderer(asyncapi, params),
       connectionRender: ConnectionRender(asyncapi, params),
-      demoProducer: ProducerDemoRenderer(asyncapi, params),
-      DemoSubscriber: SubscriberDemoRenderer(asyncapi, params),
       envJson: EnvJsonRenderer(asyncapi, params),
       pubSubBase: PubSubBase(params),
-      pomXml: PomXmlRenderer(params)
+      pomXml: PomXmlRenderer(params),
+      demo: Demo(asyncapi, params),
+      ModelContract: ModelContractRenderer(params)
   }
 
   // schemas is an instance of the Map
@@ -65,20 +66,11 @@ function LoggingHelperRenderer(asyncapi, params){
   )
 }
 
-function SubscriberDemoRenderer(asyncapi, params){
-  const filePath = javaPackageToPath(params.package) + "DemoSubscriber.java";
+function ModelContractRenderer(params){
+  const filePath = javaPackageToPath(params.package) + "models/ModelContract.java";
   return (
       <File name={filePath}>
-        <DemoSubscriber params={params}></DemoSubscriber>
-      </File>
-  )
-}
-
-function ProducerDemoRenderer(asyncapi, params){
-  const filePath = javaPackageToPath(params.package) + "DemoProducer.java";
-  return (
-      <File name={filePath}>
-        <DemoProducer params={params}></DemoProducer>
+        <ModelContract params={params}></ModelContract>
       </File>
   )
 }
