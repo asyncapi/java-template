@@ -96,7 +96,7 @@ These commands will allow you to run the template publisher/subscriber model usi
             bindingVersion: 0.1.0
         subscribe:
           message:
-            $ref: '#/components/messages/single'
+            \$ref: '#/components/messages/single'
             bindings:
               ibmmq:
                 type: jms
