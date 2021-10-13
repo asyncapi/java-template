@@ -1,7 +1,5 @@
-export function ConnectionHelper(params){
-    return `
-    /*
-* (c) Copyright IBM Corporation 2019
+/*
+* (c) Copyright IBM Corporation 2021
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -16,8 +14,8 @@ export function ConnectionHelper(params){
 * limitations under the License.
 */
 
-package ${params.params.package};
-
+export function ConnectionHelper(params){
+    return `
 import java.util.logging.*;
 
 import javax.jms.Destination;
