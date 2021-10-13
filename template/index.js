@@ -1,16 +1,15 @@
 import { File, render } from '@asyncapi/generator-react-sdk';
 
 // Import custom components from file 
-import {ImportModels, PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, EnvJson, Close } from '../components/Common';
+import { ImportModels, PackageDeclaration, ImportDeclaration, Imports, Class, ClassHeader, ClassConstructor, RecordFaliure, ProcessJMSException, EnvJson, Close } from '../components/Common';
 import { javaPackageToPath } from '../utils/String.utils';
 
 
-import {Connection } from '../components/Connection';
-import {ConnectionHelper} from '../components/ConnectionHelper';
-import {LoggingHelper} from '../components/LoggingHelper'
-import {PomHelper} from '../components/PomHelper'
-import {DemoSubscriber } from '../components/demo/DemoSubscriber'
-import {DemoProducer } from '../components/demo/DemoProducer'
+import { Connection } from '../components/Connection';
+import { ConnectionHelper} from '../components/ConnectionHelper';
+import { LoggingHelper} from '../components/LoggingHelper'
+import { PomHelper} from '../components/PomHelper'
+import { Demo } from '../components/demo/Demo'
 
 import { Models } from '../components/Files/Models'
 import { Producers } from '../components/Files/Producers'
@@ -43,11 +42,10 @@ export default function({ asyncapi, params }) {
       consumers: Consumers(asyncapi, channels, params),
       loggingHelper: LoggingHelperRenderer(asyncapi, params),
       connectionRender: ConnectionRender(asyncapi, params),
-      demoProducer: ProducerDemoRenderer(asyncapi, params),
-      DemoSubscriber: SubscriberDemoRenderer(asyncapi, params),
       envJson: EnvJsonRenderer(asyncapi, params),
       pubSubBase: PubSubBase(params),
-      pomXml: PomXmlRenderer(params)
+      pomXml: PomXmlRenderer(params),
+      demo: Demo(asyncapi, params)
   }
 
   // schemas is an instance of the Map
@@ -61,24 +59,6 @@ function LoggingHelperRenderer(asyncapi, params){
   return (
       <File name={filePath}>
         <LoggingHelper params={params}></LoggingHelper>
-      </File>
-  )
-}
-
-function SubscriberDemoRenderer(asyncapi, params){
-  const filePath = javaPackageToPath(params.package) + "DemoSubscriber.java";
-  return (
-      <File name={filePath}>
-        <DemoSubscriber params={params}></DemoSubscriber>
-      </File>
-  )
-}
-
-function ProducerDemoRenderer(asyncapi, params){
-  const filePath = javaPackageToPath(params.package) + "DemoProducer.java";
-  return (
-      <File name={filePath}>
-        <DemoProducer params={params}></DemoProducer>
       </File>
   )
 }
