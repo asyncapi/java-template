@@ -126,9 +126,9 @@ These commands will allow you to run the template publisher/subscriber model usi
     EOT
     ```
     # CHANGE THE TEMPLATE NAME
-2. Run the AsyncAPI Generator
+2. Run the AsyncAPI Generator. **Note:** You may need to change the username and password values if you have not followed the IBM MQ tutorial.
     ```
-    ag ./asyncapi.yaml ./template-3 -o ./output -p server=production1 -p user=[MQ_USERNAME] -p password=[MQ_PASSWORD]
+    ag ./asyncapi.yaml ./template-3 -o ./output -p server=production1 -p user=app -p password=passw0rd
     ```
     **Note:** The syntax of the above command is shown below. You do not need to run the below line, it is for informational purposes only.
     ```
@@ -138,19 +138,19 @@ These commands will allow you to run the template publisher/subscriber model usi
     ```
     cd output
     ```
-3. Install the dependencies required to run this template
+4. Install the dependencies required to run this template
     ```
     mvn compile 
     ```
-4. Create .jar package using maven
+5. Create .jar package using maven
     ```
     mvn package
     ```
-5. Run your generated Subscriber
+6. Run your generated Subscriber
     ```
     java -cp target/asyncapi-mq-jms-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoSubscriber
     ```
-6. In a seperate terminal, still from the same `output` directory as the previous command, run your generated Publisher   
+7. In a seperate terminal, still from the same `output` directory as the previous command, run your generated Publisher   
     ```
     java -cp target/asyncapi-mq-jms-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoProducer
     ```
