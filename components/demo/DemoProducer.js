@@ -4,23 +4,24 @@
 */
 
 
-export function DemoProducer({ asyncApi, message, params }) {
-
+export function DemoProducer({ asyncApi, message, params, messageName, className }) {
+    
     
     return `
 package ${params.package};
 
-import ${params.package}.SingleReleasedProducer;
+import ${params.package}.${className}Producer;
 import ${params.package}.ConnectionHelper;
+import ${params.package}.Models.${messageName};
 
 public class DemoProducer {
 
     private static final int TIMEOUT = 10000; // 10 Seconnds
 
     public static void main(String[] args) {
-        
-        SingleReleasedProducer bp = new SingleReleasedProducer();
-        bp.sendSingle("This I Promise You", "*NSYNC", "No Strings Attached", "Pop", 268);
+        ${messageName} message = new ${messageName}();
+        SingleReleasedProducer bp = new ${className}Producer();
+        bp.send(message);
         bp.close();
     }
 }`
