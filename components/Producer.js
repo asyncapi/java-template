@@ -2,30 +2,25 @@ import { getMqValues, URLtoHost, URLtoPort } from './Common';
 import { createJavaArgsFromProperties, passJavaArgs } from '../utils/Types.utils'
 
 // Send Message
-export function SendMessage({ asyncApi, channel }) {
-    let messages = channel.publish().messages();
+export function SendMessage() {
+    return `
+    public void send(ModelContract modelContract) {
+        // First create instance of model
 
+        Serializable modelInstance = (Serializable) modelContract;
 
-    return messages.map(message => {
-        return `
-        public void send(ModelContract modelContract) {
-            // First create instance of model
-
-            Serializable modelInstance = (Serializable) modelContract;
-
-            try{
-                ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-                String json = ow.writeValueAsString(modelInstance);
-        
-                System.out.println(json);
-      
-                this.producer.send(destination, json);
-                
-            }catch (JsonProcessingException e){
-                System.out.println(e);
-            }
-        }`
-    });
+        try{
+            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            String json = ow.writeValueAsString(modelInstance);
+    
+            System.out.println(json);
+    
+            this.producer.send(destination, json);
+            
+        }catch (JsonProcessingException e){
+            System.out.println(e);
+        }
+    }`
   }
 
 

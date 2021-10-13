@@ -25,7 +25,7 @@ export function Producers(asyncapi, channels, params){
                 
               </ClassConstructor>
               
-              <SendMessage asyncapi={asyncapi} name={channelName} channel={channel}></SendMessage>
+              <SendMessage></SendMessage>
               
             </Class>
           </File>

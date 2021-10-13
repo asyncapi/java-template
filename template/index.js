@@ -18,7 +18,6 @@ import { PubSubBase } from '../components/Files/PubSubBase';
 import { ModelContract } from '../components/ModelContract';
 
 /* 
-/* 
  * Each template to be rendered must have as a root component a File component,
  * otherwise it will be skipped.
  * 
