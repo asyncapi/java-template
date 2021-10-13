@@ -16,6 +16,9 @@ import { Models } from '../components/Files/Models'
 import { Producers } from '../components/Files/Producers'
 import { Consumers } from '../components/Files/Consumers'
 import { PubSubBase } from '../components/Files/PubSubBase';
+import { ModelContract } from '../components/ModelContract';
+
+/* 
 /* 
  * Each template to be rendered must have as a root component a File component,
  * otherwise it will be skipped.
@@ -47,7 +50,8 @@ export default function({ asyncapi, params }) {
       DemoSubscriber: SubscriberDemoRenderer(asyncapi, params),
       envJson: EnvJsonRenderer(asyncapi, params),
       pubSubBase: PubSubBase(params),
-      pomXml: PomXmlRenderer(params)
+      pomXml: PomXmlRenderer(params),
+      ModelContract: ModelContractRenderer(params),
   }
 
   // schemas is an instance of the Map
@@ -79,6 +83,15 @@ function ProducerDemoRenderer(asyncapi, params){
   return (
       <File name={filePath}>
         <DemoProducer params={params}></DemoProducer>
+      </File>
+  )
+}
+
+function ModelContractRenderer(params){
+  const filePath = javaPackageToPath(params.package) + "models/ModelContract.java";
+  return (
+      <File name={filePath}>
+        <ModelContract params={params}></ModelContract>
       </File>
   )
 }

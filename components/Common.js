@@ -93,6 +93,7 @@ import ${params.params.package}.ConnectionHelper;
 import ${params.params.package}.LoggingHelper;
 import ${params.params.package}.Connection;
 import ${params.params.package}.PubSubBase;
+import ${params.params.package}.models.ModelContract;
 
 import com.fasterxml.jackson.databind.ObjectMapper; 
 import com.fasterxml.jackson.databind.ObjectWriter; 
