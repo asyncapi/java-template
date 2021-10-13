@@ -37,11 +37,11 @@ npm install -g @asyncapi/generator
 ### Set up your Working Environment
 To work with the Java Template, you will need to clone the repository. Navigate to a directory where you would like to store the code, for example run
 ```
-mkdir asyncapi-java-tutorial
+mkdir ~/asyncapi-java-tutorial
 ```
 You will then need to enter the directory you have just created, for example with
 ```
-cd asyncapi-java-tutorial
+cd ~/asyncapi-java-tutorial
 ```
 # CHANGE THIS CLONE
 Finally, clone the Java Template Repository into your new directory with
@@ -126,7 +126,13 @@ These commands will allow you to run the template publisher/subscriber model usi
     EOT
     ```
     # CHANGE THE TEMPLATE NAME
-2. Run the AsyncAPI Generator. **Note:** You may need to change the username and password values if you have not followed the IBM MQ tutorial.
+2. Install the required NodeJS dependencies from the template folder, then return to the `asyncapi-java-tutorial` folder.
+```
+cd template-3
+npm install
+cd ..
+```
+3. Run the AsyncAPI Generator. **Note:** You may need to change the username and password values if you have not followed the IBM MQ tutorial.
     ```
     ag ./asyncapi.yaml ./template-3 -o ./output -p server=production1 -p user=app -p password=passw0rd
     ```
@@ -134,24 +140,25 @@ These commands will allow you to run the template publisher/subscriber model usi
     ```
     ag [YAML_FILE] [TEMPLATE_DIRECTORY] -o ./output -p server=[NAME_OF_SERVER] -p user=[MQ_USERNAME] -p password=[MQ_PASSWORD]
     ```
-3. Navigate to the generated output directory
+4. Navigate to the generated output directory
     ```
     cd output
     ```
-4. Install the dependencies required to run this template
+5. Install the dependencies required to run this template
     ```
     mvn compile 
     ```
-5. Create .jar package using maven
+6. Create .jar package using maven
     ```
     mvn package
     ```
-6. Run your generated Subscriber
+7. Run your generated Subscriber
     ```
     java -cp target/asyncapi-mq-jms-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoSubscriber
     ```
-7. In a seperate terminal, still from the same `output` directory as the previous command, run your generated Publisher   
+8. In a seperate terminal, still from the same `output` directory as the previous command, run your generated Publisher   
     ```
+    cd ~/asyncapi-java-tutorial
     java -cp target/asyncapi-mq-jms-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoProducer
     ```
 
