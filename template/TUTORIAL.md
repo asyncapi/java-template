@@ -21,7 +21,7 @@ npm install -g @asyncapi/generator
 
 ## Running the Publisher/Subscriber Template
 These commands will allow you to run the template publisher/subscriber model using IBM MQ. 
-1. Create the following YAML file. If using windows, use `type` instead of `cat`
+1. Create the following YAML file. If using windows, use `type` instead of `cat`. Should you wish to use your own YAML file, name it `asyncapi.yaml` and move on to the next step.
     ```
     cat <<EOT >> asyncapi.yaml
     asyncapi: 2.0.0
@@ -75,7 +75,10 @@ These commands will allow you to run the template publisher/subscriber model usi
     # CHANGE THE TEMPLATE NAME
 2. Run the AsyncAPI Generator
     ```
-    ag ./asyncapi.yaml ./java-jm-mq-template -o ./output -p server=production1 -p user=[MQ_USERNAME] -p password=[MQ_PASSWORD]
+    ag ./asyncapi.yaml ./ibmmq-jms-template -o ./output -p server=production1 -p user=[MQ_USERNAME] -p password=[MQ_PASSWORD]
+    
+    # Note: The syntax of this command is
+    ag [YAML_FILE] [TEMPLATE_DIRECTORY] -o ./output -p server=[NAME_OF_SERVER] -p user=[MQ_USERNAME] -p password=[MQ_PASSWORD]
     ```
 3. Navigate to the generated output directory
     ```
@@ -94,7 +97,7 @@ These commands will allow you to run the template publisher/subscriber model usi
     java -cp target/asyncapi-mq-jms-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoSubscriber
     ```
 6. In a seperate terminal, still from the same `output` directory as the previous command, run your generated Publisher   
-    ```sh
+    ```
     java -cp target/asyncapi-mq-jms-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoProducer
     ```
 

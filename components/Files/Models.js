@@ -12,10 +12,9 @@ export function Models(messages, params){
       return (
         <File name={`${packagePath}models/${messageNameUpperCase}.java`}>
           <PackageDeclaration path={`${params.package}.models`} />
-          <ImportDeclaration path={`java.io.Serializable`} />
+          <ImportDeclaration path={`${params.package}.models.ModelContract`} />
 
-
-          <Class name={messageNameUpperCase} implementsClass="Serializable">
+          <Class name={messageNameUpperCase} extendsClass="ModelContract">
             {/* Declare local class vars */}
 
             <ModelClassVariables message={message}></ModelClassVariables>
