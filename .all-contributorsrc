@@ -1,49 +1,68 @@
 {
-  "projectName": "template-for-generator-templates",
-  "projectOwner": "asyncapi",
+  "projectName": "template-3",
+  "projectOwner": "ibm-messaging",
   "repoType": "github",
   "repoHost": "https://github.com",
   "files": [
     "README.md"
   ],
   "imageSize": 100,
-  "commit": false,
+  "commit": true,
   "commitConvention": "none",
   "contributors": [
     {
-      "login": "derberg",
-      "name": "Lukasz Gornicki",
-      "avatar_url": "https://avatars1.githubusercontent.com/u/6995927?v=4",
-      "profile": "https://dev.to/derberg",
+      "login": "dan-r",
+      "name": "Dan Raper",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1384852?v=4",
+      "profile": "https://danr.uk/",
       "contributions": [
         "code",
-        "doc",
-        "design",
-        "ideas",
-        "maintenance"
+        "doc"
       ]
     },
     {
-      "login": "bszwarc",
-      "name": "Barbara Szwarc",
-      "avatar_url": "https://avatars1.githubusercontent.com/u/17266942?v=4",
-      "profile": "https://github.com/bszwarc",
+      "login": "JEFFLUFC",
+      "name": "Tom Jefferson",
+      "avatar_url": "https://avatars.githubusercontent.com/u/54025356?v=4",
+      "profile": "https://github.com/JEFFLUFC",
       "contributions": [
-        "review"
+        "code",
+        "tutorial",
+        "doc"
       ]
     },
     {
-      "login": "magicmatatjahu",
-      "name": "Maciej Urbańczyk",
-      "avatar_url": "https://avatars2.githubusercontent.com/u/20404945?v=4",
-      "profile": "https://github.com/magicmatatjahu",
+      "login": "lewis-relph",
+      "name": "Lewis Relph",
+      "avatar_url": "https://avatars.githubusercontent.com/u/91530893?v=4",
+      "profile": "https://github.com/lewis-relph",
+      "contributions": [
+        "code",
+        "doc",
+        "test"
+      ]
+    },
+    {
+      "login": "KieranM1999",
+      "name": "Kieran Murphy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/45017928?v=4",
+      "profile": "https://github.com/KieranM1999",
+      "contributions": [
+        "code",
+        "doc",
+        "test"
+      ]
+    },
+    {
+      "login": "AGurlhosur",
+      "name": "Akshaya Gurlhosur",
+      "avatar_url": "https://avatars.githubusercontent.com/u/91530186?v=4",
+      "profile": "https://github.com/AGurlhosur",
       "contributions": [
         "doc",
-        "code",
-        "ideas"
+        "test"
       ]
     }
   ],
-  "contributorsPerLine": 3,
-  "skipCi": true
+  "contributorsPerLine": 7
 }

@@ -16,6 +16,7 @@
   - [JMS Template Tutorial](#jms-template-tutorial)
 - [Template configuration](#template-configuration)
 - [Development](#development)
+- [Contributors](#contributors-)
 
 <!-- tocstop -->
 
@@ -92,3 +93,27 @@ There are two ways you can work on template development:
 # Here we should have Docker Info
 # Here we should add more information to the Development section
 We need to also explain to people in this file where important code aspects live. If someone was using our template where would they add their logic to change things etc.
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://danr.uk/"><img src="https://avatars.githubusercontent.com/u/1384852?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Dan Raper</b></sub></a><br /><a href="https://github.com/ibm-messaging/template-3/commits?author=dan-r" title="Code">💻</a> <a href="https://github.com/ibm-messaging/template-3/commits?author=dan-r" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/JEFFLUFC"><img src="https://avatars.githubusercontent.com/u/54025356?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tom Jefferson</b></sub></a><br /><a href="https://github.com/ibm-messaging/template-3/commits?author=JEFFLUFC" title="Code">💻</a> <a href="#tutorial-JEFFLUFC" title="Tutorials">✅</a> <a href="https://github.com/ibm-messaging/template-3/commits?author=JEFFLUFC" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/lewis-relph"><img src="https://avatars.githubusercontent.com/u/91530893?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Lewis Relph</b></sub></a><br /><a href="https://github.com/ibm-messaging/template-3/commits?author=lewis-relph" title="Code">💻</a> <a href="https://github.com/ibm-messaging/template-3/commits?author=lewis-relph" title="Documentation">📖</a> <a href="https://github.com/ibm-messaging/template-3/commits?author=lewis-relph" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/KieranM1999"><img src="https://avatars.githubusercontent.com/u/45017928?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kieran Murphy</b></sub></a><br /><a href="https://github.com/ibm-messaging/template-3/commits?author=KieranM1999" title="Code">💻</a> <a href="https://github.com/ibm-messaging/template-3/commits?author=KieranM1999" title="Documentation">📖</a> <a href="https://github.com/ibm-messaging/template-3/commits?author=KieranM1999" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/AGurlhosur"><img src="https://avatars.githubusercontent.com/u/91530186?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Akshaya Gurlhosur</b></sub></a><br /><a href="https://github.com/ibm-messaging/template-3/commits?author=AGurlhosur" title="Documentation">📖</a> <a href="https://github.com/ibm-messaging/template-3/commits?author=AGurlhosur" title="Tests">⚠️</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
