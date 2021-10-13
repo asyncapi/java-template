@@ -158,7 +158,7 @@ cd ..
     ```
 8. In a seperate terminal, still from the same `output` directory as the previous command, run your generated Publisher   
     ```
-    cd ~/asyncapi-java-tutorial
+    cd ~/asyncapi-java-tutorial/output
     java -cp target/asyncapi-mq-jms-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoProducer
     ```
 
