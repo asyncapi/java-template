@@ -1,16 +1,16 @@
-# {{ asyncapi.info().title() }}
+Java Template Tutorial
+===
 
-{{ asyncapi.info().description() | safe }}
-
-This file provides example commands which can be used to run this template publisher/subsriber model using IBM MQ and a provided YAML file.
+This file provides example commands which can be used to run the Java Template publisher/subsriber model using IBM MQ and a provided YAML file.
 
 ## Prerequisites
-### Install Maven
-For instructions on installing maven for your operating system, please see the [Apache Maven site](https://maven.apache.org/install.html).
-<br></br>
 
 ### Run MQ
-You will need a running instance of MQ, instructions of how to run MQ on a Container can be found [here](https://developer.ibm.com/tutorials/mq-connect-app-queue-manager-containers/).
+You will need a running instance of MQ, instructions of how to run MQ on a Container can be found [here](https://developer.ibm.com/tutorials/mq-connect-app-queue-manager-containers/). If you are new to MQ, or want a refresher, you can click [here](https://ibm.biz/learn-mq)
+<br></br>
+
+### Install Maven
+For instructions on installing maven for your operating system, please see the [Apache Maven site](https://maven.apache.org/install.html).
 <br></br>
 
 ### Install the AsyncAPI Generator
@@ -18,56 +18,93 @@ This template must be used with the AsyncAPI Generator, if you have not already 
 ```
 npm install -g @asyncapi/generator
 ```
+### Set up your Working Environment
+To work with the Java Template, you will need to clone the repository. Navigate to a directory where you would like to store the code, for example run
+```
+mkdir asyncapi-java-template
+```
+You will then need to enter the directory you have just created, for example with
+```
+cd asyncapi-java-template
+```
+# CHANGE THIS CLONE
+Finally, clone the Java Template Repository into your new directory with
+```
+git clone git@github.ibm.com:InSynQ/template-3.git
+```
 
 ## Running the Publisher/Subscriber Template
 These commands will allow you to run the template publisher/subscriber model using IBM MQ. 
-1. Create the following YAML file. If using windows, use `type` instead of `cat`. Should you wish to use your own YAML file, name it `asyncapi.yaml` and move on to the next step.
+1. From the directory you created in the prerequisites, `/asyncapi-java-template` in the example commands, create the following YAML file by copying the entire below box of code and pressing enter. If using windows, use `type` instead of `cat` at the beginning of the command. Should you wish to use your own YAML file, name it `asyncapi.yaml` and move on to the next step.
     ```
     cat <<EOT >> asyncapi.yaml
     asyncapi: 2.0.0
     info:
-    title: Record Label Service
-    version: 1.0.0
-    description: This service is in charge of processing music
+      title: Record Label Service
+      version: 1.0.0
+      description: This service is in charge of processing music
     servers:
-    production1:
+      production1:
         url: ibmmq://localhost:1414/QM1/DEV.APP.SVRCONN
         protocol: ibmmq-secure
         description: Production Instance 1
     channels:
-    single/released:
+      single/released:
         bindings:
-        ibmmq:
+          ibmmq:
             topic:
-            durablePermitted: true
+              durablePermitted: true
             bindingVersion: 0.1.0
-        subscribe:
-        message:
+        publish: 
+          message:
             $ref: '#/components/messages/single'
             bindings:
-            ibmmq:
+              ibmmq:
+                type: jms
+                description: JMS bytes message
+                bindingVersion: 0.1.0
+        subscribe:
+          message:
+            $ref: '#/components/messages/single'
+            bindings:
+              ibmmq:
+                type: jms
+                description: JMS bytes message
+                bindingVersion: 0.1.0
+
+      single/rereleased:
+        bindings:
+          ibmmq:
+            topic:
+              durablePermitted: true
+            bindingVersion: 0.1.0
+        subscribe:
+          message:
+            $ref: '#/components/messages/single'
+            bindings:
+              ibmmq:
                 type: jms
                 description: JMS bytes message
                 bindingVersion: 0.1.0
     components:
-    messages:
+      messages:
         single:
-        payload:
+          payload:
             type: object
             properties:
-            title:
+              title:
                 type: string
                 description: Song title
-            artist:
+              artist:
                 type: string
                 description: Song artist
-            album:
+              album:
                 type: string
                 description: Song album
-            genre:
+              genre:
                 type: string
                 description: Primary song genre
-            length:
+              length:
                 type: integer
                 description: Track length in seconds
     EOT
@@ -76,8 +113,9 @@ These commands will allow you to run the template publisher/subscriber model usi
 2. Run the AsyncAPI Generator
     ```
     ag ./asyncapi.yaml ./ibmmq-jms-template -o ./output -p server=production1 -p user=[MQ_USERNAME] -p password=[MQ_PASSWORD]
-    
-    # Note: The syntax of this command is
+    ```
+    **Note**: The syntax of the above command is shown below. You do not need to run the below line, it is for informational purposes only.
+    ```
     ag [YAML_FILE] [TEMPLATE_DIRECTORY] -o ./output -p server=[NAME_OF_SERVER] -p user=[MQ_USERNAME] -p password=[MQ_PASSWORD]
     ```
 3. Navigate to the generated output directory
