@@ -1,6 +1,7 @@
 import { DemoSubscriber } from '../demo/DemoSubscriber'
 import { DemoProducer } from '../demo/DemoProducer'
 import { javaPackageToPath } from '../../utils/String.utils';
+import { File, render } from '@asyncapi/generator-react-sdk';
 
 export function Demo(asyncapi, params) {
     let channels = asyncapi.channels();
@@ -9,10 +10,10 @@ export function Demo(asyncapi, params) {
     let foundPubAndSub;
     let foundPubOrSub;
     for (const property in channels) {
-        if ((channels[property].publish() || channels[property].subcribe()) && !foundPubOrSub) {
+        if ((channels[property].publish || channels[property].subcribe) && !foundPubOrSub) {
             foundPubOrSub = property;
         }
-        if (channels[property].publish() && channels[property].subcribe()) {
+        if (channels[property].publish && channels[property].subcribe) {
             foundPubAndSub = property;
             break;
         }
@@ -25,15 +26,14 @@ export function Demo(asyncapi, params) {
     // Handle producer creation
     const producerPath = javaPackageToPath(params.package) + "DemoProducer.java";
     const subscriberPath = javaPackageToPath(params.package) + "DemoSubscriber.java";
-    return (
-        <Fragment>
+    return [(
             <File name={producerPath}>
                 <DemoProducer params={params}></DemoProducer>
-            </File>
+            </File>     
+    ), (
             <File name={subscriberPath}>
-                <DemoProducer params={params}></DemoProducer>
+                <DemoSubscriber params={params}></DemoSubscriber>
             </File>
-        </Fragment>
-    )
+    )]
 
 } 
