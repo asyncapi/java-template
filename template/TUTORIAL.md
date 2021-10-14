@@ -6,7 +6,7 @@ This file provides example commands which can be used to run the Java Template p
 ## Prerequisites
 
 ### Run MQ
-You will need a running instance of MQ with a queue named `QM1`, instructions of how to run MQ on a container and create this queue can be found [here](https://developer.ibm.com/tutorials/mq-connect-app-queue-manager-containers/). If you are new to MQ, or want a refresher, you can click [here](https://ibm.biz/learn-mq).
+You will need a running instance of MQ with a queue manager named `QM1`, instructions of how to run MQ on a container and create this queue manager can be found [here](https://developer.ibm.com/tutorials/mq-connect-app-queue-manager-containers/). If you are new to MQ, or want a refresher, you can click [here](https://ibm.biz/learn-mq).
 <br></br>
 
 ### Install Maven
@@ -147,4 +147,15 @@ cd ..
     java -cp target/asyncapi-mq-jms-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoProducer
     ```
 
-The messages will now be seen to be being sent from the running publisher to the running subscriber, using MQ topics.
+The messages will now be seen to be being sent from the running publisher to the running subscriber, using MQ topics. Your output from your subscriber should look something like
+```
+Oct 14, 2021 9:53:23 AM com.ibm.mq.samples.jms.SingleReleasedSubscriber receive
+INFO: Received message: {
+  “title” : “Hackathon”,
+  “artist” : “Java”,
+  “album” : “JMS”,
+  “genre” : “Java”,
+  “length” : 166
+}
+TYPE: com.ibm.mq.samples.jms.models.Single
+```
