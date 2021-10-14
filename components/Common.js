@@ -39,7 +39,11 @@ import { createJavaArgsFromProperties } from '../utils/Types.utils';
   * then output from RootComponent will be `some text at the beginning: some text at the end.`.
   */
 
-export function Class({ childrenContent, name, implementsClass, extendsClass }) {
+export function Class({childrenContent, name, implementsClass, extendsClass }) {
+  if (childrenContent === undefined) { 
+    childrenContent = '';
+  }
+
   let implementsString = '';
 
   if (implementsClass !== undefined) {
@@ -54,7 +58,7 @@ export function Class({ childrenContent, name, implementsClass, extendsClass }) 
 
   return `
 public class ${name} ${implementsString} ${extendsString}{
-  ${childrenContent}
+${childrenContent}
 }
 `;
 }
@@ -85,12 +89,12 @@ package ${path};
   `;
 }
 
-export function ImportDeclaration({ path }) {
+export function ImportDeclaration({path}) {
   return `
 import ${path};`;
 }
 
-export function Imports(params) {
+export function Imports({params}) {
   return `
 import java.util.logging.*;
 import java.io.Serializable;
@@ -103,11 +107,11 @@ import javax.jms.JMSRuntimeException;
 import javax.jms.ObjectMessage;
 
 
-import ${params.params.package}.ConnectionHelper;
-import ${params.params.package}.LoggingHelper;
-import ${params.params.package}.Connection;
-import ${params.params.package}.PubSubBase;
-import ${params.params.package}.models.ModelContract;
+import ${params.package}.ConnectionHelper;
+import ${params.package}.LoggingHelper;
+import ${params.package}.Connection;
+import ${params.package}.PubSubBase;
+import ${params.package}.models.ModelContract;
 
 import com.fasterxml.jackson.databind.ObjectMapper; 
 import com.fasterxml.jackson.databind.ObjectWriter; 
@@ -120,11 +124,22 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 export function getMqValues(url, val) {
   const reg = new RegExp('(?<=ibmmq://.*/).*/.*', 'gm');
-  const splitVals = reg.exec(url).toString().split('/');
-  if (val === 'qmgr')
-    return splitVals[0];
-  if (val === 'mqChannel')
-    return splitVals[1];
+  const regString = reg.exec(url);
+  if (regString === null) {
+    return 'Invalid URL passed into getMqValues function'; 
+  }
+
+  const splitVals = regString.toString().split('/');
+  if (splitVals.length === 2) { 
+    if (val === 'qmgr')
+      return splitVals[0];
+    if (val === 'mqChannel')
+      return splitVals[1];
+    
+    return 'Invalid parameter passed into getMqValues function';
+  }
+  
+  return 'Invalid URL passed into getMqValues function';
 }
   
 export function URLtoHost(url) {
@@ -133,7 +148,9 @@ export function URLtoHost(url) {
 }
 export function URLtoPort(url, defaultPort) {
   const u = new URL(url);
-  return u.port || defaultPort;
+  if (u.port === '')
+    return defaultPort;
+  return u.port;
 }
 
 export function Close() {

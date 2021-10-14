@@ -1,0 +1,55 @@
+asyncapi: 2.0.0
+info:
+  title: Record Label Service
+  version: 1.0.0
+  description: This service is in charge of processing music
+servers:
+  production1:
+    url: ibmmq://localhost:1414/QM1/DEV.APP.SVRCONN
+    protocol: ibmmq-secure
+    description: Production Instance 1
+channels:
+  single/released:
+    bindings:
+      ibmmq:
+        topic:
+          durablePermitted: true
+        bindingVersion: 0.1.0
+    publish: 
+      message:
+        $ref: '#/components/messages/single'
+        bindings:
+          ibmmq:
+            type: jms
+            description: JMS bytes message
+            bindingVersion: 0.1.0
+    subscribe:
+      message:
+        $ref: '#/components/messages/single'
+        bindings:
+          ibmmq:
+            type: jms
+            description: JMS bytes message
+            bindingVersion: 0.1.0
+            
+components:
+  messages:
+    single:
+      payload:
+        type: object
+        properties:
+          title:
+            type: string
+            description: Song title
+          artist:
+            type: string
+            description: Song artist
+          album:
+            type: string
+            description: Song album
+          genre:
+            type: string
+            description: Primary song genre
+          length:
+            type: integer
+            description: Track length in seconds

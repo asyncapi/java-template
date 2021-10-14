@@ -20,11 +20,11 @@ export function ConsumerDeclaration() {
     `;
 }
 
-export function ConsumerImports({ params, message }) {
+export function ConsumerImports({params, message}) {
   return `
     import java.util.logging.*;
     import java.io.Serializable;
-    
+
     import javax.jms.Destination;
     import javax.jms.JMSConsumer;
     import javax.jms.JMSContext;
@@ -32,19 +32,18 @@ export function ConsumerImports({ params, message }) {
     import javax.jms.TextMessage;
     import javax.jms.JMSRuntimeException;
     import javax.jms.JMSException;
-    
+
     import com.fasterxml.jackson.databind.ObjectMapper;
-    import com.fasterxml.jackson.databind.ObjectWriter; 
+    import com.fasterxml.jackson.databind.ObjectWriter;
     import com.fasterxml.jackson.core.JsonProcessingException;
     import com.fasterxml.jackson.annotation.JsonView;
-    
-    
+
+
     import ${params.package}.ConnectionHelper;
     import ${params.package}.LoggingHelper;
     import ${params.package}.Connection;
     import ${params.package}.PubSubBase;
     import ${params.package}.models.ModelContract;
-    import ${params.package}.PubSubBase;        
     import ${params.package}.models.${message.name};
     `;
 }

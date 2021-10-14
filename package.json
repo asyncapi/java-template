@@ -4,15 +4,8 @@
   "description": "Template for generator templates to make it much easier to start writing your own generator template",
   "main": "index.js",
   "scripts": {
-    "test": "npm run testTemplate && npm run testHooks && npm run testFilters",
-    "testTemplate": "rimraf test/temp && jest --coverage -t 'templateGenerationResult'",
-    "testHooks": "rimraf test/temp && jest --coverage -t 'generateExtraFormats'",
-    "testFilters": "rimraf test/temp && jest --coverage -t 'generateMermaidDiagram'",
-    "release": "echo 'We do not trigger releases for this template. Normally this script should invoke \"semantic-release\"'",
-    "lint": "eslint --max-warnings 0 --fix --config .eslintrc .",
-    "generate:readme:toc": "markdown-toc -i README.md",
-    "generate:assets": "npm run generate:readme:toc",
-    "bump:version": "echo 'We do not trigger releases for this template. Normally this script should invoke \"npm --no-git-tag-version --allow-same-version version $VERSION\"'"
+    "test": "jest",
+    "lint": "eslint --max-warnings 0 --fix --config .eslintrc ."
   },
   "repository": {
     "type": "git",
