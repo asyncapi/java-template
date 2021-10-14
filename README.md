@@ -63,7 +63,7 @@ Name | Description | Required | Default
 `user` | User for the IBM MQ instance | No | admin
 `password` | Password for the IBM MQ instance | No | passw0rd
 `package` | Java package name for generated code | No | com.ibm.mq.samples.jms
-`topic_prefix` | MQ topic prefix. Default will work with dev MQ instance | No | dev//
+`topicPrefix` | MQ topic prefix. Default will work with dev MQ instance | No | dev//
 
 
 ## Development
