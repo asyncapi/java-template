@@ -64,7 +64,7 @@ export function Demo(asyncapi, params) {
   return [(
     <File name={producerPath}>
       <PackageDeclaration path={params.package} />
-      <DemoProducer params={params} messageName={messageNameTitleCase} message={targetPayloadProperties} className={className} constructorArgs={constructorArgs}></DemoProducer>
+      <DemoProducer params={params} messageName={messageNameTitleCase} className={className} constructorArgs={constructorArgs}></DemoProducer>
     </File>     
   ), (
     <File name={subscriberPath}>

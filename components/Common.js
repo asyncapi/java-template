@@ -136,46 +136,7 @@ export function URLtoPort(url, defaultPort) {
   return u.port || defaultPort;
 }
 
-export function RecordFaliure({ asyncApi }) {
-  //TODO remove hardcode
-  
-  return `
-  private void recordFailure(Exception ex) {
-    if (ex != null) {
-        if (ex instanceof JMSException) {
-            processJMSException((JMSException) ex);
-        } else {
-            logger.warning(ex.getMessage());
-        }
-    }
-    logger.info("FAILURE");
-    return;
-  }
-`;
-}
-
-export function ProcessJMSException({ asyncApi }) {
-  //TODO remove hardcode
-  
-  return `
-  private void processJMSException(JMSException jmsex) {
-    logger.warning(jmsex.getMessage());
-    Throwable innerException = jmsex.getLinkedException();
-    logger.warning("Exception is: " + jmsex);
-    if (innerException != null) {
-        logger.warning("Inner exception(s):");
-    }
-    while (innerException != null) {
-        logger.warning(innerException.getMessage());
-        innerException = innerException.getCause();
-    }
-    return;
-}
-`;
-}
-
-export function Close({ asyncApi, channel }) {
-  // TODO one of can be used in message apparently?
+export function Close() {
   return `
 public void close() {
     ch.closeContext();

@@ -54,11 +54,11 @@ export default function({ asyncapi, params }) {
 
   const toRender = {
     producers: Producers(asyncapi, channels, params),
-    connectionHelper: ConnectionHelperRenderer(asyncapi, params),
+    connectionHelper: ConnectionHelperRenderer(params),
     models: Models(asyncapi.components().messages(), params),
     consumers: Consumers(asyncapi, channels, params),
-    loggingHelper: LoggingHelperRenderer(asyncapi, params),
-    connectionRender: ConnectionRender(asyncapi, params),
+    loggingHelper: LoggingHelperRenderer(params),
+    connectionRender: ConnectionRender(params),
     envJson: EnvJsonRenderer(asyncapi, params),
     pubSubBase: PubSubBase(params),
     pomXml: PomXmlRenderer(params),
@@ -73,7 +73,7 @@ export default function({ asyncapi, params }) {
   }).flat();
 }
 
-function LoggingHelperRenderer(asyncapi, params) {
+function LoggingHelperRenderer(params) {
   const filePath = `${javaPackageToPath(params.package)  }LoggingHelper.java`;
   return (
     <File name={filePath}>
@@ -94,7 +94,7 @@ function ModelContractRenderer(params) {
   );
 }
 
-function ConnectionRender(asyncapi, params) {
+function ConnectionRender(params) {
   const filePath = `${javaPackageToPath(params.package)  }Connection.java`;
   return (
     <File name={filePath}>
@@ -104,7 +104,7 @@ function ConnectionRender(asyncapi, params) {
   );
 }
 
-function ConnectionHelperRenderer(asyncapi, params) {
+function ConnectionHelperRenderer(params) {
   const filePath = `${javaPackageToPath(params.package)  }ConnectionHelper.java`;
   return (
     <File name={filePath}>

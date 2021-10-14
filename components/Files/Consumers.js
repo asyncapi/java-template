@@ -34,7 +34,7 @@ export function Consumers(asyncapi, channels, params) {
         
         <File name={`${packagePath}${className}.java`}>
           <PackageDeclaration path={params.package}></PackageDeclaration>
-          <ConsumerImports asyncapi={asyncapi} params={params}></ConsumerImports>
+          <ConsumerImports params={params}></ConsumerImports>
   
           <ImportModels messages={messages} params={params}></ImportModels>
     
@@ -42,10 +42,10 @@ export function Consumers(asyncapi, channels, params) {
             <ConsumerDeclaration name={channelName} />
     
             <ClassConstructor name={className}>
-              <ConsumerConstructor asyncapi={asyncapi} params={params} name={name}/>
+              <ConsumerConstructor name={name}/>
             </ClassConstructor>
         
-            <ReceiveMessage asyncapi={asyncapi} name={channelName} channel={channel}></ReceiveMessage>
+            <ReceiveMessage></ReceiveMessage>
 
           </Class>
         </File>

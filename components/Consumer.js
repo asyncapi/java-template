@@ -20,7 +20,7 @@ export function ConsumerDeclaration() {
     `;
 }
 
-export function ConsumerImports({ asyncApi, messageNames, params }) {
+export function ConsumerImports({ params }) {
   return `
     import java.util.logging.*;
     import java.io.Serializable;
@@ -48,7 +48,7 @@ export function ConsumerImports({ asyncApi, messageNames, params }) {
     `;
 }
 
-export function ReceiveMessage({ asyncApi, channel }) {
+export function ReceiveMessage() {
   // TODO one of can be used in message apparently?
 
   return `
@@ -97,7 +97,7 @@ export function ReceiveMessage({ asyncApi, channel }) {
   `;
 }
   
-export function ConsumerConstructor({asyncapi, name, params}) {
+export function ConsumerConstructor({ name }) {
   return `
       super();
       String id = null;

@@ -19,7 +19,7 @@
 * You can actually do whatever you want. It is important that the value returned from the function must be a string or a component.
 */
 
-export function DemoProducer({ asyncApi, message, params, messageName, className, constructorArgs }) {
+export function DemoProducer({ params, messageName, className, constructorArgs }) {
   return `
 import ${params.package}.${className}Producer;
 import ${params.package}.ConnectionHelper;

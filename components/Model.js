@@ -16,12 +16,12 @@
 
 import { setLocalVariables, defineVariablesForProperties } from '../utils/Types.utils';
 
-export function ModelConstructor({ asyncApi, message }) {
+export function ModelConstructor({ message }) {
   // TODO one of can be used in message apparently?
   return (setLocalVariables(message.payload().properties()).join(''));
 }
 
-export function ModelClassVariables({ asyncApi, message }) {
+export function ModelClassVariables({ message }) {
   // TODO one of can be used in message apparently?
   const argsString = defineVariablesForProperties(message.payload().properties());
   

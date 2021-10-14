@@ -36,7 +36,7 @@ export function Producers(asyncapi, channels, params) {
             <ClassHeader/>
     
             <ClassConstructor name={className}>
-              <ProducerConstructor asyncapi={asyncapi} params={params} name={name}/>
+              <ProducerConstructor name={name}/>
                 
             </ClassConstructor>
               

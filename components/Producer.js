@@ -36,7 +36,7 @@ export function SendMessage() {
     }`;
 }
   
-export function ProducerConstructor({asyncapi, name}) {
+export function ProducerConstructor({ name }) {
   return `
       super();
       String id = null;
