@@ -97,9 +97,9 @@ There are two ways you can work on template development:
 ### Key Files
 We need to also explain to people in this file where important code aspects live. If someone was using our template where would they add their logic to change things etc...... maybe have a table with columns 'File location' and 'Description' or something
 
-# Container Information
+## Container Information
 
-# Contributors ✨
+## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
