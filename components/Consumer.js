@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-import { getMqValues, URLtoHost, URLtoPort } from './Common';
+import { ChannelToMessage, getMqValues, URLtoHost, URLtoPort } from './Common';
 import { createJavaArgsFromProperties } from '../utils/Types.utils'
 
 
@@ -53,9 +53,9 @@ return `
     `
 }
 
-export function ReceiveMessage({ asyncApi, channel }) {
+export function ReceiveMessage({ asyncapi, channel }) {
     // TODO one of can be used in message apparently?
-
+    let message = ChannelToMessage(channel, asyncapi);
     return `
     public void receive(int requestTimeout) {
       boolean continueProcessing = true;
@@ -68,17 +68,14 @@ export function ReceiveMessage({ asyncApi, channel }) {
               Message receivedMessage = consumer.receive(requestTimeout);
               if (receivedMessage == null) {
                   logger.info("No message received from this endpoint");
-                //    continueProcessing = false;       THIS IS COMMENTED FOR TESTING PURPOSES, UNCOMMENT WHEN DONE
               } else {
                 if (receivedMessage instanceof TextMessage) {
                     TextMessage textMessage = (TextMessage) receivedMessage;
                     try {
                         logger.info("Received message: " + textMessage.getText());
-                        ModelContract receivedSingleObject = new ObjectMapper().readValue(textMessage.getText(), ModelContract.class); // HARDCODED, REACTIFY
+                        ${message.name} receivedObject = new ObjectMapper().readValue(textMessage.getText(), ${message.name}.class); // HARDCODED, REACTIFY
   
-                        System.out.println("TYPE: " + receivedSingleObject.getClass().getName()); // REMOVE THIS EVENTUALLY BUT GOOD FOR DEMO
-                        System.out.println(receivedSingleObject.toString()); // REMOVE EITHER THIS OR logger.info(Received...
-  
+                        System.out.println("TYPE: " + receivedObject.getClass().getName()); // REMOVE THIS EVENTUALLY BUT GOOD FOR DEMO
                     } catch (JMSException jmsex) {
                         recordFailure(jmsex);
                     } catch (JsonProcessingException jsonproex) {
@@ -103,7 +100,7 @@ export function ReceiveMessage({ asyncApi, channel }) {
   }
   
   export function ConsumerConstructor({asyncapi, name, params}) {
-    const url = asyncapi.server('production1').url() 
+    const url = asyncapi.server(params.server).url() 
     let qmgr = getMqValues(url,'qmgr')
     let mqChannel = getMqValues(url,'mqChannel')
     let host = URLtoHost(url)

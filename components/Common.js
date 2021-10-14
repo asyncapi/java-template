@@ -219,6 +219,30 @@ export function ImportModels({ messages, params }) {
   return namesList;
 }
 
+/* Used to resolve a channel object to message name */
+export function ChannelToMessage(channel, asyncapi) {
+  // Get payload from either publish or subscribe
+  let targetPayloadProperties = channel.hasOwnProperty('publish') ? channel.publish().message().payload().properties() : channel.subscribe().message().payload().properties();
+
+  // Find message name from messages array
+  let messages = asyncapi.components().messages();
+  let targetMessageName;
+  for (const message in messages) {
+    if (messages[message].payload().properties().toString() == targetPayloadProperties.toString()) {
+      targetMessageName = message;
+    }
+  }
+
+  let messageNameTitleCase = targetMessageName.charAt(0).toUpperCase() + targetMessageName.slice(1);
+
+  let output = {
+    'payload': targetPayloadProperties,
+    'name': messageNameTitleCase
+  };
+
+  return output;
+}
+
 export function javaCopyright(){
   return `/*
 * (c) Copyright IBM Corporation 2021

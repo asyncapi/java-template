@@ -19,7 +19,7 @@ import { DemoProducer } from '../demo/DemoProducer'
 import { javaPackageToPath, toJavaClassName } from '../../utils/String.utils';
 import { File, render } from '@asyncapi/generator-react-sdk';
 import { createJavaConstructorArgs } from '../../utils/Types.utils';
-import { PackageDeclaration } from '../Common';
+import { ChannelToMessage, PackageDeclaration } from '../Common';
 
 export function Demo(asyncapi, params) {
     let channels = asyncapi.channels();
@@ -41,30 +41,18 @@ export function Demo(asyncapi, params) {
     let channelName = foundPubAndSub ? foundPubAndSub : foundPubOrSub;
     let channel = asyncapi.channel(channelName);
 
-    // Get payload from either publish or subscribe
-    let targetPayloadProperties = channel.publish ? channel.publish().message().payload().properties() : channel.subscribe().message().payload().properties();
-
-    // Find message name from messages array
-    let messages = asyncapi.components().messages();
-    let targetMessageName;
-    for (const message in messages) {
-        if (messages[message].payload().properties().toString() == targetPayloadProperties.toString()) {
-            targetMessageName = message;
-        }
-    }
-
-    let messageNameTitleCase = targetMessageName.charAt(0).toUpperCase() + targetMessageName.slice(1);
+    let message = ChannelToMessage(channel, asyncapi);
 
     // Handle producer creation
     const producerPath = javaPackageToPath(params.package) + "DemoProducer.java";
     const subscriberPath = javaPackageToPath(params.package) + "DemoSubscriber.java";
     const className = toJavaClassName(channelName);
 
-    const constructorArgs = createJavaConstructorArgs(targetPayloadProperties).join(', ');
+    const constructorArgs = createJavaConstructorArgs(message.payload).join(', ');
     return [(
             <File name={producerPath}>
                 <PackageDeclaration path={params.package} />
-                <DemoProducer params={params} messageName={messageNameTitleCase} message={targetPayloadProperties} className={className} constructorArgs={constructorArgs}></DemoProducer>
+                <DemoProducer params={params} messageName={message.name} message={message.payload} className={className} constructorArgs={constructorArgs}></DemoProducer>
             </File>     
     ), (
             <File name={subscriberPath}>

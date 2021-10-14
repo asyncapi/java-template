@@ -29,7 +29,7 @@ import ${params.package}.models.${messageName};
 public class DemoProducer {
     public static void main(String[] args) {
         ${messageName} message = new ${messageName}(${constructorArgs});
-        SingleReleasedProducer producer = new ${className}Producer();
+        ${className}Producer producer = new ${className}Producer();
         producer.send(message);
         producer.close();
     }
