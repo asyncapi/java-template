@@ -14,8 +14,8 @@
 * limitations under the License.
 */
 
-export function LoggingHelper(){
-    return `   
+export function LoggingHelper() {
+  return `   
     import java.util.logging.*;
     
     public class LoggingHelper {
@@ -36,5 +36,5 @@ export function LoggingHelper(){
             logger.finest("Logging initialised");
         }
     }
-`
+`;
 }

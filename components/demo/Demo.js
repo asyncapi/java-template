@@ -14,63 +14,62 @@
 * limitations under the License.
 */
 
-import { DemoSubscriber } from '../demo/DemoSubscriber'
-import { DemoProducer } from '../demo/DemoProducer'
+import { DemoSubscriber } from '../demo/DemoSubscriber';
+import { DemoProducer } from '../demo/DemoProducer';
 import { javaPackageToPath, toJavaClassName } from '../../utils/String.utils';
-import { File, render } from '@asyncapi/generator-react-sdk';
+import { File } from '@asyncapi/generator-react-sdk';
 import { createJavaConstructorArgs } from '../../utils/Types.utils';
 import { PackageDeclaration } from '../Common';
 
 export function Demo(asyncapi, params) {
-    let channels = asyncapi.channels();
+  const channels = asyncapi.channels();
 
-    // Try to find a pub and sub channel or pub or sub
-    let foundPubAndSub;
-    let foundPubOrSub;
-    for (const property in channels) {
-        if ((channels[property].publish || channels[property].subcribe) && !foundPubOrSub) {
-            foundPubOrSub = property;
-        }
-        if (channels[property].publish && channels[property].subcribe) {
-            foundPubAndSub = property;
-            break;
-        }
+  // Try to find a pub and sub channel or pub or sub
+  let foundPubAndSub;
+  let foundPubOrSub;
+  for (const property in channels) {
+    if ((channels[property].publish || channels[property].subcribe) && !foundPubOrSub) {
+      foundPubOrSub = property;
     }
-
-    // Prioritise channel with both, fallback to an OR
-    let channelName = foundPubAndSub ? foundPubAndSub : foundPubOrSub;
-    let channel = asyncapi.channel(channelName);
-
-    // Get payload from either publish or subscribe
-    let targetPayloadProperties = channel.publish ? channel.publish().message().payload().properties() : channel.subscribe().message().payload().properties();
-
-    // Find message name from messages array
-    let messages = asyncapi.components().messages();
-    let targetMessageName;
-    for (const message in messages) {
-        if (messages[message].payload().properties().toString() == targetPayloadProperties.toString()) {
-            targetMessageName = message;
-        }
+    if (channels[property].publish && channels[property].subcribe) {
+      foundPubAndSub = property;
+      break;
     }
+  }
 
-    let messageNameTitleCase = targetMessageName.charAt(0).toUpperCase() + targetMessageName.slice(1);
+  // Prioritise channel with both, fallback to an OR
+  const channelName = foundPubAndSub ? foundPubAndSub : foundPubOrSub;
+  const channel = asyncapi.channel(channelName);
 
-    // Handle producer creation
-    const producerPath = javaPackageToPath(params.package) + "DemoProducer.java";
-    const subscriberPath = javaPackageToPath(params.package) + "DemoSubscriber.java";
-    const className = toJavaClassName(channelName);
+  // Get payload from either publish or subscribe
+  const targetPayloadProperties = channel.publish ? channel.publish().message().payload().properties() : channel.subscribe().message().payload().properties();
 
-    const constructorArgs = createJavaConstructorArgs(targetPayloadProperties).join(', ');
-    return [(
-            <File name={producerPath}>
-                <PackageDeclaration path={params.package} />
-                <DemoProducer params={params} messageName={messageNameTitleCase} message={targetPayloadProperties} className={className} constructorArgs={constructorArgs}></DemoProducer>
-            </File>     
-    ), (
-            <File name={subscriberPath}>
-                <PackageDeclaration path={params.package} />
-                <DemoSubscriber params={params} className={className}></DemoSubscriber>
-            </File>
-    )]
+  // Find message name from messages array
+  const messages = asyncapi.components().messages();
+  let targetMessageName;
+  for (const message in messages) {
+    if (messages[message].payload().properties().toString() === targetPayloadProperties.toString()) {
+      targetMessageName = message;
+    }
+  }
 
+  const messageNameTitleCase = targetMessageName.charAt(0).toUpperCase() + targetMessageName.slice(1);
+
+  // Handle producer creation
+  const producerPath = `${javaPackageToPath(params.package)  }DemoProducer.java`;
+  const subscriberPath = `${javaPackageToPath(params.package)  }DemoSubscriber.java`;
+  const className = toJavaClassName(channelName);
+
+  const constructorArgs = createJavaConstructorArgs(targetPayloadProperties).join(', ');
+  return [(
+    <File name={producerPath}>
+      <PackageDeclaration path={params.package} />
+      <DemoProducer params={params} messageName={messageNameTitleCase} className={className} constructorArgs={constructorArgs}></DemoProducer>
+    </File>     
+  ), (
+    <File name={subscriberPath}>
+      <PackageDeclaration path={params.package} />
+      <DemoSubscriber params={params} className={className}></DemoSubscriber>
+    </File>
+  )];
 } 

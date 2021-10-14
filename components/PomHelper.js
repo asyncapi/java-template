@@ -14,8 +14,8 @@
 * limitations under the License.
 */
 
-export function PomHelper(params){
-    return `
+export function PomHelper(params) {
+  return `
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   (c) Copyright IBM Corporation 2021
@@ -159,5 +159,5 @@ export function PomHelper(params){
 
   </build>
 </project>
-`
+`;
 }

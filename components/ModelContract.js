@@ -14,12 +14,12 @@
 * limitations under the License.
 */
 
-export function ModelContract(){
-    return `
+export function ModelContract() {
+  return `
 import java.io.Serializable;
 
 public class ModelContract implements Serializable {
 
 }
-`
+`;
 }

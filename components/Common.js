@@ -18,8 +18,7 @@
  * Below you can see how to create reusable chunks/components/helpers.
  * Check the files in the `template` folder to see how to import and use them within a template.
  */
-import { Indent, IndentationTypes, withIndendation } from '@asyncapi/generator-react-sdk';
-import { asyncApiTypeToJavaType, createJavaArgsFromProperties } from '../utils/Types.utils'
+import { createJavaArgsFromProperties } from '../utils/Types.utils';
 /*
   * Each component has a `childrenContent` property.
   * It is the processed children content of a component into a pure string. You can use it for compositions in your component.
@@ -41,16 +40,16 @@ import { asyncApiTypeToJavaType, createJavaArgsFromProperties } from '../utils/T
   */
 
 export function Class({ childrenContent, name, implementsClass, extendsClass }) {
-  let implementsString = "";
+  let implementsString = '';
 
-  if(implementsClass != null){
-    implementsString = `implements ${implementsClass}`
+  if (implementsClass !== undefined) {
+    implementsString = `implements ${implementsClass}`;
   }
 
-  let extendsString = "";
+  let extendsString = '';
 
-  if(extendsClass != null){
-    extendsString = `extends ${extendsClass}`
+  if (extendsClass !== undefined) {
+    extendsString = `extends ${extendsClass}`;
   }
 
   return `
@@ -60,37 +59,35 @@ public class ${name} ${implementsString} ${extendsString}{
 `;
 }
 
-export function ClassHeader({ }) {
-return `
+export function ClassHeader() {
+  return `
   private JMSProducer producer = null;
-`
+`;
 }
 
 export function ClassConstructor({ childrenContent, name, properties }) {
-  let propertiesString = "";
-  
+  let propertiesString = '';
 
-  if(properties){
+  if (properties) {
     propertiesString = createJavaArgsFromProperties(properties);
-
   }
 
   return `
   public ${name}(${propertiesString}) {
     ${childrenContent}
-  }`
+  }`;
 }
 
 export function PackageDeclaration({ path }) {
   return `
 ${javaCopyright()}
 package ${path};
-  `
+  `;
 }
 
 export function ImportDeclaration({ path }) {
   return `
-import ${path};`
+import ${path};`;
 }
 
 export function Imports(params) {
@@ -118,86 +115,42 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.annotation.JsonView;
 
 
-  `
+  `;
 }
 
 export function getMqValues(url, val) {
-  var reg = new RegExp("(?<=ibmmq://.*/).*/.*", "gm");
-  const splitVals = reg.exec(url).toString().split("/");
-  if (val == 'qmgr')
-      return splitVals[0];
-  if (val == 'mqChannel')
-      return splitVals[1];
-    
-  }
+  const reg = new RegExp('(?<=ibmmq://.*/).*/.*', 'gm');
+  const splitVals = reg.exec(url).toString().split('/');
+  if (val === 'qmgr')
+    return splitVals[0];
+  if (val === 'mqChannel')
+    return splitVals[1];
+}
   
 export function URLtoHost(url) {
-    const u = new URL(url);
-    return u.host;
-  }
+  const u = new URL(url);
+  return u.host;
+}
 export function URLtoPort(url, defaultPort) {
-    const u = new URL(url);
-    return u.port || defaultPort;
-  }
-
-
-export function RecordFaliure({ asyncApi }) {
-  
-  //TODO remove hardcode
-  
-  return `
-  private void recordFailure(Exception ex) {
-    if (ex != null) {
-        if (ex instanceof JMSException) {
-            processJMSException((JMSException) ex);
-        } else {
-            logger.warning(ex.getMessage());
-        }
-    }
-    logger.info("FAILURE");
-    return;
-  }
-`
+  const u = new URL(url);
+  return u.port || defaultPort;
 }
 
-export function ProcessJMSException({ asyncApi }) {
-  
-  //TODO remove hardcode
-  
-  return `
-  private void processJMSException(JMSException jmsex) {
-    logger.warning(jmsex.getMessage());
-    Throwable innerException = jmsex.getLinkedException();
-    logger.warning("Exception is: " + jmsex);
-    if (innerException != null) {
-        logger.warning("Inner exception(s):");
-    }
-    while (innerException != null) {
-        logger.warning(innerException.getMessage());
-        innerException = innerException.getCause();
-    }
-    return;
-}
-`
-}
-
-export function Close({ asyncApi, channel }) {
-  // TODO one of can be used in message apparently?
+export function Close() {
   return `
 public void close() {
     ch.closeContext();
     ch = null;
-}`
+}`;
 }
 
-export function EnvJson({ asyncapi, params})
-{
-  const url = asyncapi.server(params.server).url() 
-  let qmgr = getMqValues(url,'qmgr')
-  let mqChannel = getMqValues(url,'mqChannel')
-  let host = URLtoHost(url)
-  let domain = host.split(':', 1)
-  return`
+export function EnvJson({ asyncapi, params}) {
+  const url = asyncapi.server(params.server).url(); 
+  const qmgr = getMqValues(url,'qmgr');
+  const mqChannel = getMqValues(url,'mqChannel');
+  const host = URLtoHost(url);
+  const domain = host.split(':', 1);
+  return `
   {
     "MQ_ENDPOINTS": [{
       "HOST": "${domain}",
@@ -208,18 +161,16 @@ export function EnvJson({ asyncapi, params})
       "APP_PASSWORD": "${params.password}"
     }]
   }
-  `
+  `;
 }
 export function ImportModels({ messages, params }) {
-  const namesList = Object.entries(messages)
+  return Object.entries(messages)
     .map(([messageName, message]) => {
-      return `import ${params.package}.models.${messageName.charAt(0).toUpperCase() + messageName.slice(1)};`
+      return `import ${params.package}.models.${messageName.charAt(0).toUpperCase() + messageName.slice(1)};`;
     });
-
-  return namesList;
 }
 
-export function javaCopyright(){
+export function javaCopyright() {
   return `/*
 * (c) Copyright IBM Corporation 2021
 *
@@ -234,5 +185,5 @@ export function javaCopyright(){
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*/`
+*/`;
 }

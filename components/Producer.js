@@ -14,12 +14,9 @@
 * limitations under the License.
 */
 
-import { getMqValues, URLtoHost, URLtoPort } from './Common';
-import { createJavaArgsFromProperties, passJavaArgs } from '../utils/Types.utils'
-
 // Send Message
 export function SendMessage() {
-    return `
+  return `
     public void send(ModelContract modelContract) {
         // First create instance of model
 
@@ -36,20 +33,11 @@ export function SendMessage() {
         }catch (JsonProcessingException e){
             System.out.println(e);
         }
-    }`
-  }
-
-
-
+    }`;
+}
   
-  export function ProducerConstructor({asyncapi, name, params}) {
-    const url = asyncapi.server('production1').url() 
-    let qmgr = getMqValues(url,'qmgr')
-    let mqChannel = getMqValues(url,'mqChannel')
-    let host = URLtoHost(url)
-    let domain = host.split(':', 1)
-  
-    return `
+export function ProducerConstructor({ name }) {
+  return `
       super();
       String id = null;
       id = "Basic pub";
@@ -62,7 +50,6 @@ export function SendMessage() {
         // Set so no JMS headers are sent.
         ch.setTargetClient(destination);
         producer = context.createProducer();
-  `
-  }
-  
+  `;
+}
   

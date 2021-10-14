@@ -14,8 +14,8 @@
 * limitations under the License.
 */
 
-export function Connection(){
-    return `
+export function Connection() {
+  return `
 public class Connection {
     public String HOST;
     public int PORT;
@@ -41,5 +41,5 @@ public class Connection {
         this.CIPHER_SUITE = CIPHER_SUITE;
     }
 }
-`
+`;
 }

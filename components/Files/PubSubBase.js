@@ -14,12 +14,12 @@
 * limitations under the License.
 */
 
-import { File, render } from '@asyncapi/generator-react-sdk';
+import { File } from '@asyncapi/generator-react-sdk';
 import { javaPackageToPath } from '../../utils/String.utils';
 import { PackageDeclaration } from '../Common';
 
-function getPubSubContent(params){
-    return `
+function getPubSubContent(params) {
+  return `
 
     import java.util.logging.*;
     import java.util.Map;
@@ -126,17 +126,15 @@ function getPubSubContent(params){
         }
     }
     
-    `
+    `;
 }
 
-
-export function PubSubBase(params){
+export function PubSubBase(params) {
   const packagePath = javaPackageToPath(params.package);
   return (
     <File name={`${packagePath}PubSubBase.java`}>
       <PackageDeclaration path={params.package}></PackageDeclaration>
       {getPubSubContent(params)}
     </File>
-  )
-  
-  }
+  );
+}
