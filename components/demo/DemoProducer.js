@@ -19,9 +19,8 @@
 * You can actually do whatever you want. It is important that the value returned from the function must be a string or a component.
 */
 
-
 export function DemoProducer({ asyncApi, message, params, messageName, className, constructorArgs }) {
-    return `
+  return `
 import ${params.package}.${className}Producer;
 import ${params.package}.ConnectionHelper;
 import ${params.package}.models.${messageName};
@@ -33,5 +32,5 @@ public class DemoProducer {
         producer.send(message);
         producer.close();
     }
-}`
+}`;
 }

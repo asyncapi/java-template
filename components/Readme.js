@@ -1,5 +1,5 @@
 export function Readme({ asyncapi, params }) {
-    return `# ${asyncapi.info().title()}
+  return `# ${asyncapi.info().title()}
 
 ${asyncapi.info().description()}
 
@@ -40,5 +40,5 @@ These commands will allow you to run the template publisher/subscriber model usi
 
 
 The messages should now be sent from the running publisher to the running subscriber, using MQ topics.
-    `
-    }
+    `;
+}

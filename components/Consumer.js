@@ -14,19 +14,14 @@
 * limitations under the License.
 */
 
-import { getMqValues, URLtoHost, URLtoPort } from './Common';
-import { createJavaArgsFromProperties } from '../utils/Types.utils'
-
-
-export function ConsumerDeclaration({name}) {
-    return `
+export function ConsumerDeclaration() {
+  return `
       private JMSConsumer consumer = null;
-    `
-    }
-     
+    `;
+}
 
 export function ConsumerImports({ asyncApi, messageNames, params }) {
-return `
+  return `
     import java.util.logging.*;
     import java.io.Serializable;
     
@@ -50,13 +45,13 @@ return `
     import ${params.package}.PubSubBase;
     import ${params.package}.models.ModelContract;
         
-    `
+    `;
 }
 
 export function ReceiveMessage({ asyncApi, channel }) {
-    // TODO one of can be used in message apparently?
+  // TODO one of can be used in message apparently?
 
-    return `
+  return `
     public void receive(int requestTimeout) {
       boolean continueProcessing = true;
   
@@ -99,21 +94,16 @@ export function ReceiveMessage({ asyncApi, channel }) {
           }
        }
     }
-  `
-  }
+  `;
+}
   
-  export function ConsumerConstructor({asyncapi, name, params}) {
-    const url = asyncapi.server('production1').url() 
-    let qmgr = getMqValues(url,'qmgr')
-    let mqChannel = getMqValues(url,'mqChannel')
-    let host = URLtoHost(url)
-    let domain = host.split(':', 1)
-    return `
+export function ConsumerConstructor({asyncapi, name, params}) {
+  return `
       super();
       String id = null;
       id = "Basic sub";
       logger.info("Sub application is starting");
 
       this.createConnection("${name}", "${name}", id);
-  `
-  }
+  `;
+}

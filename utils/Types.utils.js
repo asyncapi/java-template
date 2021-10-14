@@ -19,113 +19,113 @@
  * to native Java types
  */
 export function asyncApiTypeToJavaType(asyncApiType) {
-    switch (asyncApiType){
+  switch (asyncApiType) {
+  case 'integer':
+    return 'int';
+
+  case 'long':
+    return 'Long';
+
+  case 'float':
+    return 'float';
+
+  case 'double':
+    return 'double';
+
+  case 'string':
+    return 'String';
         
-        case "integer":
-        return "int"
+  case 'byte':
+    return 'byte';
 
-        case "long":
-        return "Long"
+  case 'binary':
+    return 'String';
 
-        case "float":
-        return "float"
+  case 'boolean':
+    return 'boolean';
 
-        case "double":
-        return "double"
+  case 'date':
+    return 'String';
 
-        case "string":
-        return "String"
-        
-        case "byte":
-        return "byte"
+  case 'dateTime':
+    return 'String';
 
-        case "binary":
-        return "String"
-
-        case "boolean":
-        return "boolean"
-
-        case "date":
-        return "String"
-
-        case "dateTime":
-        return "String"
-
-        case "password":
-        return "String"
-    }
+  case 'password':
+    return 'String';
+  }
 }
 
 /* 
  * Helper class to easily assign local class properties
  */
-export function setLocalVariables(properties){
-    return Object.entries(properties).map(([name, property]) => {
-        return `
+export function setLocalVariables(properties) {
+  return Object.entries(properties).map(([name, property]) => {
+    return `
     this.${name} = ${name};
-  `
-    })
-  }
+  `;
+  });
+}
   
 /* 
  * Helper class to define variables 
  */
-export function defineVariablesForProperties(properties){
-    return Object.entries(properties).map(([name, property]) => {
-        return `public ${asyncApiTypeToJavaType(property.type())} ${name};`
-    })
-  }
+export function defineVariablesForProperties(properties) {
+  return Object.entries(properties).map(([name, property]) => {
+    return `public ${asyncApiTypeToJavaType(property.type())} ${name};`;
+  });
+}
 
 /* 
  * Helper class to pass variables into a function defined by properties  
  */
-export function passJavaArgs(properties){
+export function passJavaArgs(properties) {
   return Object.entries(properties).map(([name, property]) => {
-    return `${name}`
-  }).join(',')
+    return `${name}`;
+  }).join(',');
 }
 
 /*
  * Helper class to convert from async api properties to Java arguments
  */
-export function createJavaArgsFromProperties(properties){
+export function createJavaArgsFromProperties(properties) {
   return Object.entries(properties).map(([name, property]) => {
-      return `${asyncApiTypeToJavaType(property.type())} ${name}`
-  })
+    return `${asyncApiTypeToJavaType(property.type())} ${name}`;
+  });
 }
 
 /*
  * Helper class to create Java constructor input from asyncapi properties
  */
-export function createJavaConstructorArgs(properties){
+export function createJavaConstructorArgs(properties) {
   return Object.entries(properties).map(([name, property]) => {
-    return `${asyncApiTypeToDemoValue(property.type())}`
-  })
+    return `${asyncApiTypeToDemoValue(property.type())}`;
+  });
 }
 
 /* 
  * Generates an example value from asyncAPI datatype in Java
  */
 export function asyncApiTypeToDemoValue(asyncApiType) {
-  switch (asyncApiType){
-      case ("integer" || "long"):
-        return parseInt(Math.random() * 1000);
+  const strWords = ['ASyncAPI', 'IBM', 'Java', 'React', 'Hackathon', 'Community', 'Open Source', 'MQ', 'JMS', 'Publish', 'Subscribe', 'Topic', 'Demo', 'Example', 'Template', 'Producer', 'Consumer', 'Generator', 'Message', 'Endpoint'];
+  const boolWords = ['true', 'false'];
 
-      case ("float" || "double"):
-        return Math.random();
+  switch (asyncApiType) {
+  case ('integer' || 'long'):
+    return parseInt(Math.random() * 1000, 10);
 
-      case ("string" || "binary" || "password"):
-        var words = ['ASyncAPI', 'IBM', 'Java', 'React', 'Hackathon', 'Community', 'Open Source', 'MQ', 'JMS', 'Publish', 'Subscribe', 'Topic', 'Demo', 'Example', 'Template', 'Producer', 'Consumer', 'Generator', 'Message', 'Endpoint'];
-        return '"' + words[Math.floor(Math.random()*words.length)] + '"';
+  case ('float' || 'double'):
+    return Math.random();
 
-      case "byte":
-        return 0 + (int)(Math.random() * ((127 - 1) + 1))
+  case ('string' || 'binary' || 'password'):
+    return `"${  strWords[Math.floor(Math.random()*strWords.length)]  }"`;
 
-      case "boolean":
-        var words = ['true', 'false'];
-        return words[Math.floor(Math.random()*words.length)];
+  case 'byte':
+    return 0 + parseInt(Math.random() * ((127 - 1) + 1), 10);
 
-      case ("date" || "dateTime"):
-        return (new Date()).toISOString().split('T')[0]
+  case 'boolean':
+    return boolWords[Math.floor(Math.random()*boolWords.length)];
+
+  case ('date' || 'dateTime'):
+    return (new Date()).toISOString().split('T')[0];
   }
 }

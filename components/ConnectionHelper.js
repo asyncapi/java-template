@@ -14,8 +14,8 @@
 * limitations under the License.
 */
 
-export function ConnectionHelper(params){
-    return `
+export function ConnectionHelper(params) {
+  return `
 import java.util.logging.*;
 
 import javax.jms.Destination;
@@ -168,5 +168,5 @@ public class ConnectionHelper {
         return;
     }
 }
-`
+`;
 }
