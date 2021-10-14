@@ -14,8 +14,7 @@
 * limitations under the License.
 */
 
-import { ChannelToMessage, getMqValues, URLtoHost, URLtoPort } from './Common';
-import { createJavaArgsFromProperties } from '../utils/Types.utils'
+import { getMqValues, URLtoHost, URLtoPort } from './Common';
 
 
 export function ConsumerDeclaration({name}) {
@@ -25,7 +24,7 @@ export function ConsumerDeclaration({name}) {
     }
      
 
-export function ConsumerImports({ asyncApi, messageNames, params }) {
+export function ConsumerImports({ message, params }) {
 return `
     import java.util.logging.*;
     import java.io.Serializable;
@@ -47,15 +46,12 @@ return `
     import ${params.package}.ConnectionHelper;
     import ${params.package}.LoggingHelper;
     import ${params.package}.Connection;
-    import ${params.package}.PubSubBase;
-    import ${params.package}.models.ModelContract;
-        
+    import ${params.package}.PubSubBase;        
+    import ${params.package}.models.${message.name};
     `
 }
 
-export function ReceiveMessage({ asyncapi, channel }) {
-    // TODO one of can be used in message apparently?
-    let message = ChannelToMessage(channel, asyncapi);
+export function ReceiveMessage({ message }) {
     return `
     public void receive(int requestTimeout) {
       boolean continueProcessing = true;
