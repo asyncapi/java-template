@@ -27,99 +27,28 @@ You will then need to enter the directory you have just created, for example wit
 ```
 cd ~/asyncapi-java-tutorial
 ```
-# CHANGE THIS CLONE
+
 Finally, clone the Java Template Repository into your new directory with
 ```
-git clone git@github.ibm.com:InSynQ/template-3.git
+git clone git@github.com:ibm-messaging/mq-asyncapi-java-template.git
 ```
 
 ## Running the Publisher/Subscriber Template
 These commands will allow you to run the Java Template publisher/subscriber model using IBM MQ. 
-1. From the directory you created in the prerequisites, `~/asyncapi-java-template` in the example commands, create the following YAML file by copying the entire below box of code and pressing enter.
-<br>If using windows, use `type` instead of `cat` at the beginning of the command.<br>Should you wish to use your own YAML file, name it `asyncapi.yaml` and move on to the next step.
-    ```
-    cat <<EOT >> asyncapi.yaml
-    asyncapi: 2.0.0
-    info:
-      title: Record Label Service
-      version: 1.0.0
-      description: This service is in charge of processing music
-    servers:
-      production1:
-        url: ibmmq://localhost:1414/QM1/DEV.APP.SVRCONN
-        protocol: ibmmq-secure
-        description: Production Instance 1
-    channels:
-      single/released:
-        bindings:
-          ibmmq:
-            topic:
-              durablePermitted: true
-            bindingVersion: 0.1.0
-        publish: 
-          message:
-            \$ref: '#/components/messages/single'
-            bindings:
-              ibmmq:
-                type: jms
-                description: JMS bytes message
-                bindingVersion: 0.1.0
-        subscribe:
-          message:
-            \$ref: '#/components/messages/single'
-            bindings:
-              ibmmq:
-                type: jms
-                description: JMS bytes message
-                bindingVersion: 0.1.0
-
-      single/rereleased:
-        bindings:
-          ibmmq:
-            topic:
-              durablePermitted: true
-            bindingVersion: 0.1.0
-        subscribe:
-          message:
-            \$ref: '#/components/messages/single'
-            bindings:
-              ibmmq:
-                type: jms
-                description: JMS bytes message
-                bindingVersion: 0.1.0
-    components:
-      messages:
-        single:
-          payload:
-            type: object
-            properties:
-              title:
-                type: string
-                description: Song title
-              artist:
-                type: string
-                description: Song artist
-              album:
-                type: string
-                description: Song album
-              genre:
-                type: string
-                description: Primary song genre
-              length:
-                type: integer
-                description: Track length in seconds
-    EOT
-    ```
-    # CHANGE THE TEMPLATE NAME IN STEP 2 AND 3
+1. From the directory you created in the prerequisites, `~/asyncapi-java-template` in the example commands, copy the following YAML file with the following command.
+<br>Should you wish to use your own YAML file, name it `asyncapi.yaml` and move on to the next step.
+  ```
+  cp mq-asyncapi-java-template/test/mocks/single-channel.yml asyncapi.yaml
+  ```
 2. Install the required NodeJS dependencies from the template folder, then return to the `asyncapi-java-tutorial` folder.
     ```
-    cd template-3
+    cd mq-asyncapi-java-template
     npm install
     cd ..
     ```
 3. Run the AsyncAPI Generator. <br>**Note:** You may need to change the username and password values if you have not followed the IBM MQ tutorial.
     ```
-    ag ./asyncapi.yaml ./template-3 -o ./output -p server=production1 -p user=app -p password=passw0rd
+    ag ./asyncapi.yaml ./mq-asyncapi-java-template -o ./output -p server=production -p user=app -p password=passw0rd
     ```
     **Note:** The syntax of the above command is shown below. You do not need to run the below line, it is for informational purposes only.
     ```
@@ -159,3 +88,33 @@ INFO: Received message: {
 }
 TYPE: com.ibm.mq.samples.jms.models.Single
 ```
+
+## Running with Docker
+To deploy a dockerised instance of this project;
+
+1. Build the image
+   ```
+    docker build -t [PACKAGE_NAME]:[VERSION] .
+   ``` 
+
+2. Run the image in detached mode
+   ```
+    docker run -d [PACKAGE_NAME]:[VERSION]
+   ``` 
+
+### Networking
+Docker networking needs to be properly configured in order to allow your project to connect to an MQ instance. 
+
+If MQ is also running in a docker container
+1. Create a docker network
+   ```
+    docker network create exampleMqNetwork
+   ``` 
+2. Attach the docker network to your MQ container
+   ```
+    docker network connect exampleMqNetwork
+   ``` 
+3. Update your env.json server hostname to match the container name for MQ. To find the name run
+   ```
+   docker ps
+   ```

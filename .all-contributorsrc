@@ -1,5 +1,5 @@
 {
-  "projectName": "template-3",
+  "projectName": "mq-asyncapi-java-template",
   "projectOwner": "ibm-messaging",
   "repoType": "github",
   "repoHost": "https://github.com",
@@ -14,7 +14,7 @@
       "login": "dan-r",
       "name": "Dan Raper",
       "avatar_url": "https://avatars.githubusercontent.com/u/1384852?v=4",
-      "profile": "https://danr.uk/",
+      "profile": "https://github.com/dan-r",
       "contributions": [
         "code",
         "doc"

@@ -1,5 +1,5 @@
 {
-  "name": "template-for-generator-templates",
+  "name": "mq-asyncapi-java-template",
   "version": "0.0.1",
   "description": "Template for generator templates to make it much easier to start writing your own generator template",
   "main": "index.js",
@@ -16,22 +16,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/asyncapi/template-for-generator-templates.git"
+    "url": "git+https://github.com/ibm-messaging/mq-asyncapi-java-template"
   },
   "keywords": [
     "asyncapi",
     "generator",
     "template"
   ],
-  "author": "Lukasz Gornicki <lpgornicki@gmail.com> (https://github.com/derberg/)",
+  "author": "IBM Messaging (https://github.com/ibm-messaging)",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
   },
   "bugs": {
-    "url": "https://github.com/asyncapi/template-for-generator-templates/issues"
+    "url": "https://github.com/ibm-messaging/mq-asyncapi-java-template/issues"
   },
-  "homepage": "https://github.com/asyncapi/template-for-generator-templates#readme",
+  "homepage": "https://github.com/ibm-messaging/mq-asyncapi-java-template",
   "dependencies": {
     "@asyncapi/generator-filters": "^2.1.0",
     "@asyncapi/generator-hooks": "^0.1.0",
