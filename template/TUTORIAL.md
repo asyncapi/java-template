@@ -112,11 +112,11 @@ These commands will allow you to run the Java Template publisher/subscriber mode
     ```
     # CHANGE THE TEMPLATE NAME IN STEP 2 AND 3
 2. Install the required NodeJS dependencies from the template folder, then return to the `asyncapi-java-tutorial` folder.
-```
-cd template-3
-npm install
-cd ..
-```
+    ```
+    cd template-3
+    npm install
+    cd ..
+    ```
 3. Run the AsyncAPI Generator. <br>**Note:** You may need to change the username and password values if you have not followed the IBM MQ tutorial.
     ```
     ag ./asyncapi.yaml ./template-3 -o ./output -p server=production1 -p user=app -p password=passw0rd
