@@ -20,7 +20,7 @@ export function ConsumerDeclaration() {
     `;
 }
 
-export function ConsumerImports({ params }) {
+export function ConsumerImports({ params, message }) {
   return `
     import java.util.logging.*;
     import java.io.Serializable;
@@ -44,13 +44,12 @@ export function ConsumerImports({ params }) {
     import ${params.package}.Connection;
     import ${params.package}.PubSubBase;
     import ${params.package}.models.ModelContract;
-        
+    import ${params.package}.PubSubBase;        
+    import ${params.package}.models.${message.name};
     `;
 }
 
-export function ReceiveMessage() {
-  // TODO one of can be used in message apparently?
-
+export function ReceiveMessage({ message }) {
   return `
     public void receive(int requestTimeout) {
       boolean continueProcessing = true;
@@ -63,17 +62,14 @@ export function ReceiveMessage() {
               Message receivedMessage = consumer.receive(requestTimeout);
               if (receivedMessage == null) {
                   logger.info("No message received from this endpoint");
-                //    continueProcessing = false;       THIS IS COMMENTED FOR TESTING PURPOSES, UNCOMMENT WHEN DONE
               } else {
                 if (receivedMessage instanceof TextMessage) {
                     TextMessage textMessage = (TextMessage) receivedMessage;
                     try {
                         logger.info("Received message: " + textMessage.getText());
-                        ModelContract receivedSingleObject = new ObjectMapper().readValue(textMessage.getText(), ModelContract.class); // HARDCODED, REACTIFY
+                        ${message.name} receivedObject = new ObjectMapper().readValue(textMessage.getText(), ${message.name}.class); // HARDCODED, REACTIFY
   
-                        System.out.println("TYPE: " + receivedSingleObject.getClass().getName()); // REMOVE THIS EVENTUALLY BUT GOOD FOR DEMO
-                        System.out.println(receivedSingleObject.toString()); // REMOVE EITHER THIS OR logger.info(Received...
-  
+                        System.out.println("TYPE: " + receivedObject.getClass().getName()); // REMOVE THIS EVENTUALLY BUT GOOD FOR DEMO
                     } catch (JMSException jmsex) {
                         recordFailure(jmsex);
                     } catch (JsonProcessingException jsonproex) {

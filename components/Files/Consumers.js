@@ -15,41 +15,38 @@
 */
 
 import { File } from '@asyncapi/generator-react-sdk';
-import {ImportModels, PackageDeclaration, Class, ClassConstructor } from '../Common';
-import {ConsumerDeclaration, ConsumerImports, ConsumerConstructor, ReceiveMessage } from '../Consumer';
+import { PackageDeclaration, Class, ClassConstructor, ChannelToMessage } from '../Common';
+import { ConsumerDeclaration, ConsumerImports, ConsumerConstructor, ReceiveMessage } from '../Consumer';
 import { toJavaClassName, javaPackageToPath } from '../../utils/String.utils';
 
 export function Consumers(asyncapi, channels, params) {
   return Object.entries(channels).map(([channelName, channel]) => {
     const name = channelName;
     const className = `${toJavaClassName(channelName)  }Subscriber`;
-  
-    // Resolve associated messages this subscriber should support
-    // TODO not just import all
-    const messages = asyncapi.components().messages();
+
     const packagePath = javaPackageToPath(params.package);
 
+    const message = ChannelToMessage(channel, asyncapi);
+    
     if (channel.subscribe()) {
       return (
-        
+      
         <File name={`${packagePath}${className}.java`}>
           <PackageDeclaration path={params.package}></PackageDeclaration>
-          <ConsumerImports params={params}></ConsumerImports>
-  
-          <ImportModels messages={messages} params={params}></ImportModels>
+          <ConsumerImports params={params} message={message}></ConsumerImports>
     
           <Class name={className} extendsClass="PubSubBase">
             <ConsumerDeclaration name={channelName} />
-    
+  
             <ClassConstructor name={className}>
-              <ConsumerConstructor name={name}/>
+              <ConsumerConstructor asyncapi={asyncapi} params={params} name={name}/>
             </ClassConstructor>
-        
-            <ReceiveMessage></ReceiveMessage>
+      
+            <ReceiveMessage message={message}></ReceiveMessage>
 
           </Class>
         </File>
-    
+  
       );
     }
   });
