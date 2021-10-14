@@ -37,9 +37,9 @@ git clone git@github.com:ibm-messaging/mq-asyncapi-java-template.git
 These commands will allow you to run the Java Template publisher/subscriber model using IBM MQ. 
 1. From the directory you created in the prerequisites, `~/asyncapi-java-template` in the example commands, copy the following YAML file with the following command.
 <br>Should you wish to use your own YAML file, name it `asyncapi.yaml` and move on to the next step.
-  ```
-  cp mq-asyncapi-java-template/test/mocks/single-channel.yml asyncapi.yaml
-  ```
+    ```
+    cp mq-asyncapi-java-template/test/mocks/single-channel.yml asyncapi.yaml
+    ```
 2. Install the required NodeJS dependencies from the template folder, then return to the `asyncapi-java-tutorial` folder.
     ```
     cd mq-asyncapi-java-template
