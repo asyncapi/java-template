@@ -84,7 +84,7 @@
         "required": false,
         "default": "com.ibm.mq.samples.jms"
       },
-      "topic_prefix": {
+      "topicPrefix": {
         "description": "MQ topic prefix. Default will work with dev MQ instance",
         "required": false,
         "default": "dev//"

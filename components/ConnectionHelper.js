@@ -48,7 +48,7 @@ public class ConnectionHelper {
     private String CIPHER_SUITE = null;
     private static String CCDTURL;
 
-    private String TOPIC_PREFIX = "${params.params.topic_prefix}";
+    private String TOPIC_PREFIX = "${params.params.topicPrefix}";
 
     JMSContext context;
 
