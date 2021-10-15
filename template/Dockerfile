@@ -34,5 +34,5 @@ WORKDIR /data/
 RUN mvn compile &&\
     mvn package
 
-# Run our pacakge
+# Change this to the entrypoint for your application!
 CMD java -cp target/asyncapi-mq-jms-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoSubscriber;
