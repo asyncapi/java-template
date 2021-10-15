@@ -48,7 +48,7 @@ test('Define Variables For Properties', async () => {
   const OUTPUT_DIR = generateFolderName();
     
   const params = {
-    server: 'production1'
+    server: 'production'
   };
         
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
@@ -71,7 +71,7 @@ test('Pass Java Args', async () => {
   const OUTPUT_DIR = generateFolderName();
     
   const params = {
-    server: 'production1'
+    server: 'production'
   };
         
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
@@ -94,7 +94,7 @@ test('Create Java Args from Properties', async () => {
   const OUTPUT_DIR = generateFolderName();
     
   const params = {
-    server: 'production1'
+    server: 'production'
   };
         
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
