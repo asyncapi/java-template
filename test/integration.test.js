@@ -39,6 +39,7 @@ describe('template integration tests using the generator', () => {
       `${PACKAGE_PATH}/models/ModelContract.java`,
       'Dockerfile',
       'env.json',
+      'TUTORIAL.md'
     ];
 
     for (const index in expectedFiles) {
@@ -46,7 +47,7 @@ describe('template integration tests using the generator', () => {
     }
   });
 
-  it('should generate dynamic application files', async () => {
+  it('should generate dynamic producer subscriber files', async () => {
     jest.setTimeout(30000);
   
     const OUTPUT_DIR = generateFolderName();
@@ -71,4 +72,54 @@ describe('template integration tests using the generator', () => {
       expect(existsSync(path.join(OUTPUT_DIR, expectedFiles[index]))).toBe(true);
     }
   });
+
+  it('should generate dynamic model files', async () => {
+    jest.setTimeout(30000);
+  
+    const OUTPUT_DIR = generateFolderName();
+    const PACKAGE = 'com.ibm.mq.samples.jms';
+    const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
+    const params = {
+      server: 'production1'
+    };
+  
+    const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
+    await generator.generateFromFile(path.resolve('test', 'mocks/many-messages.yml'));
+
+    const expectedFiles = [
+      'pom.xml',
+      `${PACKAGE_PATH}/models/Single.java`,
+      `${PACKAGE_PATH}/models/Album.java`,
+      `${PACKAGE_PATH}/models/Artist.java`
+    ];
+    
+    for (const index in expectedFiles) {
+      expect(existsSync(path.join(OUTPUT_DIR, expectedFiles[index]))).toBe(true);
+    }
+  });
+
+  it('file structure should depend on package', async () => {
+    jest.setTimeout(30000);
+  
+    const OUTPUT_DIR = generateFolderName();
+    const PACKAGE = 'com.ibm.mq.different.jms';
+    const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
+    const params = {
+      server: 'production1',
+      package: PACKAGE
+    };
+  
+    const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
+    await generator.generateFromFile(path.resolve('test', 'mocks/many-messages.yml'));
+
+    const expectedFiles = [
+      `${PACKAGE_PATH}/Connection.java`
+    ];
+    
+    for (const index in expectedFiles) {
+      expect(existsSync(path.join(OUTPUT_DIR, expectedFiles[index]))).toBe(true);
+    }
+  });
+
+  
 });
