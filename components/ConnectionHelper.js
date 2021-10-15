@@ -104,8 +104,6 @@ public class ConnectionHelper {
         QUEUE_NAME = connection.QUEUE_NAME;
         TOPIC_NAME = connection.TOPIC_NAME;
         CIPHER_SUITE = connection.CIPHER_SUITE;
-
-        //CCDTURL = env.getCheckForCCDT();
     }
 
     private JmsConnectionFactory createJMSConnectionFactory() {

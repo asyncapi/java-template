@@ -58,27 +58,37 @@ export function ReceiveMessage({ message }) {
 
     while (continueProcessing) {
         try {
+            // Receive message from MQ
             Message receivedMessage = consumer.receive(requestTimeout);
+
+            // Check message has been received
             if (receivedMessage == null) {
                 logger.info("No message received from this endpoint");
-            } else {
-              if (receivedMessage instanceof TextMessage) {
-                  TextMessage textMessage = (TextMessage) receivedMessage;
-                  try {
-                      logger.info("Received message: " + textMessage.getText());
-                      ${message.name} receivedObject = new ObjectMapper().readValue(textMessage.getText(), ${message.name}.class);
+                continue;
+            }
 
-                      logger.info("Received message type: " + receivedObject.getClass().getName());
-                  } catch (JMSException jmsex) {
-                      recordFailure(jmsex);
-                  } catch (JsonProcessingException jsonproex) {
-                      recordFailure(jsonproex);
-                  }
-              } else if (receivedMessage instanceof Message) {
-                  logger.info("Message received was not of type TextMessage.");
-              } else {
-                  logger.info("Received object not of JMS Message type!");
-              }
+            // Find message type
+            if (receivedMessage instanceof TextMessage) {
+                TextMessage textMessage = (TextMessage) receivedMessage;
+                try {
+                    logger.info("Received message: " + textMessage.getText());
+                    ${message.name} receivedObject = new ObjectMapper().readValue(textMessage.getText(), ${message.name}.class);
+                    logger.info("Received message type: " + receivedObject.getClass().getName());
+
+                    /*
+                     * Implement your business logic to handle
+                     * received messages here.
+                     */
+                    
+                } catch (JMSException jmsex) {
+                    recordFailure(jmsex);
+                } catch (JsonProcessingException jsonproex) {
+                    recordFailure(jsonproex);
+                }
+            } else if (receivedMessage instanceof Message) {
+                logger.info("Message received was not of type TextMessage.");
+            } else {
+                logger.info("Received object not of JMS Message type.");
             }
         } catch (JMSRuntimeException jmsex) {
             jmsex.printStackTrace();

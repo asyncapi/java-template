@@ -27,13 +27,14 @@ test('Generates Coonnection for publisher ', async () => {
     String id = null;
     id = "Basic pub";
 
-    logger.info("Sub application is starting");
+    logger.info("Pub application is starting");
 
+    // Establish connection for prodcer
     this.createConnection("single/released", id);
 
-        // Set so no JMS headers are sent.
-        ch.setTargetClient(destination);
-        producer = context.createProducer();
+    // Set so no JMS headers are sent.
+    ch.setTargetClient(destination);
+    producer = context.createProducer();
 `
   );
 });

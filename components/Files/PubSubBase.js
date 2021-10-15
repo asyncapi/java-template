@@ -50,12 +50,11 @@ function getPubSubContent(params) {
         }
     
         public void createConnection(String topicName, String id){
-    
+          // Retrieve first MQ endpoint from env.json
           List<Map> MQ_ENDPOINTS = null;
           Map MQFirst = null;
     
           try {
-            // create object mapper instance
             ObjectMapper mapper = new ObjectMapper();
         
             // convert JSON file to map
@@ -68,7 +67,7 @@ function getPubSubContent(params) {
                 ex.printStackTrace();
           }
     
-    
+          // Create connection definition from env variables
           Connection myConnection = new Connection(
             MQFirst.get("HOST").toString(),
             Integer.parseInt(MQFirst.get("PORT").toString()),
@@ -79,11 +78,13 @@ function getPubSubContent(params) {
             null,
             topicName,
             null);
-      
+          
+          // Build connection helper
           ch = new ConnectionHelper(id, myConnection);
       
           logger.info("created connection factory");
-      
+          
+          // Create context and set local topic destination
           context = ch.getContext();
           logger.info("context created");
     

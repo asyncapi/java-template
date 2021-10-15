@@ -17,21 +17,20 @@
 // Send Message
 export function SendMessage() {
   return `
-    public void send(ModelContract modelContract) {
-        // First create instance of model
-
+    public void send(ModelContract modelContract) { 
         Serializable modelInstance = (Serializable) modelContract;
 
         try{
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            String json = ow.writeValueAsString(modelInstance);
-    
-            System.out.println(json);
-    
-            this.producer.send(destination, json);
+          // JSON encode and transmit
+          ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+          String json = ow.writeValueAsString(modelInstance);
+  
+          logger.info("Sending Message: " + json);
+  
+          this.producer.send(destination, json);
             
         }catch (JsonProcessingException e){
-            System.out.println(e);
+          logger.severe("An error occured whilst attempting to send a message: " + e);
         }
     }`;
 }
@@ -42,13 +41,14 @@ export function ProducerConstructor({name}) {
     String id = null;
     id = "Basic pub";
 
-    logger.info("Sub application is starting");
+    logger.info("Pub application is starting");
 
+    // Establish connection for prodcer
     this.createConnection("${name}", id);
 
-        // Set so no JMS headers are sent.
-        ch.setTargetClient(destination);
-        producer = context.createProducer();
+    // Set so no JMS headers are sent.
+    ch.setTargetClient(destination);
+    producer = context.createProducer();
 `;
 }
   

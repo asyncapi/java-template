@@ -27,9 +27,17 @@ import ${params.package}.models.${messageName};
 
 public class DemoProducer {
     public static void main(String[] args) {
+
+        // Create an instance of a message model to be sent
         ${messageName} message = new ${messageName}(${constructorArgs});
+
+        // Create a producer instance to connect to the queue manager
         ${className}Producer producer = new ${className}Producer();
+
+        // Send the message object through the queue manager
         producer.send(message);
+
+        // Close the connection
         producer.close();
     }
 }`;
