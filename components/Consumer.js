@@ -68,7 +68,7 @@ export function ReceiveMessage({ message }) {
                         logger.info("Received message: " + textMessage.getText());
                         ${message.name} receivedObject = new ObjectMapper().readValue(textMessage.getText(), ${message.name}.class);
   
-                        System.out.println("TYPE: " + receivedObject.getClass().getName());
+                        logger.info("Received message type: " + receivedObject.getClass().getName());
                     } catch (JMSException jmsex) {
                         recordFailure(jmsex);
                     } catch (JsonProcessingException jsonproex) {
