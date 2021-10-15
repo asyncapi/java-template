@@ -120,6 +120,4 @@ describe('template integration tests using the generator', () => {
       expect(existsSync(path.join(OUTPUT_DIR, expectedFiles[index]))).toBe(true);
     }
   });
-
-  
 });
