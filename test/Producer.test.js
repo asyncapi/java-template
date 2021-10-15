@@ -29,7 +29,7 @@ test('Generates Coonnection for publisher ', async () => {
 
     logger.info("Sub application is starting");
 
-    this.createConnection("single/released", "single/released", id);
+    this.createConnection("single/released", id);
 
         // Set so no JMS headers are sent.
         ch.setTargetClient(destination);

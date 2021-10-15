@@ -66,9 +66,9 @@ export function ReceiveMessage({ message }) {
                     TextMessage textMessage = (TextMessage) receivedMessage;
                     try {
                         logger.info("Received message: " + textMessage.getText());
-                        ${message.name} receivedObject = new ObjectMapper().readValue(textMessage.getText(), ${message.name}.class); // HARDCODED, REACTIFY
+                        ${message.name} receivedObject = new ObjectMapper().readValue(textMessage.getText(), ${message.name}.class);
   
-                        System.out.println("TYPE: " + receivedObject.getClass().getName()); // REMOVE THIS EVENTUALLY BUT GOOD FOR DEMO
+                        System.out.println("TYPE: " + receivedObject.getClass().getName());
                     } catch (JMSException jmsex) {
                         recordFailure(jmsex);
                     } catch (JsonProcessingException jsonproex) {
@@ -99,6 +99,6 @@ export function ConsumerConstructor({ name }) {
       id = "Basic sub";
       logger.info("Sub application is starting");
 
-      this.createConnection("${name}", "${name}", id);
+      this.createConnection("${name}", id);
   `;
 }
