@@ -29,7 +29,7 @@ test('Generates Coonnection for publisher ', async () => {
 
     logger.info("Pub application is starting");
 
-    // Establish connection for prodcer
+    // Establish connection for producer
     this.createConnection("single/released", id);
 
     // Set so no JMS headers are sent.
@@ -39,7 +39,7 @@ test('Generates Coonnection for publisher ', async () => {
   );
 });
 
-//Test producer Imports function
+// Test producer Imports function
 test('Generates all imports from path', async() => {
   const generateFolderName = () => {
     return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));

@@ -20,7 +20,7 @@ export function ConsumerDeclaration() {
     `;
 }
 
-export function ConsumerImports({params, message}) {
+export function ConsumerImports({ params, message }) {
   return `
 import java.util.logging.*;
 import java.io.Serializable;

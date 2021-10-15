@@ -21,11 +21,11 @@ module.exports = {
 };
 
 async function createFolderStructure(generator) {
-  const packagePath = `/${  generator.templateParams.package.split('.').join('/')  }/`;
+  const packagePath = `/${generator.templateParams.package.split('.').join('/')}/`;
 
   const targetDir = generator.targetDir;
   const packageDir = targetDir + packagePath;
 
   fs.mkdirSync(packageDir, {recursive: true});
-  fs.mkdirSync(`${targetDir + packagePath  }models`);
+  fs.mkdirSync(`${targetDir + packagePath}models`);
 }

@@ -35,7 +35,7 @@ export function SendMessage() {
     }`;
 }
   
-export function ProducerConstructor({name}) {
+export function ProducerConstructor({ name }) {
   return `
     super();
     String id = null;
@@ -43,7 +43,7 @@ export function ProducerConstructor({name}) {
 
     logger.info("Pub application is starting");
 
-    // Establish connection for prodcer
+    // Establish connection for producer
     this.createConnection("${name}", id);
 
     // Set so no JMS headers are sent.
@@ -52,7 +52,7 @@ export function ProducerConstructor({name}) {
 `;
 }
   
-export function ProducerImports({params}) {
+export function ProducerImports({ params }) {
   return `
 import java.util.logging.*;
 import java.io.Serializable;

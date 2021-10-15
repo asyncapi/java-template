@@ -6,25 +6,28 @@ const crypto = require('crypto');
 
 const MAIN_TEST_RESULT_PATH = path.join('test', 'temp', 'integrationTestResult');
 
-//Test class asyncApiTypeToJavaType
+// Test class asyncApiTypeToJavaType
 test('Check integer type is converted to int ', () => {
   expect(typesUtils.asyncApiTypeToJavaType('integer')).toBe('int');
 });
+
 test('Check string type is converted to String ', () => {
   expect(typesUtils.asyncApiTypeToJavaType('string')).toBe('String');
 });
+
 test('Check password type is converted to String ', () => {
   expect(typesUtils.asyncApiTypeToJavaType('password')).toBe('String');
 });
+
 test('Check byte type is not changed ', () => {
   expect(typesUtils.asyncApiTypeToJavaType('byte')).toBe('byte');
 });
+
 test('Unexpected type throws error', () => {
   expect(() => { typesUtils.asyncApiTypeToJavaType('test');}).toThrow();
 });
 
-//Test class setLocalVariables
-
+// Test class setLocalVariables
 test('Check local variables is changed', () => {
   const properties = {name: 'name' , property: 'property'};
   expect(typesUtils.setLocalVariables(properties)).toStrictEqual([`
@@ -36,8 +39,7 @@ test('Check local variables is changed', () => {
   ]);
 });
 
-//Test class defineVariablesForProperties
-  
+// Test class defineVariablesForProperties
 test('Define Variables For Properties', async () => {
   const generateFolderName = () => {
     return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
@@ -59,8 +61,7 @@ test('Define Variables For Properties', async () => {
   expect(typesUtils.defineVariablesForProperties(properties)).toStrictEqual(['public String title;', 'public String artist;', 'public String album;', 'public String genre;', 'public int length;'],);
 });
 
-//Test class passJavaArgs
-  
+// Test class passJavaArgs
 test('Pass Java Args', async () => {
   const generateFolderName = () => {
     return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
@@ -82,8 +83,7 @@ test('Pass Java Args', async () => {
   expect(typesUtils.passJavaArgs(properties)).toStrictEqual('title,artist,album,genre,length');
 });
 
-//Test class createJavaArgsFromProperties
-
+// Test class createJavaArgsFromProperties
 test('Create Java Args from Properties', async () => {
   const generateFolderName = () => {
     return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
@@ -105,11 +105,11 @@ test('Create Java Args from Properties', async () => {
   expect(typesUtils.createJavaArgsFromProperties(properties)).toStrictEqual(['String title', 'String artist', 'String album', 'String genre', 'int length']);
 });
 
-//Test function asyncApiTypeToDemoValue
-
+// Test function asyncApiTypeToDemoValue
 test('Check integer type is a random number', () => {
   expect(typesUtils.asyncApiTypeToDemoValue('integer')).toEqual(expect.any(Number));
 });
+
 test('Unexpected type throws an error', () => {
   expect(() => { typesUtils.asyncApiTypeToDemoValue('test');}).toThrow();
 });

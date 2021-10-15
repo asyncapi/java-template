@@ -14,32 +14,9 @@
 * limitations under the License.
 */
 
-/*
- * Below you can see how to create reusable chunks/components/helpers.
- * Check the files in the `template` folder to see how to import and use them within a template.
- */
 import { createJavaArgsFromProperties } from '../utils/Types.utils';
-/*
-  * Each component has a `childrenContent` property.
-  * It is the processed children content of a component into a pure string. You can use it for compositions in your component.
-  * 
-  * Example:
-  * function CustomComponent({ childrenContent }) {
-  *   return `some text at the beginning: ${childrenContent}`
-  * }
-  * 
-  * function RootComponent() {
-  *   return (
-  *     <CustomComponent>
-  *       some text at the end.
-  *     </CustomComponent>
-  *   );
-  * }
-  * 
-  * then output from RootComponent will be `some text at the beginning: some text at the end.`.
-  */
 
-export function Class({childrenContent, name, implementsClass, extendsClass }) {
+export function Class({ childrenContent, name, implementsClass, extendsClass }) {
   if (childrenContent === undefined) { 
     childrenContent = '';
   }
@@ -118,6 +95,7 @@ export function URLtoHost(url) {
   const u = new URL(url);
   return u.host;
 }
+
 export function URLtoPort(url, defaultPort) {
   const u = new URL(url);
   if (u.port === '')
@@ -133,7 +111,7 @@ public void close() {
 }`;
 }
 
-export function EnvJson({ asyncapi, params}) {
+export function EnvJson({ asyncapi, params }) {
   const url = asyncapi.server(params.server).url(); 
   const qmgr = getMqValues(url,'qmgr');
   const mqChannel = getMqValues(url,'mqChannel');
@@ -152,9 +130,10 @@ export function EnvJson({ asyncapi, params}) {
   }
   `;
 }
+
 export function ImportModels({ messages, params }) {
   return Object.entries(messages)
-    .map(([messageName, message]) => {
+    .map(([messageName]) => {
       return `
 import ${params.package}.models.${messageName.charAt(0).toUpperCase() + messageName.slice(1)};`;
     });
@@ -163,11 +142,14 @@ import ${params.package}.models.${messageName.charAt(0).toUpperCase() + messageN
 /* Used to resolve a channel object to message name */
 export function ChannelToMessage(channel, asyncapi) {
   // Get payload from either publish or subscribe
-  const targetPayloadProperties = Object.prototype.hasOwnProperty.call(channel, 'publish') ? channel.publish().message().payload().properties() : channel.subscribe().message().payload().properties();
+  const targetPayloadProperties = Object.prototype.hasOwnProperty.call(channel, 'publish') ? 
+    channel.publish().message().payload().properties() :
+    channel.subscribe().message().payload().properties();
 
   // Find message name from messages array
   const messages = asyncapi.components().messages();
   let targetMessageName;
+
   for (const message in messages) {
     if (messages[message].payload().properties().toString() === targetPayloadProperties.toString()) {
       targetMessageName = message;

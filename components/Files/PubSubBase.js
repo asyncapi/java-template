@@ -57,7 +57,7 @@ function getPubSubContent(params) {
           try {
             ObjectMapper mapper = new ObjectMapper();
         
-            // convert JSON file to map
+            // Convert JSON file to map
             Map<Object, List<Map>> map = mapper.readValue(Paths.get("env.json").toFile(), Map.class);
             MQ_ENDPOINTS = map.get("MQ_ENDPOINTS");
             // TODO : Allow switching between multiple endpoints
@@ -106,8 +106,6 @@ function getPubSubContent(params) {
                     logger.warning(ex.getMessage());
                 }
             }
-            logger.info("FAILURE");
-            return;
         }
     
         protected void processJMSException(JMSException jmsex) {
@@ -134,7 +132,7 @@ export function PubSubBase(params) {
   const packagePath = javaPackageToPath(params.package);
   return (
     <File name={`${packagePath}PubSubBase.java`}>
-      <PackageDeclaration path={params.package}></PackageDeclaration>
+      <PackageDeclaration path={params.package} />
       {getPubSubContent(params)}
     </File>
   );

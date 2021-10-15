@@ -12,7 +12,7 @@ const MAIN_TEST_RESULT_PATH = path.join('test', 'temp', 'integrationTestResult')
 
 describe('template integration tests using the generator', () => {
   const generateFolderName = () => {
-    // you always want to generate to new directory to make sure test runs in clear environment
+    // You always want to generate to new directory to make sure test runs in clear environment
     return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
   };
 
