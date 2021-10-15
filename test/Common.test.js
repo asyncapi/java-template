@@ -50,11 +50,6 @@ public class TestName  {
   );
 });
 
-// test('Do not create class if name is not defined ', () => {
-//   expect(testCommon.Class()).toBe(`Invalid parameters passed into class function, name is required`
-//      );
-// });
-
 //Test ClassConstructor function
 
 test('Gets Class Constructor generates from JavaArgs no properties', () => {
@@ -63,13 +58,6 @@ test('Gets Class Constructor generates from JavaArgs no properties', () => {
     TestChild
   }`);
 });
-
-// test('Gets Class Constructor generates from JavaArgs with properties', () => {
-//   expect(testCommon.ClassConstructor({childrenContent : "TestChild" , name : "TestName", properties : })).toBe(`
-//   public TestName() {
-//     TestChild
-//   }`);
-// });
 
 //Test PackageDeclaration function
 
