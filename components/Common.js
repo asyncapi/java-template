@@ -94,34 +94,6 @@ export function ImportDeclaration({path}) {
 import ${path};`;
 }
 
-export function Imports({params}) {
-  return `
-import java.util.logging.*;
-import java.io.Serializable;
-
-import javax.jms.Destination;
-import javax.jms.JMSProducer;
-import javax.jms.JMSContext;
-import javax.jms.Message;
-import javax.jms.JMSRuntimeException;
-import javax.jms.ObjectMessage;
-
-
-import ${params.package}.ConnectionHelper;
-import ${params.package}.LoggingHelper;
-import ${params.package}.Connection;
-import ${params.package}.PubSubBase;
-import ${params.package}.models.ModelContract;
-
-import com.fasterxml.jackson.databind.ObjectMapper; 
-import com.fasterxml.jackson.databind.ObjectWriter; 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.annotation.JsonView;
-
-
-  `;
-}
-
 export function getMqValues(url, val) {
   const reg = new RegExp('(?<=ibmmq://.*/).*/.*', 'gm');
   const regString = reg.exec(url);

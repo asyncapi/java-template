@@ -15,8 +15,8 @@
 */
 
 import { File, render } from '@asyncapi/generator-react-sdk';
-import {ImportModels, PackageDeclaration, Imports, Class, ClassHeader, ClassConstructor} from '../Common';
-import {ProducerConstructor, SendMessage } from '../Producer';
+import { ImportModels, PackageDeclaration, Class, ClassHeader, ClassConstructor} from '../Common';
+import { ProducerConstructor, SendMessage, ProducerImports } from '../Producer';
 import { toJavaClassName, javaPackageToPath } from '../../utils/String.utils';
 
 export function Producers(asyncapi, channels, params) {
@@ -49,12 +49,12 @@ export function Producers(asyncapi, channels, params) {
     }
   });
 }
-  
+
 function HeaderContent({ asyncapi, params }) {
   const messages = asyncapi.components().messages();
   return `
   ${render(<PackageDeclaration path={params.package}></PackageDeclaration>)}
-  ${render(<Imports params={params}></Imports>)}
+  ${render(<ProducerImports params={params}></ProducerImports>)}
   ${render(<ImportModels messages={messages} params={params} />)}
         `;
 }

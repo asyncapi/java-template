@@ -52,3 +52,30 @@ export function ProducerConstructor({name}) {
 `;
 }
   
+export function ProducerImports({params}) {
+  return `
+import java.util.logging.*;
+import java.io.Serializable;
+
+import javax.jms.Destination;
+import javax.jms.JMSProducer;
+import javax.jms.JMSContext;
+import javax.jms.Message;
+import javax.jms.JMSRuntimeException;
+import javax.jms.ObjectMessage;
+
+
+import ${params.package}.ConnectionHelper;
+import ${params.package}.LoggingHelper;
+import ${params.package}.Connection;
+import ${params.package}.PubSubBase;
+import ${params.package}.models.ModelContract;
+
+import com.fasterxml.jackson.databind.ObjectMapper; 
+import com.fasterxml.jackson.databind.ObjectWriter; 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.annotation.JsonView;
+
+
+  `;
+}
