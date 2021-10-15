@@ -44,7 +44,7 @@ export function ProducerConstructor({name}) {
 
     logger.info("Sub application is starting");
 
-    this.createConnection("${name}", "${name}", id);
+    this.createConnection("${name}", id);
 
         // Set so no JMS headers are sent.
         ch.setTargetClient(destination);

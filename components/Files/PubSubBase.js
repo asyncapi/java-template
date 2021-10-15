@@ -49,7 +49,7 @@ function getPubSubContent(params) {
             LoggingHelper.init(logger);
         }
     
-        public void createConnection(String queueName, String topicName, String id){
+        public void createConnection(String topicName, String id){
     
           List<Map> MQ_ENDPOINTS = null;
           Map MQFirst = null;
@@ -76,7 +76,7 @@ function getPubSubContent(params) {
             MQFirst.get("QMGR").toString(),
             MQFirst.get("APP_USER").toString(),
             MQFirst.get("APP_PASSWORD").toString(),
-            queueName,
+            null,
             topicName,
             null);
       
