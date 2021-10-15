@@ -52,6 +52,8 @@ export function asyncApiTypeToJavaType(asyncApiType) {
 
   case 'password':
     return 'String';
+  default:
+    throw new Error('Unsupported Type');
   }
 }
 
@@ -62,7 +64,7 @@ export function setLocalVariables(properties) {
   return Object.entries(properties).map(([name, property]) => {
     return `
     this.${name} = ${name};
-  `;
+    `;
   });
 }
   
@@ -127,5 +129,8 @@ export function asyncApiTypeToDemoValue(asyncApiType) {
 
   case ('date' || 'dateTime'):
     return (new Date()).toISOString().split('T')[0];
+
+  default:
+    throw new Error('Unsupported Type');
   }
 }
