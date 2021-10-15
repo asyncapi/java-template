@@ -155,7 +155,8 @@ export function EnvJson({ asyncapi, params}) {
 export function ImportModels({ messages, params }) {
   return Object.entries(messages)
     .map(([messageName, message]) => {
-      return `import ${params.package}.models.${messageName.charAt(0).toUpperCase() + messageName.slice(1)};`;
+      return `
+import ${params.package}.models.${messageName.charAt(0).toUpperCase() + messageName.slice(1)};`;
     });
 }
 

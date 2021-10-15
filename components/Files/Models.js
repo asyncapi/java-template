@@ -18,6 +18,7 @@ import { File } from '@asyncapi/generator-react-sdk';
 import {PackageDeclaration, ImportDeclaration, Class, ClassConstructor} from '../Common';
 import {ModelClassVariables, ModelConstructor } from '../Model';
 import { javaPackageToPath } from '../../utils/String.utils';
+import { Indent, IndentationTypes } from '@asyncapi/generator-react-sdk';
 
 export function Models(messages, params) {
   return Object.entries(messages).map(([messageName, message]) => {
@@ -31,8 +32,9 @@ export function Models(messages, params) {
 
         <Class name={messageNameUpperCase} extendsClass="ModelContract">
           {/* Declare local class vars */}
-
-          <ModelClassVariables message={message}></ModelClassVariables>
+          <Indent size={2} type={IndentationTypes.SPACES}>
+            <ModelClassVariables message={message}></ModelClassVariables>
+          </Indent>
 
           <ClassConstructor name={messageNameUpperCase} properties={message.payload().properties()}>
             <ModelConstructor message={message}/>

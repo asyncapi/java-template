@@ -16,79 +16,79 @@
 
 export function ConsumerDeclaration() {
   return `
-      private JMSConsumer consumer = null;
+  private JMSConsumer consumer = null;
     `;
 }
 
 export function ConsumerImports({params, message}) {
   return `
-    import java.util.logging.*;
-    import java.io.Serializable;
+import java.util.logging.*;
+import java.io.Serializable;
 
-    import javax.jms.Destination;
-    import javax.jms.JMSConsumer;
-    import javax.jms.JMSContext;
-    import javax.jms.Message;
-    import javax.jms.TextMessage;
-    import javax.jms.JMSRuntimeException;
-    import javax.jms.JMSException;
+import javax.jms.Destination;
+import javax.jms.JMSConsumer;
+import javax.jms.JMSContext;
+import javax.jms.Message;
+import javax.jms.TextMessage;
+import javax.jms.JMSRuntimeException;
+import javax.jms.JMSException;
 
-    import com.fasterxml.jackson.databind.ObjectMapper;
-    import com.fasterxml.jackson.databind.ObjectWriter;
-    import com.fasterxml.jackson.core.JsonProcessingException;
-    import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.annotation.JsonView;
 
+import ${params.package}.ConnectionHelper;
+import ${params.package}.LoggingHelper;
+import ${params.package}.Connection;
+import ${params.package}.PubSubBase;
 
-    import ${params.package}.ConnectionHelper;
-    import ${params.package}.LoggingHelper;
-    import ${params.package}.Connection;
-    import ${params.package}.PubSubBase;
-    import ${params.package}.models.ModelContract;
-    import ${params.package}.models.${message.name};
-    `;
+import ${params.package}.models.ModelContract;
+import ${params.package}.models.${message.name};
+`;
 }
 
 export function ReceiveMessage({ message }) {
   return `
-    public void receive(int requestTimeout) {
-      boolean continueProcessing = true;
-  
-      consumer = context.createConsumer(destination);
-      logger.info("consumer created");
-  
-      while (continueProcessing) {
-          try {
-              Message receivedMessage = consumer.receive(requestTimeout);
-              if (receivedMessage == null) {
-                  logger.info("No message received from this endpoint");
+  public void receive(int requestTimeout) {
+    boolean continueProcessing = true;
+
+    consumer = context.createConsumer(destination);
+    logger.info("consumer created");
+
+    while (continueProcessing) {
+        try {
+            Message receivedMessage = consumer.receive(requestTimeout);
+            if (receivedMessage == null) {
+                logger.info("No message received from this endpoint");
+            } else {
+              if (receivedMessage instanceof TextMessage) {
+                  TextMessage textMessage = (TextMessage) receivedMessage;
+                  try {
+                      logger.info("Received message: " + textMessage.getText());
+                      ${message.name} receivedObject = new ObjectMapper().readValue(textMessage.getText(), ${message.name}.class);
+
+                      logger.info("Received message type: " + receivedObject.getClass().getName());
+                  } catch (JMSException jmsex) {
+                      recordFailure(jmsex);
+                  } catch (JsonProcessingException jsonproex) {
+                      recordFailure(jsonproex);
+                  }
+              } else if (receivedMessage instanceof Message) {
+                  logger.info("Message received was not of type TextMessage.");
               } else {
-                if (receivedMessage instanceof TextMessage) {
-                    TextMessage textMessage = (TextMessage) receivedMessage;
-                    try {
-                        logger.info("Received message: " + textMessage.getText());
-                        ${message.name} receivedObject = new ObjectMapper().readValue(textMessage.getText(), ${message.name}.class);
-  
-                        logger.info("Received message type: " + receivedObject.getClass().getName());
-                    } catch (JMSException jmsex) {
-                        recordFailure(jmsex);
-                    } catch (JsonProcessingException jsonproex) {
-                        recordFailure(jsonproex);
-                    }
-                } else if (receivedMessage instanceof Message) {
-                    logger.info("Message received was not of type TextMessage.");
-                } else {
-                    logger.info("Received object not of JMS Message type!");
-                }
+                  logger.info("Received object not of JMS Message type!");
               }
-          } catch (JMSRuntimeException jmsex) {
-              jmsex.printStackTrace();
-              try {
-                  Thread.sleep(1000);
-              } catch (InterruptedException e) {
-              }
-          }
-       }
-    }
+            }
+        } catch (JMSRuntimeException jmsex) {
+            jmsex.printStackTrace();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+            }
+        }
+      }
+  }
   `;
 }
   

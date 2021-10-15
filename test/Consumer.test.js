@@ -23,29 +23,29 @@ test('Generates all imports from path', async() => {
   await generator.generateFromFile(path.resolve('test', 'mocks/single-channel.yml'));
   
   expect(testConsumer.ConsumerImports({params: generator.templateParams, message: {name: 'Single'}})).toBe(`
-    import java.util.logging.*;
-    import java.io.Serializable;
+import java.util.logging.*;
+import java.io.Serializable;
 
-    import javax.jms.Destination;
-    import javax.jms.JMSConsumer;
-    import javax.jms.JMSContext;
-    import javax.jms.Message;
-    import javax.jms.TextMessage;
-    import javax.jms.JMSRuntimeException;
-    import javax.jms.JMSException;
+import javax.jms.Destination;
+import javax.jms.JMSConsumer;
+import javax.jms.JMSContext;
+import javax.jms.Message;
+import javax.jms.TextMessage;
+import javax.jms.JMSRuntimeException;
+import javax.jms.JMSException;
 
-    import com.fasterxml.jackson.databind.ObjectMapper;
-    import com.fasterxml.jackson.databind.ObjectWriter;
-    import com.fasterxml.jackson.core.JsonProcessingException;
-    import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.annotation.JsonView;
 
+import com.ibm.mq.samples.jms.ConnectionHelper;
+import com.ibm.mq.samples.jms.LoggingHelper;
+import com.ibm.mq.samples.jms.Connection;
+import com.ibm.mq.samples.jms.PubSubBase;
 
-    import com.ibm.mq.samples.jms.ConnectionHelper;
-    import com.ibm.mq.samples.jms.LoggingHelper;
-    import com.ibm.mq.samples.jms.Connection;
-    import com.ibm.mq.samples.jms.PubSubBase;
-    import com.ibm.mq.samples.jms.models.ModelContract;
-    import com.ibm.mq.samples.jms.models.Single;
-    `
+import com.ibm.mq.samples.jms.models.ModelContract;
+import com.ibm.mq.samples.jms.models.Single;
+`
   );
 });

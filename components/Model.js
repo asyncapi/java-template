@@ -26,6 +26,6 @@ export function ModelClassVariables({ message }) {
   const argsString = defineVariablesForProperties(message.payload().properties());
   
   return argsString.join(`
-    `);
+`);
 }
   
