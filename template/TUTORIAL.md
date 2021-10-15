@@ -102,6 +102,8 @@ To deploy a dockerised instance of this project;
     docker run -d [PACKAGE_NAME]:[VERSION]
    ``` 
 
+Please note; The default `Dockerfile` included in output will only run `DemoSubscriber.java`. This will need to be replaced with the entrypoint to your application. 
+
 ### Networking
 Docker networking needs to be properly configured in order to allow your project to connect to an MQ instance. 
 
