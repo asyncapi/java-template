@@ -7,6 +7,9 @@
     "test": "jest",
     "lint": "eslint --max-warnings 0 --fix --config .eslintrc ."
   },
+  "engines": {
+    "node": ">=11.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ibm-messaging/mq-asyncapi-java-template"

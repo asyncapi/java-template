@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: This service is in charge of processing music
 servers:
-  production1:
+  production:
     url: ibmmq://localhost:1414/QM1/DEV.APP.SVRCONN
     protocol: ibmmq-secure
     description: Production Instance 1

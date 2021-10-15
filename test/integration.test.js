@@ -25,7 +25,7 @@ describe('template integration tests using the generator', () => {
     const PACKAGE = 'com.ibm.mq.samples.jms';
     const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
     const params = {
-      server: 'production1'
+      server: 'production'
     };
   
     const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
@@ -54,7 +54,7 @@ describe('template integration tests using the generator', () => {
     const PACKAGE = 'com.ibm.mq.samples.jms';
     const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
     const params = {
-      server: 'production1'
+      server: 'production'
     };
   
     const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
@@ -80,7 +80,7 @@ describe('template integration tests using the generator', () => {
     const PACKAGE = 'com.ibm.mq.samples.jms';
     const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
     const params = {
-      server: 'production1'
+      server: 'production'
     };
   
     const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
@@ -105,7 +105,7 @@ describe('template integration tests using the generator', () => {
     const PACKAGE = 'com.ibm.mq.different.jms';
     const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
     const params = {
-      server: 'production1',
+      server: 'production',
       package: PACKAGE
     };
   
