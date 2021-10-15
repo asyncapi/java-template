@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-export function ConnectionHelper(params) {
+export function ConnectionHelper({ params }) {
   return `
 import java.util.logging.*;
 
@@ -27,16 +27,16 @@ import com.ibm.msg.client.jms.JmsFactoryFactory;
 import com.ibm.msg.client.wmq.WMQConstants;
 
 import com.ibm.mq.jms.MQDestination;
-import ${params.params.package}.Connection;
+import ${params.package}.Connection;
 
 public class ConnectionHelper {
 
     private static final Level LOGLEVEL = Level.ALL;
-    private static final Logger logger = Logger.getLogger("${params.params.package}");
+    private static final Logger logger = Logger.getLogger("${params.package}");
     public static final int USE_CONNECTION_STRING = -1;
 
     // Create variables for the connection to MQ
-    private static String ConnectionString = null; //= "localhost(1414),localhost(1416)"
+    private static String ConnectionString = null; // = "localhost(1414),localhost(1416)"
     private String HOST = null; // Host name or IP address
     private int PORT = 0; // Listener port for your queue manager
     private String CHANNEL = null; // Channel name
@@ -48,7 +48,7 @@ public class ConnectionHelper {
     private String CIPHER_SUITE = null;
     private static String CCDTURL;
 
-    private String TOPIC_PREFIX = "${params.params.topicPrefix}";
+    private String TOPIC_PREFIX = "${params.topicPrefix}";
 
     JMSContext context;
 

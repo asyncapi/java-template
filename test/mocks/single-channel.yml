@@ -10,27 +10,12 @@ servers:
     description: Production Instance 1
 channels:
   single/released:
-    bindings:
-      ibmmq:
-        topic:
-          durablePermitted: true
-        bindingVersion: 0.1.0
     publish: 
       message:
         $ref: '#/components/messages/single'
-        bindings:
-          ibmmq:
-            type: jms
-            description: JMS bytes message
-            bindingVersion: 0.1.0
     subscribe:
       message:
         $ref: '#/components/messages/single'
-        bindings:
-          ibmmq:
-            type: jms
-            description: JMS bytes message
-            bindingVersion: 0.1.0
             
 components:
   messages:

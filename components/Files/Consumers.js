@@ -22,7 +22,7 @@ import { toJavaClassName, javaPackageToPath } from '../../utils/String.utils';
 export function Consumers(asyncapi, channels, params) {
   return Object.entries(channels).map(([channelName, channel]) => {
     const name = channelName;
-    const className = `${toJavaClassName(channelName)  }Subscriber`;
+    const className = `${toJavaClassName(channelName)}Subscriber`;
 
     const packagePath = javaPackageToPath(params.package);
 
@@ -30,7 +30,6 @@ export function Consumers(asyncapi, channels, params) {
     
     if (channel.subscribe()) {
       return (
-      
         <File name={`${packagePath}${className}.java`}>
           <PackageDeclaration path={params.package}></PackageDeclaration>
           <ConsumerImports params={params} message={message}></ConsumerImports>
@@ -45,8 +44,7 @@ export function Consumers(asyncapi, channels, params) {
             <ReceiveMessage message={message}></ReceiveMessage>
 
           </Class>
-        </File>
-  
+        </File> 
       );
     }
   });

@@ -56,8 +56,8 @@ export function Demo(asyncapi, params) {
   const messageNameTitleCase = targetMessageName.charAt(0).toUpperCase() + targetMessageName.slice(1);
 
   // Handle producer creation
-  const producerPath = `${javaPackageToPath(params.package)  }DemoProducer.java`;
-  const subscriberPath = `${javaPackageToPath(params.package)  }DemoSubscriber.java`;
+  const producerPath = `${javaPackageToPath(params.package)}DemoProducer.java`;
+  const subscriberPath = `${javaPackageToPath(params.package)}DemoSubscriber.java`;
   const className = toJavaClassName(channelName);
 
   const constructorArgs = createJavaConstructorArgs(targetPayloadProperties).join(', ');

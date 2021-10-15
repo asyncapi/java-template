@@ -14,47 +14,38 @@
 * limitations under the License.
 */
 
-import { File, render } from '@asyncapi/generator-react-sdk';
-import { ImportModels, PackageDeclaration, Class, ClassHeader, ClassConstructor} from '../Common';
+import { File } from '@asyncapi/generator-react-sdk';
+import { ImportModels, PackageDeclaration, Class, ClassHeader, ClassConstructor } from '../Common';
 import { ProducerConstructor, SendMessage, ProducerImports } from '../Producer';
 import { toJavaClassName, javaPackageToPath } from '../../utils/String.utils';
 
 export function Producers(asyncapi, channels, params) {
   return Object.entries(channels).map(([channelName, channel]) => {
     const name = channelName;
-    const className = `${toJavaClassName(channelName)  }Producer`;
+    const className = `${toJavaClassName(channelName)}Producer`;
     const packagePath = javaPackageToPath(params.package);
-  
+    const messages = asyncapi.components().messages();
+
     if (channel.publish()) {
       return (
-        
         <File name={`${packagePath}${className}.java`}>
             
-          <HeaderContent asyncapi={asyncapi} params={params}></HeaderContent>
+          <PackageDeclaration path={params.package} />
+          <ProducerImports params={params} />
+          <ImportModels messages={messages} params={params} />
     
           <Class name={className} extendsClass="PubSubBase">
-            <ClassHeader/>
+            <ClassHeader />
     
             <ClassConstructor name={className}>
-              <ProducerConstructor name={name}/>
-                
+              <ProducerConstructor name={name} />
             </ClassConstructor>
               
-            <SendMessage></SendMessage>
+            <SendMessage />
               
           </Class>
         </File>
-    
       );
     }
   });
-}
-
-function HeaderContent({ asyncapi, params }) {
-  const messages = asyncapi.components().messages();
-  return `
-  ${render(<PackageDeclaration path={params.package}></PackageDeclaration>)}
-  ${render(<ProducerImports params={params}></ProducerImports>)}
-  ${render(<ImportModels messages={messages} params={params} />)}
-        `;
 }

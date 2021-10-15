@@ -15,8 +15,8 @@
 */
 
 import { File } from '@asyncapi/generator-react-sdk';
-import {PackageDeclaration, ImportDeclaration, Class, ClassConstructor} from '../Common';
-import {ModelClassVariables, ModelConstructor } from '../Model';
+import { PackageDeclaration, ImportDeclaration, Class, ClassConstructor } from '../Common';
+import { ModelClassVariables, ModelConstructor } from '../Model';
 import { javaPackageToPath } from '../../utils/String.utils';
 import { Indent, IndentationTypes } from '@asyncapi/generator-react-sdk';
 
@@ -31,7 +31,6 @@ export function Models(messages, params) {
         <ImportDeclaration path={`${params.package}.models.ModelContract`} />
 
         <Class name={messageNameUpperCase} extendsClass="ModelContract">
-          {/* Declare local class vars */}
           <Indent size={2} type={IndentationTypes.SPACES}>
             <ModelClassVariables message={message}></ModelClassVariables>
           </Indent>

@@ -17,12 +17,12 @@
 import { setLocalVariables, defineVariablesForProperties } from '../utils/Types.utils';
 
 export function ModelConstructor({ message }) {
-  // TODO one of can be used in message apparently?
+  // TODO: Supoort ofMany messages
   return (setLocalVariables(message.payload().properties()).join(''));
 }
 
 export function ModelClassVariables({ message }) {
-  // TODO one of can be used in message apparently?
+  // TODO: Supoort ofMany messages
   const argsString = defineVariablesForProperties(message.payload().properties());
   
   return argsString.join(`

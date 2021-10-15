@@ -13,7 +13,7 @@ const yaml = 'mocks/single-channel.yml';
 
 const MAIN_TEST_RESULT_PATH = path.join('test', 'temp', 'integrationTestResult');
 
-//Test class Function
+// Test class Function
 test('Creates Class from parameters', () => {
   expect(testCommon.Class({childrenContent: 'TestChild' , name: 'TestName' , implementsClass: 'TestImplement' , extendsClass: 'TestExtend' })).toBe(`
 public class TestName implements TestImplement extends TestExtend{
@@ -50,7 +50,7 @@ public class TestName  {
   );
 });
 
-//Test ClassConstructor function
+// Test ClassConstructor function
 
 test('Gets Class Constructor generates from JavaArgs no properties', () => {
   expect(testCommon.ClassConstructor({childrenContent: 'TestChild' , name: 'TestName'})).toBe(`
@@ -59,7 +59,7 @@ test('Gets Class Constructor generates from JavaArgs no properties', () => {
   }`);
 });
 
-//Test PackageDeclaration function
+// Test PackageDeclaration function
 
 test('Generates package java from path', () => {
   expect(testCommon.PackageDeclaration({path: 'test.package'})).toBe(`
@@ -82,52 +82,59 @@ package test.package;
   `);
 });
 
-//Test ImportDeclaration function
+// Test ImportDeclaration function
 
 test('Generates import java from path', () => {
   expect(testCommon.ImportDeclaration({path: 'test.import'})).toBe(`
 import test.import;`);
 });
 
-//Test getMqValues function
+// Test getMqValues function
 test('Gets QMGR value from URL', () => {
   expect(testCommon.getMqValues(url, 'qmgr')).toBe('QM1');
 });
+
 test('Gets mqChannel value from URL', () => {
   expect(testCommon.getMqValues(url, 'mqChannel')).toBe('DEV.APP.SVRCONN');
 });
+
 test('Test invalid value', () => {
   expect(testCommon.getMqValues(url, 'test')).toBe('Invalid parameter passed into getMqValues function');
 });
+
 test('Test invalid URL', () => {
   expect(testCommon.getMqValues('ibmmq://localhost:1414/QM1', 'qmgr')).toBe('Invalid URL passed into getMqValues function');
 });
+
 test('Test no URL provided', () => {
   expect(testCommon.getMqValues('', 'test')).toBe('Invalid URL passed into getMqValues function');
 });
+
 test('Test no value', () => {
   expect(testCommon.getMqValues(url, '')).toBe('Invalid parameter passed into getMqValues function');
 });
 
-//Test URLtoHost function
+// Test URLtoHost function
 
 test('Gets Host and Port from URL', () => {
   expect(testCommon.URLtoHost(url)).toBe('localhost:1414');
 });
 
-//Test URLtoPort function
+// Test URLtoPort function
 
 test('Gets Port from URL', () => {
   expect(testCommon.URLtoPort(url, '1414')).toBe('1414');
 });
+
 test('Gets Port from Default', () => {
   expect(testCommon.URLtoPort('ibmmq://localhost/QM1/DEV.APP.SVRCONN', '1414')).toBe('1414');
 });
+
 test('Gets Port from URL overide default', () => {
   expect(testCommon.URLtoPort('ibmmq://localhost:8008/QM1/DEV.APP.SVRCONN', '1414')).toBe('8008');
 });
 
-//Test EnvJson Function
+// Test EnvJson Function
 
 test('Test EnvJson extracts correct values', async () => {
   const generateFolderName = () => {
@@ -155,7 +162,7 @@ test('Test EnvJson extracts correct values', async () => {
   `);
 });
 
-//Test ImportModels
+// Test ImportModels
 
 test('Test ImportModels are generated', async () => {
   const generateFolderName = () => {
