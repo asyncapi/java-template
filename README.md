@@ -135,9 +135,9 @@ To run the generated Java project in a Docker container, use the commands as bel
 For further information including network setup, please see the [tutorial](template/TUTORIAL.md).
 
 ## Future Enhancements
-* TLS support
-* Support multiple messages per channel (ofMany)
-* Support ObjectMessage transport
+* Add support for TLS connections
+* Add support for multiple messages per channel (ofMany)
+* Add support for more JMS Types alongside JMS Text
 * Offer Java event listener support for consumers
 
 ## Contributors ✨
