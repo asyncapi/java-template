@@ -136,10 +136,9 @@ For further information including network setup, please see the [tutorial](templ
 
 ## Future Enhancements
 * Add support for TLS connections
-* Support multiple messages per channel (ofMany)
-* Support ObjectMessage transport
-* Offer Java event listener support for consumers
+* Add support for multiple messages per channel (ofMany)
 * Add support for more JMS Types alongside JMS Text
+* Offer Java event listener support for consumers
 
 ## Contributors ✨
 
