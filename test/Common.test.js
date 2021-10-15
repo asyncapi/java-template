@@ -6,7 +6,7 @@ const crypto = require('crypto');
 
 const url = 'ibmmq://localhost:1414/QM1/DEV.APP.SVRCONN';
 const params = {
-  server: 'production1'
+  server: 'production'
 };
 
 const yaml = 'mocks/single-channel.yml';
