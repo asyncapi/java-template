@@ -75,7 +75,7 @@ export function getMqValues(url, val) {
   const reg = new RegExp('(?<=ibmmq://.*/).*/.*', 'gm');
   const regString = reg.exec(url);
   if (regString === null) {
-    return 'Invalid URL passed into getMqValues function'; 
+    throw new Error('Invalid URL passed into getMqValues function');
   }
 
   const splitVals = regString.toString().split('/');
@@ -85,10 +85,9 @@ export function getMqValues(url, val) {
     if (val === 'mqChannel')
       return splitVals[1];
     
-    return 'Invalid parameter passed into getMqValues function';
+    throw new Error('Invalid parameter passed into getMqValues function');
   }
-  
-  return 'Invalid URL passed into getMqValues function';
+  throw new Error('Invalid URL passed into getMqValues function');
 }
   
 export function URLtoHost(url) {
