@@ -134,6 +134,10 @@ test('Gets Port from URL overide default', () => {
   expect(testCommon.URLtoPort('ibmmq://localhost:8008/QM1/DEV.APP.SVRCONN', '1414')).toBe('8008');
 });
 
+test('invalid port', () => {
+  expect(() => {testCommon.URLtoPort('ibmmq://localhost:TEST/QM1/DEV.APP.SVRCONN', '1414');}).toThrow();
+});
+
 // Test EnvJson Function
 
 test('EnvJson extracts correct values', async () => {
