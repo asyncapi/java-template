@@ -105,7 +105,7 @@
     "eslint-plugin-sonarjs": "^0.10.0",
     "jest": "^27.2.5",
     "jest-esm-transformer": "^1.0.0"
-    },
+  },
   "jest": {
     "transform": {
       "\\.m?jsx?$": "jest-esm-transformer"

@@ -99,19 +99,20 @@ test('Gets mqChannel value from URL', () => {
 });
 
 test('Test invalid value', () => {
-  expect(testCommon.getMqValues(url, 'test')).toBe('Invalid parameter passed into getMqValues function');
+  expect(() => {testCommon.getMqValues(url, 'test');}).toThrow();
 });
 
 test('Test invalid URL', () => {
-  expect(testCommon.getMqValues('ibmmq://localhost:1414/QM1', 'qmgr')).toBe('Invalid URL passed into getMqValues function');
+  expect(() => {testCommon.getMqValues('ibmmq://localhost:1414/QM1', 'qmgr');}).toThrow();
 });
 
+
 test('Test no URL provided', () => {
-  expect(testCommon.getMqValues('', 'test')).toBe('Invalid URL passed into getMqValues function');
+  expect(() => {testCommon.getMqValues('', 'test');}).toThrow();
 });
 
 test('Test no value', () => {
-  expect(testCommon.getMqValues(url, '')).toBe('Invalid parameter passed into getMqValues function');
+  expect(() => {testCommon.getMqValues(url, '');}).toThrow();
 });
 
 // Test URLtoHost function
