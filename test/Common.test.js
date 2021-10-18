@@ -98,20 +98,19 @@ test('Gets mqChannel value from URL', () => {
   expect(testCommon.getMqValues(url, 'mqChannel')).toBe('DEV.APP.SVRCONN');
 });
 
-test('Test invalid value', () => {
+test('invalid value', () => {
   expect(() => {testCommon.getMqValues(url, 'test');}).toThrow();
 });
 
-test('Test invalid URL', () => {
+test('invalid URL', () => {
   expect(() => {testCommon.getMqValues('ibmmq://localhost:1414/QM1', 'qmgr');}).toThrow();
 });
 
-
-test('Test no URL provided', () => {
+test('no URL provided', () => {
   expect(() => {testCommon.getMqValues('', 'test');}).toThrow();
 });
 
-test('Test no value', () => {
+test('no value', () => {
   expect(() => {testCommon.getMqValues(url, '');}).toThrow();
 });
 
@@ -135,9 +134,13 @@ test('Gets Port from URL overide default', () => {
   expect(testCommon.URLtoPort('ibmmq://localhost:8008/QM1/DEV.APP.SVRCONN', '1414')).toBe('8008');
 });
 
+test('invalid port', () => {
+  expect(() => {testCommon.URLtoPort('ibmmq://localhost:TEST/QM1/DEV.APP.SVRCONN', '1414');}).toThrow();
+});
+
 // Test EnvJson Function
 
-test('Test EnvJson extracts correct values', async () => {
+test('EnvJson extracts correct values', async () => {
   const generateFolderName = () => {
     return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
   };
@@ -165,7 +168,7 @@ test('Test EnvJson extracts correct values', async () => {
 
 // Test ImportModels
 
-test('Test ImportModels are generated', async () => {
+test('ImportModels are generated', async () => {
   const generateFolderName = () => {
     return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
   };
