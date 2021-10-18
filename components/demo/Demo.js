@@ -22,36 +22,28 @@ import { createJavaConstructorArgs } from '../../utils/Types.utils';
 import { PackageDeclaration } from '../Common';
 
 export function Demo(asyncapi, params) {
-  const channels = asyncapi.channels();
+  const channels = Object.entries(asyncapi.channels()).map(([key, value]) => ({key,value}));
 
-  // Try to find a pub and sub channel or pub or sub
-  let foundPubAndSub;
-  let foundPubOrSub;
-  for (const property in channels) {
-    if ((channels[property].publish || channels[property].subcribe) && !foundPubOrSub) {
-      foundPubOrSub = property;
-    }
-    if (channels[property].publish && channels[property].subcribe) {
-      foundPubAndSub = property;
-      break;
-    }
-  }
+  let foundPubAndSub = channels.filter(function(el) {
+    return el.value.publish && el.value.subscribe;
+  });
+
+  let foundPubOrSub = channels.filter(function(el) {
+    return el.value.publish || el.value.subscribe;
+  });
 
   // Prioritise channel with both, fallback to an OR
-  const channelName = foundPubAndSub ? foundPubAndSub : foundPubOrSub;
-  const channel = asyncapi.channel(channelName);
+  const channel = foundPubAndSub.length ? foundPubAndSub[0] : foundPubOrSub[0];
+  const channelName = channel.key;
 
   // Get payload from either publish or subscribe
-  const targetPayloadProperties = channel.publish ? channel.publish().message().payload().properties() : channel.subscribe().message().payload().properties();
+  const targetPayloadProperties = channel.value.publish ? channel.value.publish().message().payload().properties() : channel.value.subscribe().message().payload().properties();
 
   // Find message name from messages array
-  const messages = asyncapi.components().messages();
-  let targetMessageName;
-  for (const message in messages) {
-    if (messages[message].payload().properties().toString() === targetPayloadProperties.toString()) {
-      targetMessageName = message;
-    }
-  }
+  const messages = Object.entries(asyncapi.components().messages()).map(([key, value]) => ({key,value}));
+  let targetMessageName = messages.filter(function(el) {
+    return el.value.payload().properties().toString() === targetPayloadProperties.toString();
+  })[0].key;
 
   const messageNameTitleCase = targetMessageName.charAt(0).toUpperCase() + targetMessageName.slice(1);
 
