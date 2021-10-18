@@ -6,7 +6,7 @@ const crypto = require('crypto');
 
 const MAIN_TEST_RESULT_PATH = path.join('test', 'temp', 'integrationTestResult');
 
-test('Generates Coonnection for publisher ', async () => {
+test('Generates Coonnection for publisher', async () => {
   const generateFolderName = () => {
     return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
   };

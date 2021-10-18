@@ -7,19 +7,19 @@ const crypto = require('crypto');
 const MAIN_TEST_RESULT_PATH = path.join('test', 'temp', 'integrationTestResult');
 
 // Test class asyncApiTypeToJavaType
-test('Check integer type is converted to int ', () => {
+test('Check integer type is converted to int', () => {
   expect(typesUtils.asyncApiTypeToJavaType('integer')).toBe('int');
 });
 
-test('Check string type is converted to String ', () => {
+test('Check string type is converted to String', () => {
   expect(typesUtils.asyncApiTypeToJavaType('string')).toBe('String');
 });
 
-test('Check password type is converted to String ', () => {
+test('Check password type is converted to String', () => {
   expect(typesUtils.asyncApiTypeToJavaType('password')).toBe('String');
 });
 
-test('Check byte type is not changed ', () => {
+test('Check byte type is not changed', () => {
   expect(typesUtils.asyncApiTypeToJavaType('byte')).toBe('byte');
 });
 

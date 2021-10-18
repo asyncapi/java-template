@@ -20,40 +20,40 @@
  */
 export function asyncApiTypeToJavaType(asyncApiType) {
   switch (asyncApiType) {
-    case 'integer':
-      return 'int';
+  case 'integer':
+    return 'int';
 
-    case 'long':
-      return 'Long';
+  case 'long':
+    return 'Long';
 
-    case 'float':
-      return 'float';
+  case 'float':
+    return 'float';
 
-    case 'double':
-      return 'double';
+  case 'double':
+    return 'double';
 
-    case 'string':
-      return 'String';
+  case 'string':
+    return 'String';
           
-    case 'byte':
-      return 'byte';
+  case 'byte':
+    return 'byte';
 
-    case 'binary':
-      return 'String';
+  case 'binary':
+    return 'String';
 
-    case 'boolean':
-      return 'boolean';
+  case 'boolean':
+    return 'boolean';
 
-    case 'date':
-      return 'String';
+  case 'date':
+    return 'String';
 
-    case 'dateTime':
-      return 'String';
+  case 'dateTime':
+    return 'String';
 
-    case 'password':
-      return 'String';
-    default:
-      throw new Error('Unsupported Type');
+  case 'password':
+    return 'String';
+  default:
+    throw new Error('Unsupported Type');
   }
 }
 
@@ -112,25 +112,25 @@ export function asyncApiTypeToDemoValue(asyncApiType) {
   const boolWords = ['true', 'false'];
 
   switch (asyncApiType) {
-    case ('integer' || 'long'):
-      return parseInt(Math.random() * 1000, 10);
+  case ('integer' || 'long'):
+    return parseInt(Math.random() * 1000, 10);
 
-    case ('float' || 'double'):
-      return Math.random();
+  case ('float' || 'double'):
+    return Math.random();
 
-    case ('string' || 'binary' || 'password'):
-      return `"${  strWords[Math.floor(Math.random()*strWords.length)]}"`;
+  case ('string' || 'binary' || 'password'):
+    return `"${  strWords[Math.floor(Math.random()*strWords.length)]}"`;
 
-    case 'byte':
-      return 0 + parseInt(Math.random() * ((127 - 1) + 1), 10);
+  case 'byte':
+    return 0 + parseInt(Math.random() * ((127 - 1) + 1), 10);
 
-    case 'boolean':
-      return boolWords[Math.floor(Math.random()*boolWords.length)];
+  case 'boolean':
+    return boolWords[Math.floor(Math.random()*boolWords.length)];
 
-    case ('date' || 'dateTime'):
-      return (new Date()).toISOString().split('T')[0];
+  case ('date' || 'dateTime'):
+    return (new Date()).toISOString().split('T')[0];
 
-    default:
-      throw new Error('Unsupported Type');
+  default:
+    throw new Error('Unsupported Type');
   }
 }

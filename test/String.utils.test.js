@@ -1,7 +1,7 @@
 const stringUtils = require('../utils/String.utils');
 
 // Test class toJavaClassName
-test('Check string is capitalised ', () => {
+test('Check string is capitalised', () => {
   expect(stringUtils.toJavaClassName('test')).toBe('Test'
   );
 });
@@ -23,7 +23,7 @@ test('Check adds / to start and end', () => {
   );
 });
 
-test('Check string changes . to / ', () => {
+test('Check string changes . to /', () => {
   expect(stringUtils.javaPackageToPath('test.test')).toBe('/test/test/'
   );
 });
