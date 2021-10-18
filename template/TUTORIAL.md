@@ -6,7 +6,7 @@ This file provides example commands which can be used to run the Java Template p
 ## Prerequisites
 
 ### Run MQ
-You will need a running instance of MQ with a queue manager named `QM1`, instructions of how to run MQ on a container and create this queue manager can be found [here](https://developer.ibm.com/tutorials/mq-connect-app-queue-manager-containers/). If you are new to MQ, or want a refresher, you can click [here](https://ibm.biz/learn-mq).
+You will need a running instance of MQ with a queue manager named `QM1`, instructions of how to run MQ on a container and create this queue manager can be found [here](https://ibm.biz/qm-start). If you are new to MQ, or want a refresher, you can click [here](https://ibm.biz/learn-mq).
 <br></br>
 
 ### Install Maven
