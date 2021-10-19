@@ -43,8 +43,6 @@ This template generates a Java application using Java Messaging Services (JMS) w
 
 This template must be used with the AsyncAPI Generator. You can find all available options [here](https://github.com/asyncapi/generator/).
 
-> You can find a complete tutorial on AsyncAPI Generator using this template [here](https://www.asyncapi.com/docs/tutorials/streetlights). 
-
 ### CLI
 
 ```sh
@@ -65,7 +63,7 @@ You can configure this template by passing different parameters in the Generator
 Name | Description | Required | Default
 ---|---|---|---
 `server` | Server must be defined in yaml and selected when using the generator | Yes | -
-`user` | User for the IBM MQ instance | No | admin
+`user` | User for the IBM MQ instance | No | app
 `password` | Password for the IBM MQ instance | No | passw0rd
 `package` | Java package name for generated code | No | com.ibm.mq.samples.jms
 `topicPrefix` | MQ topic prefix. Default will work with dev MQ instance | No | dev//
