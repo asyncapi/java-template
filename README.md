@@ -27,7 +27,7 @@
 
 ## Overview
 
-This template generates a Java application using Java Messaging Services (JMS) with the [IBM MQ bindings](https://github.com/asyncapi/bindings/tree/master/ibmmq).
+This template generates Java application code based from an AsyncAPI document. An example implementation is provided for the ibmmq protocol generating JMS code (utilising features from the [IBM MQ AsyncAPI bindings](https://github.com/asyncapi/bindings/tree/master/ibmmq)) to show how the template generator works and so that it may be extended to a wider Java development audience. 
 
 ## Technical requirements
 
