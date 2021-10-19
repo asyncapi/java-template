@@ -85,6 +85,10 @@
         "default": "dev//"
       }
     },
+    "supportedProtocols": [
+      "ibmmq",
+      "ibmmq-secure"
+    ],
     "nonRenderableFiles": [
       "style.css",
       "sample.gif"
