@@ -6,7 +6,7 @@ info:
 servers:
   production:
     url: ibmmq://localhost:1414/QM1/DEV.APP.SVRCONN
-    protocol: ibmmq-secure
+    protocol: ibmmq
     description: Production Instance 1
 channels:
   single/released:
