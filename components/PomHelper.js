@@ -14,7 +14,21 @@
 * limitations under the License.
 */
 
-export function PomHelper({ params }) {
+import { Dependency } from './XML/Dependency';
+import { resolveDependencies } from '../utils/DependencyResolver.utils';
+import { render } from '@asyncapi/generator-react-sdk';
+
+export function PomHelper({ server, params }) {
+  // Resolve additional dependencies depending on protocol supplied
+  const supportedProtocol = server.protocol();
+  const dependencies = resolveDependencies(supportedProtocol);
+  
+  let protocolDependencies = '';
+
+  for (const dependency of dependencies) {
+    protocolDependencies += render(<Dependency groupId={dependency.groupId} artifactId={dependency.artifactId} version={dependency.version}/>);
+  }
+
   return `
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
@@ -52,7 +66,6 @@ export function PomHelper({ params }) {
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
     <src.dir>.</src.dir>
-
   </properties>
 
   <dependencies>
@@ -61,19 +74,14 @@ export function PomHelper({ params }) {
         <artifactId>javax.jms-api</artifactId>
         <version>2.0.1</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
     <dependency>
-        <groupId>com.ibm.mq</groupId>
-        <artifactId>com.ibm.mq.allclient</artifactId>
-        <version>9.2.3.0</version>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.13.0</version>
     </dependency>
-  <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-  <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.13.0</version>
-  </dependency>
-
-
+    <!-- Protocol specific dependencies -->
+    ${protocolDependencies}
   </dependencies>
 
   <build>
@@ -119,7 +127,6 @@ export function PomHelper({ params }) {
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
-
       </plugins>
     </pluginManagement>
 

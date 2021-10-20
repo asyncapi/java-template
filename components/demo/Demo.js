@@ -24,11 +24,11 @@ import { PackageDeclaration } from '../Common';
 export function Demo(asyncapi, params) {
   const channels = Object.entries(asyncapi.channels()).map(([key, value]) => ({key,value}));
 
-  let foundPubAndSub = channels.filter(function(el) {
+  const foundPubAndSub = channels.filter((el) => {
     return el.value.publish && el.value.subscribe;
   });
 
-  let foundPubOrSub = channels.filter(function(el) {
+  const foundPubOrSub = channels.filter((el) => {
     return el.value.publish || el.value.subscribe;
   });
 
@@ -41,7 +41,7 @@ export function Demo(asyncapi, params) {
 
   // Find message name from messages array
   const messages = Object.entries(asyncapi.components().messages()).map(([key, value]) => ({key,value}));
-  let targetMessageName = messages.filter(function(el) {
+  const targetMessageName = messages.filter((el) => {
     return el.value.payload().properties().toString() === targetPayloadProperties.toString();
   })[0].key;
 

@@ -38,8 +38,7 @@ describe('template integration tests using the generator', () => {
       `${PACKAGE_PATH}/PubSubBase.java`,
       `${PACKAGE_PATH}/models/ModelContract.java`,
       'Dockerfile',
-      'env.json',
-      'TUTORIAL.md'
+      'env.json'
     ];
 
     for (const index in expectedFiles) {
