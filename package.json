@@ -86,8 +86,7 @@
       }
     },
     "supportedProtocols": [
-      "ibmmq",
-      "ibmmq-secure"
+      "ibmmq"
     ],
     "nonRenderableFiles": [
       "style.css",
