@@ -36,8 +36,9 @@ This template generates Java application code based from an AsyncAPI document. A
 
 
 ## Supported protocols
+These protocols are implemented using the JMS API with the correct jars, in this case ibmmq was chosen. The use of JMS allows allows the template to be extensible to other providers by providing the correct jars at the Maven stage.
 
-* [IBM MQ](https://en.wikipedia.org/wiki/IBM_MQ)
+* ibmmq
 
 ## How to use the template
 
