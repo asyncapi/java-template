@@ -28,49 +28,33 @@ You will then need to enter the directory you have just created, for example wit
 cd ~/asyncapi-java-tutorial
 ```
 
-Finally, clone the Java Template Repository into your new directory with
-```
-git clone git@github.com:ibm-messaging/mq-asyncapi-java-template.git
-```
-
 ## Running the Publisher/Subscriber Template
 These commands will allow you to run the Java Template publisher/subscriber model using IBM MQ. 
-1. From the directory you created in the prerequisites, `~/asyncapi-java-template` in the example commands, copy the following YAML file with the following command.
-<br>Should you wish to use your own YAML file, name it `asyncapi.yaml` and move on to the next step.
+1. Run the AsyncAPI Generator. <br>**Note:** You may need to change the username and password values if you have not followed the IBM MQ tutorial.
     ```
-    cp mq-asyncapi-java-template/test/mocks/single-channel.yml asyncapi.yaml
-    ```
-2. Install the required NodeJS dependencies from the template folder, then return to the `asyncapi-java-tutorial` folder.
-    ```
-    cd mq-asyncapi-java-template
-    npm install
-    cd ..
-    ```
-3. Run the AsyncAPI Generator. <br>**Note:** You may need to change the username and password values if you have not followed the IBM MQ tutorial.
-    ```
-    ag ./asyncapi.yaml ./mq-asyncapi-java-template -o ./output -p server=production -p user=app -p password=passw0rd
+    ag https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/mq-asyncapi-java-template -o ./output -p server=production -p user=app -p password=passw0rd
     ```
     **Note:** The syntax of the above command is shown below. You do not need to run the below line, it is for informational purposes only.
     ```
     ag [YAML_FILE] [TEMPLATE_DIRECTORY] -o ./output -p server=[NAME_OF_SERVER] -p user=[MQ_USERNAME] -p password=[MQ_PASSWORD]
     ```
-4. Navigate to the generated output directory
+2. Navigate to the generated output directory
     ```
     cd output
     ```
-5. Install the dependencies required to run this template
+3. Install the dependencies required to run this template
     ```
     mvn compile 
     ```
-6. Create .jar package using maven
+4. Create .jar package using maven
     ```
     mvn package
     ```
-7. Run your generated Subscriber
+5. Run your generated Subscriber
     ```
     java -cp target/asyncapi-mq-jms-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoSubscriber
     ```
-8. In a seperate terminal, navigate to the `output` directory above and run your generated Publisher   
+6. In a seperate terminal, navigate to the `output` directory above and run your generated Publisher   
     ```
     cd ~/asyncapi-java-tutorial/output
     java -cp target/asyncapi-mq-jms-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoProducer
