@@ -181,5 +181,5 @@ test('ImportModels are generated', async () => {
   await generator.generateFromFile(path.resolve('test', yaml));
 
   expect(testCommon.ImportModels({messages: generator.asyncapi.components().messages(), params: generator.templateParams})).toStrictEqual([`
-import com.ibm.mq.samples.jms.models.Single;`]);
+import com.ibm.mq.samples.jms.models.Song;`]);
 });

@@ -9,17 +9,17 @@ servers:
     protocol: ibmmq
     description: Production Instance 1
 channels:
-  single/released:
+  song/released:
     publish: 
       message:
-        $ref: '#/components/messages/single'
+        $ref: '#/components/messages/song'
     subscribe:
       message:
-        $ref: '#/components/messages/single'
+        $ref: '#/components/messages/song'
             
 components:
   messages:
-    single:
+    song:
       payload:
         type: object
         properties:

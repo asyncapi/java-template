@@ -22,7 +22,7 @@ test('Generates Coonnection for publisher', async () => {
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
   await generator.generateFromFile(path.resolve('test', 'mocks/single-channel.yml'));
 
-  expect(testProducer.ProducerConstructor({name: 'single/released'})).toBe(`
+  expect(testProducer.ProducerConstructor({name: 'song/released'})).toBe(`
     super();
     String id = null;
     id = "Basic pub";
@@ -30,7 +30,7 @@ test('Generates Coonnection for publisher', async () => {
     logger.info("Pub application is starting");
 
     // Establish connection for producer
-    this.createConnection("single/released", id);
+    this.createConnection("song/released", id);
 
     // Set so no JMS headers are sent.
     ch.setTargetClient(destination);

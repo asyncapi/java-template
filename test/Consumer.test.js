@@ -22,7 +22,7 @@ test('Generates all imports from path', async() => {
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
   await generator.generateFromFile(path.resolve('test', 'mocks/single-channel.yml'));
   
-  expect(testConsumer.ConsumerImports({params: generator.templateParams, message: {name: 'Single'}})).toBe(`
+  expect(testConsumer.ConsumerImports({params: generator.templateParams, message: {name: 'Song'}})).toBe(`
 import java.util.logging.*;
 import java.io.Serializable;
 
@@ -45,7 +45,7 @@ import com.ibm.mq.samples.jms.Connection;
 import com.ibm.mq.samples.jms.PubSubBase;
 
 import com.ibm.mq.samples.jms.models.ModelContract;
-import com.ibm.mq.samples.jms.models.Single;
+import com.ibm.mq.samples.jms.models.Song;
 `
   );
 });

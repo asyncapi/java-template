@@ -59,7 +59,7 @@ describe('template integration tests using the generator', () => {
     const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
     await generator.generateFromFile(path.resolve('test', 'mocks/single-channel.yml'));
 
-    const channelName = 'SingleReleased';
+    const channelName = 'SongReleased';
 
     const expectedFiles = [
       'pom.xml',
@@ -87,7 +87,7 @@ describe('template integration tests using the generator', () => {
 
     const expectedFiles = [
       'pom.xml',
-      `${PACKAGE_PATH}/models/Single.java`,
+      `${PACKAGE_PATH}/models/Song.java`,
       `${PACKAGE_PATH}/models/Album.java`,
       `${PACKAGE_PATH}/models/Artist.java`
     ];
