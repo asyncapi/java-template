@@ -14,8 +14,8 @@
 * limitations under the License.
 */
 
-/* 
-* Here you can see example of complex operations. 
+/*
+* Here you can see example of complex operations.
 * You can actually do whatever you want. It is important that the value returned from the function must be a string or a component.
 */
 
@@ -31,10 +31,10 @@ public class DemoProducer {
         // Create an instance of a message model to be sent
         ${messageName} message = new ${messageName}(${constructorArgs});
 
-        // Create a producer instance to connect to the queue manager
+        // Create a producer instance to connect to the server
         ${className}Producer producer = new ${className}Producer();
 
-        // Send the message object through the queue manager
+        // Send the message object through the server
         producer.send(message);
 
         // Close the connection

@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* 
+/*
  * Converts from async api defined types (https://www.asyncapi.com/docs/specifications/v2.0.0#dataTypeFormat)
  * to native Java types
  */
@@ -34,7 +34,7 @@ export function asyncApiTypeToJavaType(asyncApiType) {
 
   case 'string':
     return 'String';
-          
+
   case 'byte':
     return 'byte';
 
@@ -57,7 +57,7 @@ export function asyncApiTypeToJavaType(asyncApiType) {
   }
 }
 
-/* 
+/*
  * Helper class to easily assign local class properties
  */
 export function setLocalVariables(properties) {
@@ -67,9 +67,9 @@ export function setLocalVariables(properties) {
     `;
   });
 }
-  
-/* 
- * Helper class to define variables 
+
+/*
+ * Helper class to define variables
  */
 export function defineVariablesForProperties(properties) {
   return Object.entries(properties).map(([name, property]) => {
@@ -77,8 +77,8 @@ export function defineVariablesForProperties(properties) {
   });
 }
 
-/* 
- * Helper class to pass variables into a function defined by properties  
+/*
+ * Helper class to pass variables into a function defined by properties
  */
 export function passJavaArgs(properties) {
   return Object.entries(properties).map(([name, property]) => {
@@ -104,11 +104,11 @@ export function createJavaConstructorArgs(properties) {
   });
 }
 
-/* 
+/*
  * Generates an example value from asyncAPI datatype in Java
  */
 export function asyncApiTypeToDemoValue(asyncApiType) {
-  const strWords = ['ASyncAPI', 'Java', 'React', 'Hackathon', 'Community', 'Open Source', 'MQ', 'JMS', 'Publish', 'Subscribe', 'Topic', 'Demo', 'Example', 'Template', 'Producer', 'Consumer', 'Generator', 'Message', 'Endpoint'];
+  const strWords = ['ASyncAPI', 'Java', 'React', 'Hackathon', 'Community', 'Open Source', 'Publish', 'Subscribe', 'Topic', 'Demo', 'Example', 'Template', 'Producer', 'Consumer', 'Generator', 'Message', 'Endpoint'];
   const boolWords = ['true', 'false'];
 
   switch (asyncApiType) {

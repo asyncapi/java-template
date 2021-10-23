@@ -79,7 +79,7 @@ export function ReceiveMessage({ message }) {
                      * Implement your business logic to handle
                      * received messages here.
                      */
-                    
+
                 } catch (JMSException jmsex) {
                     recordFailure(jmsex);
                 } catch (JsonProcessingException jsonproex) {
@@ -101,7 +101,7 @@ export function ReceiveMessage({ message }) {
   }
   `;
 }
-  
+
 export function ConsumerConstructor({ name }) {
   return `
       super();
@@ -111,4 +111,9 @@ export function ConsumerConstructor({ name }) {
 
       this.createConnection("${name}", id);
   `;
+}
+
+export function ConsumerClose() {
+  // handled by superclass
+  return '';
 }

@@ -25,48 +25,49 @@ function getPubSubContent(params) {
     import java.util.Map;
     import java.util.List;
     import java.nio.file.Paths;
-    import com.fasterxml.jackson.databind.ObjectMapper; 
-    import com.fasterxml.jackson.databind.ObjectWriter; 
+    import com.fasterxml.jackson.databind.ObjectMapper;
+    import com.fasterxml.jackson.databind.ObjectWriter;
 
     import ${params.package}.ConnectionHelper;
     import ${params.package}.LoggingHelper;
-    
+
     import javax.jms.Destination;
     import javax.jms.JMSContext;
     import javax.jms.JMSRuntimeException;
     import javax.jms.JMSException;
-    
-    
+
+
     public class PubSubBase {
-        
+
         protected static final Logger logger = Logger.getLogger("${params.package}");
-        
+
         protected ConnectionHelper ch = null;
         protected JMSContext context = null;
         protected Destination destination = null;
-    
+
+        // TODO : what is this for?
         public void Base(){
             LoggingHelper.init(logger);
         }
-    
+
         public void createConnection(String topicName, String id){
           // Retrieve first MQ endpoint from env.json
           List<Map> MQ_ENDPOINTS = null;
           Map MQFirst = null;
-    
+
           try {
             ObjectMapper mapper = new ObjectMapper();
-        
+
             // Convert JSON file to map
             Map<Object, List<Map>> map = mapper.readValue(Paths.get("env.json").toFile(), Map.class);
             MQ_ENDPOINTS = map.get("MQ_ENDPOINTS");
             // TODO : Allow switching between multiple endpoints
             MQFirst = MQ_ENDPOINTS.get(0);
-        
+
           } catch (Exception ex) {
                 ex.printStackTrace();
           }
-    
+
           // Create connection definition from env variables
           Connection myConnection = new Connection(
             MQFirst.get("HOST").toString(),
@@ -78,26 +79,26 @@ function getPubSubContent(params) {
             null,
             topicName,
             null);
-          
+
           // Build connection helper
           ch = new ConnectionHelper(id, myConnection);
-      
+
           logger.info("created connection factory");
-          
+
           // Create context and set local topic destination
           context = ch.getContext();
           logger.info("context created");
-    
+
           destination = ch.getTopicDestination();
-    
+
           logger.info("destination created");
         }
-    
+
         public void close() {
             ch.closeContext();
             ch = null;
         }
-        
+
         protected void recordFailure(Exception ex) {
             if (ex != null) {
                 if (ex instanceof JMSException) {
@@ -107,16 +108,16 @@ function getPubSubContent(params) {
                 }
             }
         }
-    
+
         protected void processJMSException(JMSException jmsex) {
             logger.warning(jmsex.getMessage());
             Throwable innerException = jmsex.getLinkedException();
             logger.warning("Exception is: " + jmsex);
-            
+
             if (innerException != null) {
                 logger.warning("Inner exception(s):");
             }
-    
+
             while (innerException != null) {
                 logger.warning(innerException.getMessage());
                 innerException = innerException.getCause();
@@ -124,7 +125,7 @@ function getPubSubContent(params) {
             return;
         }
     }
-    
+
     `;
 }
 

@@ -65,12 +65,12 @@
         "description": "Custom location of the AsyncAPI file that you provided as an input in generation. By default it is located in the root of the output directory"
       },
       "user": {
-        "description": "User for the IBM MQ instance",
+        "description": "Username for the server to generate code for",
         "required": false,
         "default": "app"
       },
       "password": {
-        "description": "Password for the IBM MQ instance",
+        "description": "Password for the server to generate code for",
         "required": false,
         "default": "passw0rd"
       },
@@ -79,14 +79,14 @@
         "required": false,
         "default": "com.ibm.mq.samples.jms"
       },
-      "topicPrefix": {
-        "description": "MQ topic prefix. Default will work with dev MQ instance",
+      "mqTopicPrefix": {
+        "description": "MQ topic prefix. Used for ibmmq protocols. Default will work with dev MQ instance",
         "required": false,
         "default": "dev//"
       }
     },
     "supportedProtocols": [
-      "ibmmq"
+      "ibmmq","kafka","kafka-secure"
     ],
     "nonRenderableFiles": [
       "style.css",

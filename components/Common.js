@@ -17,7 +17,7 @@
 import { createJavaArgsFromProperties } from '../utils/Types.utils';
 
 export function Class({ childrenContent, name, implementsClass, extendsClass }) {
-  if (childrenContent === undefined) { 
+  if (childrenContent === undefined) {
     childrenContent = '';
   }
 
@@ -37,12 +37,6 @@ export function Class({ childrenContent, name, implementsClass, extendsClass }) 
 public class ${name} ${implementsString} ${extendsString}{
 ${childrenContent}
 }
-`;
-}
-
-export function ClassHeader() {
-  return `
-  private JMSProducer producer = null;
 `;
 }
 
@@ -79,17 +73,17 @@ export function getMqValues(url, val) {
   }
 
   const splitVals = regString.toString().split('/');
-  if (splitVals.length === 2) { 
+  if (splitVals.length === 2) {
     if (val === 'qmgr')
       return splitVals[0];
     if (val === 'mqChannel')
       return splitVals[1];
-    
+
     throw new Error('Invalid parameter passed into getMqValues function');
   }
   throw new Error('Invalid URL passed into getMqValues function');
 }
-  
+
 export function URLtoHost(url) {
   const u = new URL(url);
   return u.host;
@@ -111,21 +105,40 @@ public void close() {
 }
 
 export function EnvJson({ asyncapi, params }) {
-  const url = asyncapi.server(params.server).url(); 
-  const qmgr = getMqValues(url,'qmgr');
-  const mqChannel = getMqValues(url,'mqChannel');
-  const host = URLtoHost(url);
-  const domain = host.split(':', 1);
+  const url = asyncapi.server(params.server).url();
+  const protocol = asyncapi.server(params.server).protocol();
+
+  if (protocol === 'ibmmq' || protocol === 'ibmmq-secure') {
+    const qmgr = getMqValues(url,'qmgr');
+    const mqChannel = getMqValues(url,'mqChannel');
+    const host = URLtoHost(url);
+    const domain = host.split(':', 1);
+    return `
+    {
+      "MQ_ENDPOINTS": [{
+        "HOST": "${domain}",
+        "PORT": "${ URLtoPort(url, 1414) }",
+        "CHANNEL": "${mqChannel}",
+        "QMGR": "${qmgr}",
+        "APP_USER": "${params.user}",
+        "APP_PASSWORD": "${params.password}"
+      }]
+    }
+    `;
+  } else if (protocol === 'kafka' || protocol === 'kafka-secure') {
+    return `
+    {
+      "KAFKA_ENDPOINTS": [{
+        "BOOTSTRAP_ADDRESS": "${url}",
+        "APP_USER": "${params.user}",
+        "APP_PASSWORD": "${params.password}"
+      }]
+    }
+    `;
+  }
+  // placeholder for new protocols
   return `
   {
-    "MQ_ENDPOINTS": [{
-      "HOST": "${domain}",
-      "PORT": "${ URLtoPort(url, 1414) }",
-      "CHANNEL": "${mqChannel}",
-      "QMGR": "${qmgr}",
-      "APP_USER": "${params.user}",
-      "APP_PASSWORD": "${params.password}"
-    }]
   }
   `;
 }
@@ -141,7 +154,7 @@ import ${params.package}.models.${messageName.charAt(0).toUpperCase() + messageN
 /* Used to resolve a channel object to message name */
 export function ChannelToMessage(channel, asyncapi) {
   // Get payload from either publish or subscribe
-  const targetPayloadProperties = Object.prototype.hasOwnProperty.call(channel, 'publish') ? 
+  const targetPayloadProperties = Object.prototype.hasOwnProperty.call(channel, 'publish') ?
     channel.publish().message().payload().properties() :
     channel.subscribe().message().payload().properties();
 

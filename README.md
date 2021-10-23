@@ -2,7 +2,7 @@
   <br>
   <a href="https://www.asyncapi.org"><img src="https://github.com/asyncapi/parser-nodejs/raw/master/assets/logo.png" alt="AsyncAPI logo" width="200"></a>
   <br>
-  AsyncAPI MQ JMS Generator
+  AsyncAPI Java Generator
 </h5>
 
 
@@ -27,7 +27,11 @@
 
 ## Overview
 
-This template generates Java application code based from an AsyncAPI document. An example implementation is provided for the ibmmq protocol generating JMS code (utilising features from the [IBM MQ AsyncAPI bindings](https://github.com/asyncapi/bindings/tree/master/ibmmq)) to show how the template generator works and so that it may be extended to a wider Java development audience. 
+This template generates Java application code based from an AsyncAPI document.
+
+Implementations are provided for the following protocols:
+* ibmmq - generating JMS code (utilising features from the [IBM MQ AsyncAPI bindings](https://github.com/asyncapi/bindings/tree/master/ibmmq))
+* kafka - generating Java code  (utilising features from the [Apache Kafka AsyncAPI bindings](https://github.com/asyncapi/bindings/tree/master/kafka))
 
 ## Technical requirements
 
@@ -39,6 +43,7 @@ This template generates Java application code based from an AsyncAPI document. A
 These protocols are implemented using the JMS API with the correct jars, in this case ibmmq was chosen. The use of JMS allows allows the template to be extensible to other providers by providing the correct jars at the Maven stage.
 
 * ibmmq
+* kafka
 
 ## How to use the template
 
@@ -55,7 +60,7 @@ ag https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/mq-asyncapi-java-templ
 
 ```
 ### JMS Template Tutorial
-For complete instructions on generating the Java and subsequently using it to send messages with MQ, please see the template specific [Tutorial](./template/TUTORIAL.md).
+For complete instructions on generating the Java and subsequently using it to send messages, please see the template specific [Tutorial](./template/TUTORIAL.md).
 
 ## Template configuration
 
@@ -64,10 +69,10 @@ You can configure this template by passing different parameters in the Generator
 Name | Description | Required | Default
 ---|---|---|---
 `server` | Server must be defined in yaml and selected when using the generator | Yes | -
-`user` | User for the IBM MQ instance | No | app
-`password` | Password for the IBM MQ instance | No | passw0rd
+`user` | User for the server to generate code for | No | app
+`password` | Password for the server to generate code for | No | passw0rd
 `package` | Java package name for generated code | No | com.ibm.mq.samples.jms
-`topicPrefix` | MQ topic prefix. Default will work with dev MQ instance | No | dev//
+`mqTopicPrefix` | MQ topic prefix. Used for ibmmq protocols. Default will work with dev MQ instance | No | dev//
 
 
 ## Development
@@ -124,12 +129,12 @@ To run the generated Java project in a Docker container, use the commands as bel
 1. Build the image
    ```
     docker build -t [PACKAGE_NAME]:[VERSION] .
-   ``` 
+   ```
 
 2. Run the image in detached mode
    ```
-    docker run -d [PACKAGE_NAME]:[VERSION] 
-   ``` 
+    docker run -d [PACKAGE_NAME]:[VERSION]
+   ```
 
 For further information including network setup, please see the [tutorial](template/TUTORIAL.md).
 

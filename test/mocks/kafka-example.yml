@@ -3,13 +3,17 @@ info:
   title: Record Label Service
   version: 1.0.0
   description: This service is in charge of processing music
+
 servers:
   production:
-    url: ibmmq://localhost:1414/QM1/DEV.APP.SVRCONN
-    protocol: ibmmq
+    url: my-kafka-hostname:9092
+    protocol: kafka-secure
     description: Production Instance 1
+    security:
+      - myScram: []
+
 channels:
-  song/released:
+  song.released:
     publish:
       message:
         $ref: '#/components/messages/song'
@@ -18,6 +22,9 @@ channels:
         $ref: '#/components/messages/song'
 
 components:
+  securitySchemes:
+    myScram:
+      type: scramSha512
   messages:
     song:
       payload:

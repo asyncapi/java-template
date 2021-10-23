@@ -1,8 +1,14 @@
 const dependencyMap = [
-  { 
+  {
     protocols: ['ibmmq', 'ibmmq-secure'],
     dependencies: [
       { groupId: 'com.ibm.mq', artifactId: 'com.ibm.mq.allclient', version: '9.2.3.0' }
+    ]
+  },
+  {
+    protocols: ['kafka', 'kafka-secure'],
+    dependencies: [
+      { groupId: 'org.apache.kafka', artifactId: 'kafka-clients', version: '2.8.0' }
     ]
   }
 ];

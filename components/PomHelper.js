@@ -22,7 +22,7 @@ export function PomHelper({ server, params }) {
   // Resolve additional dependencies depending on protocol supplied
   const supportedProtocol = server.protocol();
   const dependencies = resolveDependencies(supportedProtocol);
-  
+
   let protocolDependencies = '';
 
   for (const dependency of dependencies) {
@@ -55,10 +55,10 @@ export function PomHelper({ server, params }) {
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>${params.package}</groupId>
-  <artifactId>asyncapi-mq-jms-generator</artifactId>
+  <artifactId>asyncapi-java-generator</artifactId>
   <version>0.1.0</version>
 
-  <name>asyncapi-mq-jms-generator</name>
+  <name>asyncapi-java-generator</name>
   <url>https://github.com/ibm-messaging/mq-dev-patterns/</url>
 
   <properties>

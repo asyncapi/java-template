@@ -14,27 +14,32 @@
 * limitations under the License.
 */
 
-// Send Message
+export function ProducerDeclaration() {
+  return `
+    private JMSProducer producer = null;
+  `;
+}
+
 export function SendMessage() {
   return `
-    public void send(ModelContract modelContract) { 
+    public void send(ModelContract modelContract) {
         Serializable modelInstance = (Serializable) modelContract;
 
         try{
           // JSON encode and transmit
           ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
           String json = ow.writeValueAsString(modelInstance);
-  
+
           logger.info("Sending Message: " + json);
-  
+
           this.producer.send(destination, json);
-            
+
         }catch (JsonProcessingException e){
           logger.severe("An error occured whilst attempting to send a message: " + e);
         }
     }`;
 }
-  
+
 export function ProducerConstructor({ name }) {
   return `
     super();
@@ -51,7 +56,12 @@ export function ProducerConstructor({ name }) {
     producer = context.createProducer();
 `;
 }
-  
+
+export function ProducerClose() {
+  // handled by superclass
+  return '';
+}
+
 export function ProducerImports({ params }) {
   return `
 import java.util.logging.*;
@@ -71,8 +81,8 @@ import ${params.package}.Connection;
 import ${params.package}.PubSubBase;
 import ${params.package}.models.ModelContract;
 
-import com.fasterxml.jackson.databind.ObjectMapper; 
-import com.fasterxml.jackson.databind.ObjectWriter; 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.annotation.JsonView;
   `;
