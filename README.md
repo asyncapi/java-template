@@ -129,12 +129,12 @@ To run the generated Java project in a Docker container, use the commands as bel
 1. Build the image
    ```
     docker build -t [PACKAGE_NAME]:[VERSION] .
-   ```
+   ``` 
 
 2. Run the image in detached mode
    ```
-    docker run -d [PACKAGE_NAME]:[VERSION]
-   ```
+    docker run -d [PACKAGE_NAME]:[VERSION] 
+   ``` 
 
 For further information including network setup, please see the [tutorial](template/TUTORIAL.md).
 

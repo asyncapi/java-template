@@ -17,7 +17,7 @@
 import { createJavaArgsFromProperties } from '../utils/Types.utils';
 
 export function Class({ childrenContent, name, implementsClass, extendsClass }) {
-  if (childrenContent === undefined) {
+  if (childrenContent === undefined) { 
     childrenContent = '';
   }
 
@@ -73,17 +73,17 @@ export function getMqValues(url, val) {
   }
 
   const splitVals = regString.toString().split('/');
-  if (splitVals.length === 2) {
+  if (splitVals.length === 2) { 
     if (val === 'qmgr')
       return splitVals[0];
     if (val === 'mqChannel')
       return splitVals[1];
-
+    
     throw new Error('Invalid parameter passed into getMqValues function');
   }
   throw new Error('Invalid URL passed into getMqValues function');
 }
-
+  
 export function URLtoHost(url) {
   const u = new URL(url);
   return u.host;
@@ -154,7 +154,7 @@ import ${params.package}.models.${messageName.charAt(0).toUpperCase() + messageN
 /* Used to resolve a channel object to message name */
 export function ChannelToMessage(channel, asyncapi) {
   // Get payload from either publish or subscribe
-  const targetPayloadProperties = Object.prototype.hasOwnProperty.call(channel, 'publish') ?
+  const targetPayloadProperties = Object.prototype.hasOwnProperty.call(channel, 'publish') ? 
     channel.publish().message().payload().properties() :
     channel.subscribe().message().payload().properties();
 

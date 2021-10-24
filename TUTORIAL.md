@@ -29,7 +29,7 @@ cd ~/asyncapi-java-tutorial
 ```
 
 ## Running the Publisher/Subscriber Template
-These commands will allow you to run the Java Template publisher/subscriber model using IBM MQ.
+These commands will allow you to run the Java Template publisher/subscriber model using IBM MQ. 
 1. Run the AsyncAPI Generator. <br>**Note:** You may need to change the username and password values if you have not followed the IBM MQ tutorial.
     ```
     ag https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/mq-asyncapi-java-template -o ./output -p server=production -p user=app -p password=passw0rd
@@ -44,7 +44,7 @@ These commands will allow you to run the Java Template publisher/subscriber mode
     ```
 3. Install the dependencies required to run this template
     ```
-    mvn compile
+    mvn compile 
     ```
 4. Create .jar package using maven
     ```
@@ -54,7 +54,7 @@ These commands will allow you to run the Java Template publisher/subscriber mode
     ```
     java -cp target/asyncapi-java-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoSubscriber
     ```
-6. In a seperate terminal, navigate to the `output` directory above and run your generated Publisher
+6. In a seperate terminal, navigate to the `output` directory above and run your generated Publisher   
     ```
     cd ~/asyncapi-java-tutorial/output
     java -cp target/asyncapi-java-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoProducer
@@ -79,27 +79,27 @@ To deploy a dockerised instance of this project;
 1. Build the image
    ```
     docker build -t [PACKAGE_NAME]:[VERSION] .
-   ```
+   ``` 
 
 2. Run the image in detached mode
    ```
     docker run -d [PACKAGE_NAME]:[VERSION]
-   ```
+   ``` 
 
-Please note; The default `Dockerfile` included in output will only run `DemoSubscriber.java`. This will need to be replaced with the entrypoint to your application.
+Please note; The default `Dockerfile` included in output will only run `DemoSubscriber.java`. This will need to be replaced with the entrypoint to your application. 
 
 ### Networking
-Docker networking needs to be properly configured in order to allow your project to connect to an MQ instance.
+Docker networking needs to be properly configured in order to allow your project to connect to an MQ instance. 
 
 If MQ is also running in a docker container
 1. Create a docker network
    ```
     docker network create exampleMqNetwork
-   ```
+   ``` 
 2. Attach the docker network to your MQ container
    ```
     docker network connect exampleMqNetwork
-   ```
+   ``` 
 3. Update your env.json server hostname to match the container name for MQ. To find the name run
    ```
    docker ps

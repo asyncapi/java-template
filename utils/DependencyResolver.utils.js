@@ -1,5 +1,5 @@
 const dependencyMap = [
-  {
+  { 
     protocols: ['ibmmq', 'ibmmq-secure'],
     dependencies: [
       { groupId: 'com.ibm.mq', artifactId: 'com.ibm.mq.allclient', version: '9.2.3.0' }

@@ -10,13 +10,13 @@ servers:
     description: Production Instance 1
 channels:
   song/released:
-    publish:
+    publish: 
       message:
         $ref: '#/components/messages/song'
     subscribe:
       message:
         $ref: '#/components/messages/song'
-
+            
 components:
   messages:
     song:

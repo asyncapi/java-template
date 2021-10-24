@@ -16,7 +16,7 @@
 
 import { File } from '@asyncapi/generator-react-sdk';
 
-// Import custom components from file
+// Import custom components from file 
 import { PackageDeclaration, EnvJson } from '../components/Common';
 import { javaPackageToPath } from '../utils/String.utils';
 

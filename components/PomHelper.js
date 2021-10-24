@@ -22,7 +22,7 @@ export function PomHelper({ server, params }) {
   // Resolve additional dependencies depending on protocol supplied
   const supportedProtocol = server.protocol();
   const dependencies = resolveDependencies(supportedProtocol);
-
+  
   let protocolDependencies = '';
 
   for (const dependency of dependencies) {

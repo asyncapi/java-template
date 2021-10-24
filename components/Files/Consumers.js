@@ -27,16 +27,16 @@ export function Consumers(asyncapi, channels, params) {
     const packagePath = javaPackageToPath(params.package);
 
     const message = ChannelToMessage(channel, asyncapi);
-
+    
     if (channel.subscribe()) {
       return (
         <File name={`${packagePath}${className}.java`}>
           <PackageDeclaration path={params.package}></PackageDeclaration>
           <ConsumerImports asyncapi={asyncapi} params={params} message={message}></ConsumerImports>
-
+    
           <Class name={className} extendsClass="PubSubBase">
             <ConsumerDeclaration asyncapi={asyncapi} params={params} name={channelName} />
-
+  
             <ClassConstructor name={className}>
               <ConsumerConstructor asyncapi={asyncapi} params={params} name={name}/>
             </ClassConstructor>
@@ -45,7 +45,7 @@ export function Consumers(asyncapi, channels, params) {
 
             <ConsumerClose asyncapi={asyncapi} params={params} />
           </Class>
-        </File>
+        </File> 
       );
     }
   });

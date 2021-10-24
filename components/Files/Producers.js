@@ -29,14 +29,14 @@ export function Producers(asyncapi, channels, params) {
     if (channel.publish()) {
       return (
         <File name={`${packagePath}${className}.java`}>
-
+            
           <PackageDeclaration path={params.package} />
           <ProducerImports asyncapi={asyncapi} params={params} />
           <ImportModels messages={messages} params={params} />
-
+    
           <Class name={className} extendsClass="PubSubBase">
             <ProducerDeclaration asyncapi={asyncapi} params={params} />
-
+    
             <ClassConstructor name={className}>
               <ProducerConstructor asyncapi={asyncapi} params={params} name={name} />
             </ClassConstructor>
