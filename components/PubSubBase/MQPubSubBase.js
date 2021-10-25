@@ -45,8 +45,7 @@ function getPubSubContent(params) {
         protected JMSContext context = null;
         protected Destination destination = null;
 
-        // TODO : what is this for?
-        public void Base(){
+        public PubSubBase(){
             LoggingHelper.init(logger);
         }
     
