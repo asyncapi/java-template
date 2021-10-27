@@ -2,7 +2,7 @@
   <br>
   <a href="https://www.asyncapi.org"><img src="https://github.com/asyncapi/parser-nodejs/raw/master/assets/logo.png" alt="AsyncAPI logo" width="200"></a>
   <br>
-  AsyncAPI MQ JMS Generator
+  AsyncAPI Java Generator
 </h5>
 
 
@@ -13,7 +13,7 @@
 - [Supported protocols](#supported-protocols)
 - [How to use the template](#how-to-use-the-template)
   - [CLI](#cli)
-  - [JMS Template Tutorial](#jms-template-tutorial)
+  - [Template Tutorial](#template-tutorial)
 - [Template configuration](#template-configuration)
 - [Development](#development)
 - [Key Files](#key-files)
@@ -27,7 +27,11 @@
 
 ## Overview
 
-This template generates Java application code based from an AsyncAPI document. An example implementation is provided for the ibmmq protocol generating JMS code (utilising features from the [IBM MQ AsyncAPI bindings](https://github.com/asyncapi/bindings/tree/master/ibmmq)) to show how the template generator works and so that it may be extended to a wider Java development audience. 
+This template generates Java application code based from an AsyncAPI document.
+
+Implementations are provided for the following protocols:
+* `ibmmq` - generating Java JMS code (utilising features from the [IBM MQ AsyncAPI bindings](https://github.com/asyncapi/bindings/tree/master/ibmmq))
+* `kafka` - generating Java code  (utilising features from the [Apache Kafka AsyncAPI bindings](https://github.com/asyncapi/bindings/tree/master/kafka))
 
 ## Technical requirements
 
@@ -36,9 +40,11 @@ This template generates Java application code based from an AsyncAPI document. A
 
 
 ## Supported protocols
-These protocols are implemented using the JMS API with the correct jars, in this case ibmmq was chosen. The use of JMS allows allows the template to be extensible to other providers by providing the correct jars at the Maven stage.
 
 * ibmmq
+    * This is implemented using the JMS API with the correct jars, in this case ibmmq was chosen. The use of JMS allows allows the template to be extensible to other providers by providing the correct jars at the Maven stage.
+* kafka
+    * This is implemented using the official client library from the Apache Kafka project.
 
 ## How to use the template
 
@@ -54,8 +60,11 @@ npm install -g @asyncapi/generator
 ag https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/mq-asyncapi-java-template -o output -p server=production
 
 ```
-### JMS Template Tutorial
-For complete instructions on generating the Java and subsequently using it to send messages with MQ, please see the template specific [Tutorial](./template/TUTORIAL.md).
+### Template Tutorial
+For complete instructions on generating the Java and subsequently using it to send messages, please see the relevant tutorial:
+- [ibmmq tutorial](./tutorials/IBMMQ.md)
+- [kafka tutorial](./tutorials/KAFKA.md)
+
 
 ## Template configuration
 
@@ -64,10 +73,10 @@ You can configure this template by passing different parameters in the Generator
 Name | Description | Required | Default
 ---|---|---|---
 `server` | Server must be defined in yaml and selected when using the generator | Yes | -
-`user` | User for the IBM MQ instance | No | app
-`password` | Password for the IBM MQ instance | No | passw0rd
+`user` | User for the server to generate code for | No | app
+`password` | Password for the server to generate code for | No | passw0rd
 `package` | Java package name for generated code | No | com.ibm.mq.samples.jms
-`topicPrefix` | MQ topic prefix. Default will work with dev MQ instance | No | dev//
+`mqTopicPrefix` | MQ topic prefix. Used for ibmmq protocols. Default will work with dev MQ instance | No | dev//
 
 
 ## Development
@@ -124,20 +133,24 @@ To run the generated Java project in a Docker container, use the commands as bel
 1. Build the image
    ```
     docker build -t [PACKAGE_NAME]:[VERSION] .
-   ``` 
+   ```
 
 2. Run the image in detached mode
    ```
-    docker run -d [PACKAGE_NAME]:[VERSION] 
-   ``` 
+    docker run -d [PACKAGE_NAME]:[VERSION]
+   ```
 
-For further information including network setup, please see the [tutorial](template/TUTORIAL.md).
+For further information including network setup, please see the [tutorial](./tutorials).
 
 ## Future Enhancements
-* Add support for TLS connections
-* Add support for multiple messages per channel (ofMany)
-* Add support for more JMS Types alongside JMS Text
-* Offer Java event listener support for consumers
+* General enhancements
+    * Add support for multiple messages per channel (ofMany)
+    * Support for MQTT
+    * Support for other protocols
+* `ibmmq` protocol enhancements
+    * Add support for TLS connections
+    * Add support for more JMS Types alongside JMS Text
+    * Offer Java event listener support for consumers
 
 ## Contributors ✨
 
@@ -153,6 +166,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/lewis-relph"><img src="https://avatars.githubusercontent.com/u/91530893?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Lewis Relph</b></sub></a><br /><a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=lewis-relph" title="Code">💻</a> <a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=lewis-relph" title="Documentation">📖</a> <a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=lewis-relph" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/KieranM1999"><img src="https://avatars.githubusercontent.com/u/45017928?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kieran Murphy</b></sub></a><br /><a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=KieranM1999" title="Code">💻</a> <a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=KieranM1999" title="Documentation">📖</a> <a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=KieranM1999" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/AGurlhosur"><img src="https://avatars.githubusercontent.com/u/91530186?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Akshaya Gurlhosur</b></sub></a><br /><a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=AGurlhosur" title="Documentation">📖</a> <a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=AGurlhosur" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/dalelane"><img src="https://avatars.githubusercontent.com/u/1444788?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Dale Lane</b></sub></a><br /><a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=dalelane" title="Code">💻</a> <a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=dalelane" title="Documentation">📖</a></td>
   </tr>
 </table>
 

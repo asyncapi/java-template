@@ -44,8 +44,8 @@ function getPubSubContent(params) {
         protected ConnectionHelper ch = null;
         protected JMSContext context = null;
         protected Destination destination = null;
-    
-        public void Base(){
+
+        public PubSubBase(){
             LoggingHelper.init(logger);
         }
     

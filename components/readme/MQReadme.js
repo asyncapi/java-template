@@ -25,7 +25,7 @@ These commands will allow you to run the template publisher/subscriber model usi
 
 3. Run Publisher
 \`\`\`sh
-    java -cp target/asyncapi-mq-jms-generator-0.1.0.jar: ${params.package}.DemoProducer
+    java -cp target/asyncapi-java-generator-0.1.0.jar: ${params.package}.DemoProducer
     \`\`\`
 
     This command runs the publisher function of this template from the generated .jar file. 
@@ -33,7 +33,7 @@ These commands will allow you to run the template publisher/subscriber model usi
 
 4. In a seperate terminal, Run Subscriber    
 \`\`\`sh
-    java -cp target/asyncapi-mq-jms-generator-0.1.0.jar: ${params.package}.DemoSubscriber
+    java -cp target/asyncapi-java-generator-0.1.0.jar: ${params.package}.DemoSubscriber
     \`\`\`
 
     This command runs the subscriber function of this template from the generated .jar file. 

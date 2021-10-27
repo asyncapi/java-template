@@ -29,7 +29,7 @@ public class DemoSubscriber {
     private static final int TIMEOUT = 10000; // 10 Seconnds
 
     public static void main(String[] args) {
-        // Create a subscriber instance to connect to the queue manager
+        // Create a subscriber instance to connect to the server
         ${className}Subscriber consumer = new ${className}Subscriber();
         
         // Receive updates for this queue indefinitely

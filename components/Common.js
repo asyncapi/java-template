@@ -40,12 +40,6 @@ ${childrenContent}
 `;
 }
 
-export function ClassHeader() {
-  return `
-  private JMSProducer producer = null;
-`;
-}
-
 export function ClassConstructor({ childrenContent, name, properties }) {
   let propertiesString = '';
 
@@ -111,21 +105,40 @@ public void close() {
 }
 
 export function EnvJson({ asyncapi, params }) {
-  const url = asyncapi.server(params.server).url(); 
-  const qmgr = getMqValues(url,'qmgr');
-  const mqChannel = getMqValues(url,'mqChannel');
-  const host = URLtoHost(url);
-  const domain = host.split(':', 1);
+  const url = asyncapi.server(params.server).url();
+  const protocol = asyncapi.server(params.server).protocol();
+
+  if (protocol === 'ibmmq' || protocol === 'ibmmq-secure') {
+    const qmgr = getMqValues(url,'qmgr');
+    const mqChannel = getMqValues(url,'mqChannel');
+    const host = URLtoHost(url);
+    const domain = host.split(':', 1);
+    return `
+    {
+      "MQ_ENDPOINTS": [{
+        "HOST": "${domain}",
+        "PORT": "${ URLtoPort(url, 1414) }",
+        "CHANNEL": "${mqChannel}",
+        "QMGR": "${qmgr}",
+        "APP_USER": "${params.user}",
+        "APP_PASSWORD": "${params.password}"
+      }]
+    }
+    `;
+  } else if (protocol === 'kafka' || protocol === 'kafka-secure') {
+    return `
+    {
+      "KAFKA_ENDPOINTS": [{
+        "BOOTSTRAP_ADDRESS": "${url}",
+        "APP_USER": "${params.user}",
+        "APP_PASSWORD": "${params.password}"
+      }]
+    }
+    `;
+  }
+  // placeholder for new protocols
   return `
   {
-    "MQ_ENDPOINTS": [{
-      "HOST": "${domain}",
-      "PORT": "${ URLtoPort(url, 1414) }",
-      "CHANNEL": "${mqChannel}",
-      "QMGR": "${qmgr}",
-      "APP_USER": "${params.user}",
-      "APP_PASSWORD": "${params.password}"
-    }]
   }
   `;
 }

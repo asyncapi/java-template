@@ -14,7 +14,12 @@
 * limitations under the License.
 */
 
-// Send Message
+export function ProducerDeclaration() {
+  return `
+    private JMSProducer producer = null;
+  `;
+}
+
 export function SendMessage() {
   return `
     public void send(ModelContract modelContract) { 
@@ -51,7 +56,12 @@ export function ProducerConstructor({ name }) {
     producer = context.createProducer();
 `;
 }
-  
+
+export function ProducerClose() {
+  // handled by superclass
+  return '';
+}
+
 export function ProducerImports({ params }) {
   return `
 import java.util.logging.*;

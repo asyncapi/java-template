@@ -112,3 +112,8 @@ export function ConsumerConstructor({ name }) {
       this.createConnection("${name}", id);
   `;
 }
+
+export function ConsumerClose() {
+  // handled by superclass
+  return '';
+}

@@ -15,8 +15,8 @@
 */
 
 import { File } from '@asyncapi/generator-react-sdk';
-import { ImportModels, PackageDeclaration, Class, ClassHeader, ClassConstructor } from '../Common';
-import { ProducerConstructor, SendMessage, ProducerImports } from '../Producer';
+import { ImportModels, PackageDeclaration, Class, ClassConstructor } from '../Common';
+import { ProducerConstructor, SendMessage, ProducerImports, ProducerDeclaration, ProducerClose } from '../Producer/index';
 import { toJavaClassName, javaPackageToPath } from '../../utils/String.utils';
 
 export function Producers(asyncapi, channels, params) {
@@ -31,18 +31,19 @@ export function Producers(asyncapi, channels, params) {
         <File name={`${packagePath}${className}.java`}>
             
           <PackageDeclaration path={params.package} />
-          <ProducerImports params={params} />
+          <ProducerImports asyncapi={asyncapi} params={params} />
           <ImportModels messages={messages} params={params} />
     
           <Class name={className} extendsClass="PubSubBase">
-            <ClassHeader />
+            <ProducerDeclaration asyncapi={asyncapi} params={params} />
     
             <ClassConstructor name={className}>
-              <ProducerConstructor name={name} />
+              <ProducerConstructor asyncapi={asyncapi} params={params} name={name} />
             </ClassConstructor>
-              
-            <SendMessage />
-              
+
+            <SendMessage asyncapi={asyncapi} params={params} />
+
+            <ProducerClose asyncapi={asyncapi} params={params} />
           </Class>
         </File>
       );

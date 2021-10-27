@@ -108,7 +108,7 @@ export function createJavaConstructorArgs(properties) {
  * Generates an example value from asyncAPI datatype in Java
  */
 export function asyncApiTypeToDemoValue(asyncApiType) {
-  const strWords = ['ASyncAPI', 'Java', 'React', 'Hackathon', 'Community', 'Open Source', 'MQ', 'JMS', 'Publish', 'Subscribe', 'Topic', 'Demo', 'Example', 'Template', 'Producer', 'Consumer', 'Generator', 'Message', 'Endpoint'];
+  const strWords = ['ASyncAPI', 'Java', 'React', 'Hackathon', 'Community', 'Open Source', 'Publish', 'Subscribe', 'Topic', 'Demo', 'Example', 'Template', 'Producer', 'Consumer', 'Generator', 'Message', 'Endpoint'];
   const boolWords = ['true', 'false'];
 
   switch (asyncApiType) {

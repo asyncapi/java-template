@@ -20,14 +20,14 @@ import { File } from '@asyncapi/generator-react-sdk';
 import { PackageDeclaration, EnvJson } from '../components/Common';
 import { javaPackageToPath } from '../utils/String.utils';
 
-import { Connection } from '../components/Connection';
-import { ConnectionHelper } from '../components/ConnectionHelper';
+import Connection from '../components/Connection/index';
+import ConnectionHelper from '../components/ConnectionHelper/index';
 import { LoggingHelper } from '../components/LoggingHelper';
 import { PomHelper } from '../components/PomHelper';
 import { Demo } from '../components/demo/Demo';
-import { PubSubBase } from '../components/Files/PubSubBase';
+import { PubSubBase } from '../components/PubSubBase/index';
 import { ModelContract } from '../components/ModelContract';
-import { Readme } from '../components/Readme';
+import Readme from '../components/Readme/index';
 
 import { Models } from '../components/Files/Models';
 import { Producers } from '../components/Files/Producers';
@@ -43,13 +43,13 @@ export default function({ asyncapi, params }) {
 
   const toRender = {
     producers: Producers(asyncapi, channels, params),
-    connectionHelper: ConnectionHelperRenderer(params),
+    connectionHelper: ConnectionHelperRenderer(asyncapi, params),
     models: Models(asyncapi.components().messages(), params),
     consumers: Consumers(asyncapi, channels, params),
     loggingHelper: LoggingHelperRenderer(params),
-    connectionRender: ConnectionRender(params),
+    connectionRender: ConnectionRender(asyncapi, params),
     envJson: EnvJsonRenderer(asyncapi, params),
-    pubSubBase: PubSubBase(params),
+    pubSubBase: PubSubBase(asyncapi, params),
     pomXml: PomXmlRenderer(server, params),
     demo: Demo(asyncapi, params),
     ModelContract: ModelContractRenderer(params),
@@ -83,22 +83,22 @@ function ModelContractRenderer(params) {
   );
 }
 
-function ConnectionRender(params) {
+function ConnectionRender(asyncapi, params) {
   const filePath = `${javaPackageToPath(params.package)}Connection.java`;
   return (
     <File name={filePath}>
       <PackageDeclaration path={params.package} />
-      <Connection />
+      <Connection asyncapi={asyncapi} params={params} />
     </File>
   );
 }
 
-function ConnectionHelperRenderer(params) {
+function ConnectionHelperRenderer(asyncapi, params) {
   const filePath = `${javaPackageToPath(params.package)}ConnectionHelper.java`;
   return (
     <File name={filePath}>
       <PackageDeclaration path={params.package} />
-      <ConnectionHelper params={params} />
+      <ConnectionHelper asyncapi={asyncapi} params={params} />
     </File>
   );
 }

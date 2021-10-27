@@ -52,12 +52,12 @@ These commands will allow you to run the Java Template publisher/subscriber mode
     ```
 5. Run your generated Subscriber
     ```
-    java -cp target/asyncapi-mq-jms-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoSubscriber
+    java -cp target/asyncapi-java-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoSubscriber
     ```
 6. In a seperate terminal, navigate to the `output` directory above and run your generated Publisher   
     ```
     cd ~/asyncapi-java-tutorial/output
-    java -cp target/asyncapi-mq-jms-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoProducer
+    java -cp target/asyncapi-java-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoProducer
     ```
 
 The messages will now be seen to be being sent from the running publisher to the running subscriber, using MQ topics. Your output from your subscriber should look something like

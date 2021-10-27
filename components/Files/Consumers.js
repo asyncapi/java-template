@@ -16,7 +16,7 @@
 
 import { File } from '@asyncapi/generator-react-sdk';
 import { PackageDeclaration, Class, ClassConstructor, ChannelToMessage } from '../Common';
-import { ConsumerDeclaration, ConsumerImports, ConsumerConstructor, ReceiveMessage } from '../Consumer';
+import { ConsumerDeclaration, ConsumerImports, ConsumerConstructor, ReceiveMessage, ConsumerClose } from '../Consumer/index';
 import { toJavaClassName, javaPackageToPath } from '../../utils/String.utils';
 
 export function Consumers(asyncapi, channels, params) {
@@ -32,17 +32,18 @@ export function Consumers(asyncapi, channels, params) {
       return (
         <File name={`${packagePath}${className}.java`}>
           <PackageDeclaration path={params.package}></PackageDeclaration>
-          <ConsumerImports params={params} message={message}></ConsumerImports>
+          <ConsumerImports asyncapi={asyncapi} params={params} message={message}></ConsumerImports>
     
           <Class name={className} extendsClass="PubSubBase">
-            <ConsumerDeclaration name={channelName} />
+            <ConsumerDeclaration asyncapi={asyncapi} params={params} name={channelName} />
   
             <ClassConstructor name={className}>
               <ConsumerConstructor asyncapi={asyncapi} params={params} name={name}/>
             </ClassConstructor>
-      
-            <ReceiveMessage message={message}></ReceiveMessage>
 
+            <ReceiveMessage asyncapi={asyncapi} params={params} message={message}></ReceiveMessage>
+
+            <ConsumerClose asyncapi={asyncapi} params={params} />
           </Class>
         </File> 
       );
