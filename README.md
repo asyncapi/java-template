@@ -13,7 +13,7 @@
 - [Supported protocols](#supported-protocols)
 - [How to use the template](#how-to-use-the-template)
   - [CLI](#cli)
-  - [JMS Template Tutorial](#jms-template-tutorial)
+  - [Template Tutorial](#template-tutorial)
 - [Template configuration](#template-configuration)
 - [Development](#development)
 - [Key Files](#key-files)
@@ -30,8 +30,8 @@
 This template generates Java application code based from an AsyncAPI document.
 
 Implementations are provided for the following protocols:
-* ibmmq - generating JMS code (utilising features from the [IBM MQ AsyncAPI bindings](https://github.com/asyncapi/bindings/tree/master/ibmmq))
-* kafka - generating Java code  (utilising features from the [Apache Kafka AsyncAPI bindings](https://github.com/asyncapi/bindings/tree/master/kafka))
+* `ibmmq` - generating Java JMS code (utilising features from the [IBM MQ AsyncAPI bindings](https://github.com/asyncapi/bindings/tree/master/ibmmq))
+* `kafka` - generating Java code  (utilising features from the [Apache Kafka AsyncAPI bindings](https://github.com/asyncapi/bindings/tree/master/kafka))
 
 ## Technical requirements
 
@@ -40,10 +40,11 @@ Implementations are provided for the following protocols:
 
 
 ## Supported protocols
-These protocols are implemented using the JMS API with the correct jars, in this case ibmmq was chosen. The use of JMS allows allows the template to be extensible to other providers by providing the correct jars at the Maven stage.
 
 * ibmmq
+    * This is implemented using the JMS API with the correct jars, in this case ibmmq was chosen. The use of JMS allows allows the template to be extensible to other providers by providing the correct jars at the Maven stage.
 * kafka
+    * This is implemented using the official client library from the Apache Kafka project.
 
 ## How to use the template
 
@@ -59,8 +60,11 @@ npm install -g @asyncapi/generator
 ag https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/mq-asyncapi-java-template -o output -p server=production
 
 ```
-### JMS Template Tutorial
-For complete instructions on generating the Java and subsequently using it to send messages, please see the template specific [Tutorial](./template/TUTORIAL.md).
+### Template Tutorial
+For complete instructions on generating the Java and subsequently using it to send messages, please see the relevant tutorial:
+- [ibmmq tutorial](./tutorials/IBMMQ.md)
+- [kafka tutorial](./tutorials/KAFKA.md)
+
 
 ## Template configuration
 
@@ -136,13 +140,17 @@ To run the generated Java project in a Docker container, use the commands as bel
     docker run -d [PACKAGE_NAME]:[VERSION]
    ```
 
-For further information including network setup, please see the [tutorial](template/TUTORIAL.md).
+For further information including network setup, please see the [tutorial](./tutorials).
 
 ## Future Enhancements
-* Add support for TLS connections
-* Add support for multiple messages per channel (ofMany)
-* Add support for more JMS Types alongside JMS Text
-* Offer Java event listener support for consumers
+* General enhancements
+    * Add support for multiple messages per channel (ofMany)
+    * Support for MQTT
+    * Support for other protocols
+* `ibmmq` protocol enhancements
+    * Add support for TLS connections
+    * Add support for more JMS Types alongside JMS Text
+    * Offer Java event listener support for consumers
 
 ## Contributors ✨
 
