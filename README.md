@@ -129,12 +129,12 @@ To run the generated Java project in a Docker container, use the commands as bel
 1. Build the image
    ```
     docker build -t [PACKAGE_NAME]:[VERSION] .
-   ``` 
+   ```
 
 2. Run the image in detached mode
    ```
-    docker run -d [PACKAGE_NAME]:[VERSION] 
-   ``` 
+    docker run -d [PACKAGE_NAME]:[VERSION]
+   ```
 
 For further information including network setup, please see the [tutorial](template/TUTORIAL.md).
 
@@ -158,6 +158,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/lewis-relph"><img src="https://avatars.githubusercontent.com/u/91530893?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Lewis Relph</b></sub></a><br /><a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=lewis-relph" title="Code">💻</a> <a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=lewis-relph" title="Documentation">📖</a> <a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=lewis-relph" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/KieranM1999"><img src="https://avatars.githubusercontent.com/u/45017928?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kieran Murphy</b></sub></a><br /><a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=KieranM1999" title="Code">💻</a> <a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=KieranM1999" title="Documentation">📖</a> <a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=KieranM1999" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/AGurlhosur"><img src="https://avatars.githubusercontent.com/u/91530186?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Akshaya Gurlhosur</b></sub></a><br /><a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=AGurlhosur" title="Documentation">📖</a> <a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=AGurlhosur" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/dalelane"><img src="https://avatars.githubusercontent.com/u/1444788?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Dale Lane</b></sub></a><br /><a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=dalelane" title="Code">💻</a> <a href="https://github.com/ibm-messaging/mq-asyncapi-java-template/commits?author=dalelane" title="Documentation">📖</a></td>
   </tr>
 </table>
 
