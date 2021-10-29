@@ -15,6 +15,7 @@
   - [CLI](#cli)
   - [Template Tutorial](#template-tutorial)
 - [Template configuration](#template-configuration)
+- [Environment variables](#environment-variables)
 - [Development](#development)
 - [Key Files](#key-files)
   - [Generator Code](#generator-code)
@@ -57,7 +58,7 @@ This template must be used with the AsyncAPI Generator. You can find all availab
 npm install -g @asyncapi/generator
 
 # Run generation
-ag https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/mq-asyncapi-java-template -o output -p server=production
+ag https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/asyncapi-java-template -o output -p server=production
 
 ```
 ### Template Tutorial
@@ -73,17 +74,27 @@ You can configure this template by passing different parameters in the Generator
 Name | Description | Required | Default
 ---|---|---|---
 `server` | Server must be defined in yaml and selected when using the generator | Yes | -
-`user` | User for the server to generate code for | No | app
-`password` | Password for the server to generate code for | No | passw0rd
+`user` | User for the server to generate code for. This can also be provided as an environment variable (see below) | No | app
+`password` | Password for the server to generate code for. This can also be provided as an environment variable (see below) | No | passw0rd
 `package` | Java package name for generated code | No | com.ibm.mq.samples.jms
 `mqTopicPrefix` | MQ topic prefix. Used for ibmmq protocols. Default will work with dev MQ instance | No | dev//
 
+## Environment variables
+
+Credentials can be provided as environment variables if preferred. If set, these credentials will override those set with the template parameters.
+
+Name | Description
+---|---
+`APP_USER` | Overrides `user` template parameter
+`APP_PASSWORD` | Overrides `password` template parameter
+
+All credentials are stored in `env.json` in the output directory, so they can be updated at any time without needing to run the generator or recompile the Java.
 
 ## Development
 
 The most straightforward command to use this template is:
 ```sh
-ag https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/mq-asyncapi-java-template -o output -p server=production
+ag https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/asyncapi-java-template -o output -p server=production
 ```
 
 For local development, you need different variations of this command. First of all, you need to know about three important CLI flags:
@@ -96,13 +107,13 @@ There are two ways you can work on template development:
 - Use global Generator and template from your local sources:
   ```sh
   # assumption is that you run this command from the root of your template
-  ag https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/mq-asyncapi-java-template -o output -p server=production
+  ag https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/asyncapi-java-template -o output -p server=production
   ```
 - Use Generator from sources and template also from local sources. This approach enables more debugging options with awesome `console.log` in the Generator sources or even the Parser located in `node_modules` of the Generator:
   ```sh
   # assumption is that you run this command from the root of your template
   # assumption is that generator sources are cloned on the same level as the template
-  ../generator/cli.js https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/mq-asyncapi-java-template -o output -p server=production
+  ../generator/cli.js https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/asyncapi-java-template -o output -p server=production
   ```
 
 ## Key Files
