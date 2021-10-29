@@ -107,23 +107,23 @@ public void close() {
 export function EnvJson({ asyncapi, params }) {
   const url = asyncapi.server(params.server).url();
   const protocol = asyncapi.server(params.server).protocol();
+  let user = params.user;
+  let password = params.password;
+
+  if (user == 'app' && process.env.APP_USER) {
+    user = process.env.APP_USER;
+  }
+
+  if (password == 'passw0rd' && process.env.APP_PASSWORD) {
+    password = process.env.APP_PASSWORD;
+  }
 
   if (protocol === 'ibmmq' || protocol === 'ibmmq-secure') {
     const qmgr = getMqValues(url,'qmgr');
     const mqChannel = getMqValues(url,'mqChannel');
     const host = URLtoHost(url);
     const domain = host.split(':', 1);
-    let user = params.user;
-    let password = params.password;
-
-    if (user == 'app' && process.env.APP_USER) {
-      user = process.env.APP_USER;
-    }
-
-    if (password == 'passw0rd' && process.env.APP_PASSWORD) {
-      password = process.env.APP_PASSWORD;
-    }
-
+   
     return `
     {
       "MQ_ENDPOINTS": [{
