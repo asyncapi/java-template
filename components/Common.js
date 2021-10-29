@@ -15,6 +15,7 @@
 */
 
 import { createJavaArgsFromProperties } from '../utils/Types.utils';
+import { collateModelNames } from '../utils/Models.utils';
 
 export function Class({ childrenContent, name, implementsClass, extendsClass }) {
   if (childrenContent === undefined) { 
@@ -154,12 +155,13 @@ export function EnvJson({ asyncapi, params }) {
   `;
 }
 
-export function ImportModels({ messages, params }) {
-  return Object.entries(messages)
-    .map(([messageName]) => {
-      return `
-import ${params.package}.models.${messageName.charAt(0).toUpperCase() + messageName.slice(1)};`;
-    });
+export function ImportModels({ asyncapi, params }) {
+  const modelNames = collateModelNames(asyncapi);
+
+  return modelNames.map(messageName => {
+    return `
+import ${params.package}.models.${messageName};`;
+  });
 }
 
 /* Used to resolve a channel object to message name */

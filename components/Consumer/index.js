@@ -25,7 +25,7 @@ export function ConsumerDeclaration({ asyncapi, params }) {
   return getModule({ asyncapi, params }).ConsumerDeclaration();
 }
 export function ConsumerImports({ asyncapi, params, message }) {
-  return getModule({ asyncapi, params }).ConsumerImports({ params, message });
+  return getModule({ asyncapi, params }).ConsumerImports({ asyncapi, params, message });
 }
 export function ReceiveMessage({ asyncapi, params, message }) {
   return getModule({ asyncapi, params }).ReceiveMessage({ message });
