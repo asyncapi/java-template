@@ -6,7 +6,7 @@ export function collateModelNames(asyncapi) {
 
 export function collateModels(asyncapi) {
   const models = {};
-
+  
   for (const channel of Object.values(asyncapi.channels())) {
     if (channel.publish()) {
       for (const  message of Object.values(channel.publish().messages())) {
