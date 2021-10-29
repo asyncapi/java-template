@@ -22,7 +22,7 @@ test('Generates Connection for publisher', async () => {
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
   await generator.generateFromFile(path.resolve('test', 'mocks/single-channel.yml'));
 
-  expect(testProducer.ProducerConstructor({name: 'song/released'})).toBe(`
+  expect(testProducer.ProducerConstructor({asyncapi: generator.asyncapi, params: generator.templateParams, name: 'song/released'})).toBe(`
     super();
     String id = null;
     id = "Basic pub";
@@ -56,7 +56,7 @@ test('Generates all imports from path', async() => {
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
   await generator.generateFromFile(path.resolve('test', 'mocks/single-channel.yml'));
 
-  expect(testProducer.ProducerImports({params: generator.templateParams})).toBe(`
+  expect(testProducer.ProducerImports({asyncapi: generator.asyncapi, params: generator.templateParams})).toBe(`
 import java.util.logging.*;
 import java.io.Serializable;
 
