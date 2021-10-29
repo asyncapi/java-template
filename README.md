@@ -15,6 +15,7 @@
   - [CLI](#cli)
   - [Template Tutorial](#template-tutorial)
 - [Template configuration](#template-configuration)
+- [Environment variables](#environment-variables)
 - [Development](#development)
 - [Key Files](#key-files)
   - [Generator Code](#generator-code)
@@ -73,11 +74,21 @@ You can configure this template by passing different parameters in the Generator
 Name | Description | Required | Default
 ---|---|---|---
 `server` | Server must be defined in yaml and selected when using the generator | Yes | -
-`user` | User for the server to generate code for | No | app
-`password` | Password for the server to generate code for | No | passw0rd
+`user` | User for the server to generate code for. This can also be provided as an environment variable (see below) | No | app
+`password` | Password for the server to generate code for. This can also be provided as an environment variable (see below) | No | passw0rd
 `package` | Java package name for generated code | No | com.ibm.mq.samples.jms
 `mqTopicPrefix` | MQ topic prefix. Used for ibmmq protocols. Default will work with dev MQ instance | No | dev//
 
+## Environment variables
+
+Credentials can be provided as environment variables if preferred. If set, these credentials will override those set with the template parameters.
+
+Name | Description
+---|---
+`APP_USER` | Overrides `user` template parameter
+`APP_PASSWORD` | Overrides `password` template parameter
+
+All credentials are stored in `env.json` in the output directory, so they can be updated at any time without needing to run the generator or recompile the Java.
 
 ## Development
 
