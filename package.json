@@ -86,7 +86,9 @@
       }
     },
     "supportedProtocols": [
-      "ibmmq","kafka","kafka-secure"
+      "ibmmq",
+      "kafka",
+      "kafka-secure"
     ],
     "nonRenderableFiles": [
       "style.css",
