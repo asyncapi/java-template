@@ -32,7 +32,7 @@ cd ~/asyncapi-java-tutorial
 These commands will allow you to run the Java Template publisher/subscriber model using IBM MQ. 
 1. Run the AsyncAPI Generator. <br>**Note:** You may need to change the username and password values if you have not followed the IBM MQ tutorial.
     ```
-    ag https://ibm.biz/kafka-asyncapi-yml-sample https://ibm.biz/asyncapi-java-template -o ./output -p server=production -p user=app -p password=passw0rd
+    ag https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/asyncapi-java-template -o ./output -p server=production -p user=app -p password=passw0rd
     ```
     **Note:** The syntax of the above command is shown below. You do not need to run the below line, it is for informational purposes only.
     ```
