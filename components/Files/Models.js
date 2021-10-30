@@ -19,9 +19,12 @@ import { PackageDeclaration, ImportDeclaration, Class, ClassConstructor } from '
 import { ModelClassVariables, ModelConstructor } from '../Model';
 import { javaPackageToPath } from '../../utils/String.utils';
 import { Indent, IndentationTypes } from '@asyncapi/generator-react-sdk';
+import { collateModels } from '../../utils/Models.utils';
 
-export function Models(messages, params) {
-  return Object.entries(messages).map(([messageName, message]) => {
+export function Models(asyncapi, params) {
+  const models = collateModels(asyncapi);
+
+  return Object.entries(models).map(([messageName, message]) => {
     const messageNameUpperCase = messageName.charAt(0).toUpperCase() + messageName.slice(1);
     const packagePath = javaPackageToPath(params.package);
 

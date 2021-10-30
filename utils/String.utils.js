@@ -18,7 +18,7 @@
  * Converts from lowercase slash seperated to camel case java class names
  */
 export function toJavaClassName(name) {
-  const components = name.split((/[^A-Za-z]/));
+  const components = name.split((/[^A-Za-z0-9]/));
   return components.map(item => item.charAt(0).toUpperCase() + item.slice(1)).join('');
 }
 

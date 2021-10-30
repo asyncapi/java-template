@@ -24,7 +24,6 @@ export function Producers(asyncapi, channels, params) {
     const name = channelName;
     const className = `${toJavaClassName(channelName)}Producer`;
     const packagePath = javaPackageToPath(params.package);
-    const messages = asyncapi.components().messages();
 
     if (channel.publish()) {
       return (
@@ -32,7 +31,7 @@ export function Producers(asyncapi, channels, params) {
             
           <PackageDeclaration path={params.package} />
           <ProducerImports asyncapi={asyncapi} params={params} />
-          <ImportModels messages={messages} params={params} />
+          <ImportModels asyncapi={asyncapi} params={params} />
     
           <Class name={className} extendsClass="PubSubBase">
             <ProducerDeclaration asyncapi={asyncapi} params={params} />

@@ -37,15 +37,10 @@ export function Demo(asyncapi, params) {
   const channelName = channel.key;
 
   // Get payload from either publish or subscribe
+  const targetMessageName = channel.value.publish ? channel.value.publish().message().uid() : channel.value.subscribe().message().uid();
   const targetPayloadProperties = channel.value.publish ? channel.value.publish().message().payload().properties() : channel.value.subscribe().message().payload().properties();
 
-  // Find message name from messages array
-  const messages = Object.entries(asyncapi.components().messages()).map(([key, value]) => ({key,value}));
-  const targetMessageName = messages.filter((el) => {
-    return el.value.payload().properties().toString() === targetPayloadProperties.toString();
-  })[0].key;
-
-  const messageNameTitleCase = targetMessageName.charAt(0).toUpperCase() + targetMessageName.slice(1);
+  const messageNameTitleCase = toJavaClassName(targetMessageName);
 
   // Handle producer creation
   const producerPath = `${javaPackageToPath(params.package)}DemoProducer.java`;
