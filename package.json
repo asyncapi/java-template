@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "lint": "eslint --max-warnings 0 --fix --config .eslintrc ."
+    "lint": "eslint --max-warnings 0 --fix --config .eslintrc .",
+    "generate:assets": ""
   },
   "engines": {
     "node": ">=11.0.0"

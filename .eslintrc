@@ -114,3 +114,10 @@ rules:
   react/display-name: off
   react/prop-types: off
   react/jsx-key: off
+
+  # Acknowledged and accepted warnings
+  sonarjs/no-duplicate-string: off
+  sonarjs/no-nested-template-literals: off
+  security/detect-unsafe-regex: off
+  security/detect-object-injection: off
+  security/detect-non-literal-fs-filename: off

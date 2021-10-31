@@ -111,11 +111,11 @@ export function EnvJson({ asyncapi, params }) {
   let user = params.user;
   let password = params.password;
 
-  if (user == 'app' && process.env.APP_USER) {
+  if (user === 'app' && process.env.APP_USER) {
     user = process.env.APP_USER;
   }
 
-  if (password == 'passw0rd' && process.env.APP_PASSWORD) {
+  if (password === 'passw0rd' && process.env.APP_PASSWORD) {
     password = process.env.APP_PASSWORD;
   }
 

@@ -125,7 +125,6 @@ describe('template integration tests using the generator', () => {
   
     const OUTPUT_DIR = generateFolderName();
     const PACKAGE = 'com.ibm.mq.different.jms';
-    const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
     const params = {
       server: 'production',
       package: PACKAGE
@@ -135,11 +134,11 @@ describe('template integration tests using the generator', () => {
     await generator.generateFromFile(path.resolve('test', 'mocks/many-messages.yml'));
     
     // Read in JSON file
-    let exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
-    let password = exportedEnv.MQ_ENDPOINTS[0].APP_PASSWORD;
+    const exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
+    const password = exportedEnv.MQ_ENDPOINTS[0].APP_PASSWORD;
 
     // Check default password
-    expect(password).toBe('passw0rd')
+    expect(password).toBe('passw0rd');
   });
 
   it('default password overwritten on param provide', async () => {
@@ -147,7 +146,6 @@ describe('template integration tests using the generator', () => {
   
     const OUTPUT_DIR = generateFolderName();
     const PACKAGE = 'com.ibm.mq.different.jms';
-    const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
     const params = {
       server: 'production',
       package: PACKAGE,
@@ -158,11 +156,11 @@ describe('template integration tests using the generator', () => {
     await generator.generateFromFile(path.resolve('test', 'mocks/many-messages.yml'));
     
     // Read in JSON file
-    let exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
-    let password = exportedEnv.MQ_ENDPOINTS[0].APP_PASSWORD;
+    const exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
+    const password = exportedEnv.MQ_ENDPOINTS[0].APP_PASSWORD;
 
     // Check default password
-    expect(password).toBe('paramProvidedPassword')
+    expect(password).toBe('paramProvidedPassword');
   });
 
   it('default password overwritten by system env', async () => {
@@ -170,27 +168,26 @@ describe('template integration tests using the generator', () => {
   
     const OUTPUT_DIR = generateFolderName();
     const PACKAGE = 'com.ibm.mq.different.jms';
-    const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
     const params = {
       server: 'production',
       package: PACKAGE
     };
   
     // Set app_password env variable
-    process.env.APP_PASSWORD = "envAppPassword"
+    process.env.APP_PASSWORD = 'envAppPassword';
 
     const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
     await generator.generateFromFile(path.resolve('test', 'mocks/many-messages.yml'));
 
     // Clear env, not sure if this will persist
-    process.env.APP_PASSWORD = null
+    process.env.APP_PASSWORD = null;
 
     // Read in JSON file
-    let exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
-    let password = exportedEnv.MQ_ENDPOINTS[0].APP_PASSWORD;
+    const exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
+    const password = exportedEnv.MQ_ENDPOINTS[0].APP_PASSWORD;
 
     // Check default password
-    expect(password).toBe('envAppPassword')
+    expect(password).toBe('envAppPassword');
   });
 
   it('password parameter overwrites environment variable', async () => {
@@ -198,7 +195,6 @@ describe('template integration tests using the generator', () => {
   
     const OUTPUT_DIR = generateFolderName();
     const PACKAGE = 'com.ibm.mq.different.jms';
-    const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
     const params = {
       server: 'production',
       package: PACKAGE,
@@ -206,20 +202,20 @@ describe('template integration tests using the generator', () => {
     };
   
     // Set app_password env variable
-    process.env.APP_PASSWORD = "envAppPassword"
+    process.env.APP_PASSWORD = 'envAppPassword';
 
     const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
     await generator.generateFromFile(path.resolve('test', 'mocks/many-messages.yml'));
 
     // Clear env, not sure if this will persist
-    process.env.APP_PASSWORD = null
+    process.env.APP_PASSWORD = null;
 
     // Read in JSON file
-    let exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
-    let password = exportedEnv.MQ_ENDPOINTS[0].APP_PASSWORD;
+    const exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
+    const password = exportedEnv.MQ_ENDPOINTS[0].APP_PASSWORD;
 
     // Check default password
-    expect(password).toBe('paramProvidedPassword')
+    expect(password).toBe('paramProvidedPassword');
   });
 
   it('default env username is app', async () => {
@@ -227,7 +223,6 @@ describe('template integration tests using the generator', () => {
   
     const OUTPUT_DIR = generateFolderName();
     const PACKAGE = 'com.ibm.mq.different.jms';
-    const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
     const params = {
       server: 'production',
       package: PACKAGE
@@ -237,11 +232,11 @@ describe('template integration tests using the generator', () => {
     await generator.generateFromFile(path.resolve('test', 'mocks/many-messages.yml'));
     
     // Read in JSON file
-    let exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
-    let username = exportedEnv.MQ_ENDPOINTS[0].APP_USER;
+    const exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
+    const username = exportedEnv.MQ_ENDPOINTS[0].APP_USER;
 
     // Check default password
-    expect(username).toBe('app')
+    expect(username).toBe('app');
   });
 
   it('default username overwritten on param provide', async () => {
@@ -249,7 +244,6 @@ describe('template integration tests using the generator', () => {
   
     const OUTPUT_DIR = generateFolderName();
     const PACKAGE = 'com.ibm.mq.different.jms';
-    const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
     const params = {
       server: 'production',
       package: PACKAGE,
@@ -260,11 +254,11 @@ describe('template integration tests using the generator', () => {
     await generator.generateFromFile(path.resolve('test', 'mocks/many-messages.yml'));
     
     // Read in JSON file
-    let exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
-    let username = exportedEnv.MQ_ENDPOINTS[0].APP_USER;
+    const exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
+    const username = exportedEnv.MQ_ENDPOINTS[0].APP_USER;
 
     // Check default password
-    expect(username).toBe('paramUsername')
+    expect(username).toBe('paramUsername');
   });
 
   it('default username overwritten by system env', async () => {
@@ -272,27 +266,26 @@ describe('template integration tests using the generator', () => {
   
     const OUTPUT_DIR = generateFolderName();
     const PACKAGE = 'com.ibm.mq.different.jms';
-    const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
     const params = {
       server: 'production',
       package: PACKAGE
     };
   
     // Set app_user env variable
-    process.env.APP_USER = "envAppUsername"
+    process.env.APP_USER = 'envAppUsername';
 
     const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
     await generator.generateFromFile(path.resolve('test', 'mocks/many-messages.yml'));
 
     // Clear env, not sure if this will persist
-    process.env.APP_USER = null
+    process.env.APP_USER = null;
 
     // Read in JSON file
-    let exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
-    let username = exportedEnv.MQ_ENDPOINTS[0].APP_USER;
+    const exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
+    const username = exportedEnv.MQ_ENDPOINTS[0].APP_USER;
 
     // Check default password
-    expect(username).toBe('envAppUsername')
+    expect(username).toBe('envAppUsername');
   });
 
   it('username parameter overwrites environment variable', async () => {
@@ -300,7 +293,6 @@ describe('template integration tests using the generator', () => {
   
     const OUTPUT_DIR = generateFolderName();
     const PACKAGE = 'com.ibm.mq.different.jms';
-    const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
     const params = {
       server: 'production',
       package: PACKAGE,
@@ -308,19 +300,19 @@ describe('template integration tests using the generator', () => {
     };
   
     // Set app_user env variable
-    process.env.APP_USER = "envAppUsername"
+    process.env.APP_USER = 'envAppUsername';
 
     const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
     await generator.generateFromFile(path.resolve('test', 'mocks/many-messages.yml'));
 
     // Clear env, not sure if this will persist
-    process.env.APP_USER = null
+    process.env.APP_USER = null;
 
     // Read in JSON file
-    let exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
-    let username = exportedEnv.MQ_ENDPOINTS[0].APP_USER;
+    const exportedEnv = JSON.parse(readFileSync(path.join(OUTPUT_DIR, 'env.json')));
+    const username = exportedEnv.MQ_ENDPOINTS[0].APP_USER;
 
     // Check default password
-    expect(username).toBe('paramProvidedUsername')
+    expect(username).toBe('paramProvidedUsername');
   });
 });

@@ -163,6 +163,7 @@ test('EnvJson extracts correct values', async () => {
       APP_PASSWORD: 'passw0rd'
     }]
   });
+  expect(generatedJson).toBe(expectedJson);
 });
 
 // Test ImportModels

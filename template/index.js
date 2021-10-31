@@ -24,7 +24,7 @@ import Connection from '../components/Connection/index';
 import ConnectionHelper from '../components/ConnectionHelper/index';
 import { LoggingHelper } from '../components/LoggingHelper';
 import { PomHelper } from '../components/PomHelper';
-import { Demo } from '../components/demo/Demo';
+import { Demo } from '../components/Demo/Demo';
 import { PubSubBase } from '../components/PubSubBase/index';
 import { ModelContract } from '../components/ModelContract';
 import Readme from '../components/Readme/index';

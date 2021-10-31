@@ -22,7 +22,7 @@ test('Generates all imports from path', async() => {
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
   await generator.generateFromFile(path.resolve('test', 'mocks/single-channel.yml'));
   
-  expect(testConsumer.ConsumerImports({asyncapi: generator.asyncapi, params: generator.templateParams, message: { name: 'Song', uid: () => { return 'Song' }}})).toBe(`
+  expect(testConsumer.ConsumerImports({asyncapi: generator.asyncapi, params: generator.templateParams, message: { name: 'Song', uid: () => { return 'Song'; }}})).toBe(`
 import java.util.logging.*;
 import java.io.Serializable;
 

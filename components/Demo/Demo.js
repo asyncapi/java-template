@@ -14,8 +14,8 @@
 * limitations under the License.
 */
 
-import { DemoSubscriber } from '../demo/DemoSubscriber';
-import { DemoProducer } from '../demo/DemoProducer';
+import { DemoSubscriber } from './DemoSubscriber';
+import { DemoProducer } from './DemoProducer';
 import { javaPackageToPath, toJavaClassName } from '../../utils/String.utils';
 import { File } from '@asyncapi/generator-react-sdk';
 import { createJavaConstructorArgs } from '../../utils/Types.utils';
