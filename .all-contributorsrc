@@ -1,6 +1,6 @@
 {
-  "projectName": "mq-asyncapi-java-template",
-  "projectOwner": "ibm-messaging",
+  "projectName": "java-template",
+  "projectOwner": "asyncapi",
   "repoType": "github",
   "repoHost": "https://github.com",
   "files": [
