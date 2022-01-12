@@ -58,7 +58,7 @@ This template must be used with the AsyncAPI Generator. You can find all availab
 npm install -g @asyncapi/generator
 
 # Run generation
-ag https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/asyncapi-java-template -o output -p server=production
+ag https://ibm.biz/mq-asyncapi-yml-sample @asyncapi/java-template -o output -p server=production
 
 ```
 ### Template Tutorial
@@ -78,6 +78,8 @@ Name | Description | Required | Default
 `password` | Password for the server to generate code for. This can also be provided as an environment variable (see below) | No | passw0rd
 `package` | Java package name for generated code | No | com.ibm.mq.samples.jms
 `mqTopicPrefix` | MQ topic prefix. Used for ibmmq protocols. Default will work with dev MQ instance | No | dev//
+`asyncapiFileDir` | Custom output location of the AsyncAPI file that you provided as an input | No | The root of the output directory
+
 
 ## Environment variables
 
@@ -94,7 +96,7 @@ All credentials are stored in `env.json` in the output directory, so they can be
 
 The most straightforward command to use this template is:
 ```sh
-ag https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/asyncapi-java-template -o output -p server=production
+ag https://ibm.biz/mq-asyncapi-yml-sample @asyncapi/java-template -o output -p server=production
 ```
 
 For local development, you need different variations of this command. First of all, you need to know about three important CLI flags:
@@ -107,13 +109,13 @@ There are two ways you can work on template development:
 - Use global Generator and template from your local sources:
   ```sh
   # assumption is that you run this command from the root of your template
-  ag https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/asyncapi-java-template -o output -p server=production
+  ag https://ibm.biz/mq-asyncapi-yml-sample @asyncapi/java-template -o output -p server=production
   ```
 - Use Generator from sources and template also from local sources. This approach enables more debugging options with awesome `console.log` in the Generator sources or even the Parser located in `node_modules` of the Generator:
   ```sh
   # assumption is that you run this command from the root of your template
   # assumption is that generator sources are cloned on the same level as the template
-  ../generator/cli.js https://ibm.biz/mq-asyncapi-yml-sample https://ibm.biz/asyncapi-java-template -o output -p server=production
+  ../generator/cli.js https://ibm.biz/mq-asyncapi-yml-sample @asyncapi/java-template -o output -p server=production
   ```
 
 ## Key Files
