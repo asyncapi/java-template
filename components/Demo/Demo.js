@@ -25,11 +25,11 @@ export function Demo(asyncapi, params) {
   const channels = Object.entries(asyncapi.channels()).map(([key, value]) => ({key,value}));
 
   const foundPubAndSub = channels.filter((el) => {
-    return el.value.publish && el.value.subscribe;
+    return el.value.hasPublish() && el.value.hasSubscribe();
   });
 
   const foundPubOrSub = channels.filter((el) => {
-    return el.value.publish || el.value.subscribe;
+    return el.value.hasPublish() || el.value.hasSubscribe();
   });
 
   // Prioritise channel with both, fallback to an OR
@@ -37,8 +37,8 @@ export function Demo(asyncapi, params) {
   const channelName = channel.key;
 
   // Get payload from either publish or subscribe
-  const targetMessageName = channel.value.publish ? channel.value.publish().message().uid() : channel.value.subscribe().message().uid();
-  const targetPayloadProperties = channel.value.publish ? channel.value.publish().message().payload().properties() : channel.value.subscribe().message().payload().properties();
+  const targetMessageName = channel.value.hasPublish() ? channel.value.publish().message().uid() : channel.value.subscribe().message().uid();
+  const targetPayloadProperties = channel.value.hasPublish() ? channel.value.publish().message().payload().properties() : channel.value.subscribe().message().payload().properties();
 
   const messageNameTitleCase = toJavaClassName(targetMessageName);
 
@@ -48,15 +48,22 @@ export function Demo(asyncapi, params) {
   const className = toJavaClassName(channelName);
 
   const constructorArgs = createJavaConstructorArgs(targetPayloadProperties).join(', ');
-  return [(
-    <File name={producerPath}>
-      <PackageDeclaration path={params.package} />
-      <DemoProducer params={params} messageName={messageNameTitleCase} className={className} constructorArgs={constructorArgs}></DemoProducer>
-    </File>     
-  ), (
-    <File name={subscriberPath}>
-      <PackageDeclaration path={params.package} />
-      <DemoSubscriber params={params} className={className}></DemoSubscriber>
-    </File>
-  )];
-} 
+  const generatedClasses = [];
+  if (channel.value.hasPublish()) {
+    generatedClasses.push(
+      <File name={producerPath}>
+        <PackageDeclaration path={params.package} />
+        <DemoProducer params={params} messageName={messageNameTitleCase} className={className} constructorArgs={constructorArgs}></DemoProducer>
+      </File>
+    );
+  }
+  if (channel.value.hasSubscribe()) {
+    generatedClasses.push(
+      <File name={subscriberPath}>
+        <PackageDeclaration path={params.package} />
+        <DemoSubscriber params={params} className={className}></DemoSubscriber>
+      </File>
+    );
+  }
+  return generatedClasses;
+}
