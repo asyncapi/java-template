@@ -1,9 +1,4 @@
-<h5 align="center">
-  <br>
-  <a href="https://www.asyncapi.org"><img src="https://github.com/asyncapi/parser-nodejs/raw/master/assets/logo.png" alt="AsyncAPI logo" width="200"></a>
-  <br>
-  AsyncAPI Java Generator
-</h5>
+[![AsyncAPI Java Generator](./assets/logo.png)](https://www.asyncapi.com)
 
 
 <!-- toc -->
