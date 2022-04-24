@@ -68,11 +68,11 @@ import javax.jms.JMSRuntimeException;
 import javax.jms.ObjectMessage;
 
 
-import com.ibm.mq.samples.jms.ConnectionHelper;
-import com.ibm.mq.samples.jms.LoggingHelper;
-import com.ibm.mq.samples.jms.Connection;
-import com.ibm.mq.samples.jms.PubSubBase;
-import com.ibm.mq.samples.jms.models.ModelContract;
+import com.asyncapi.ConnectionHelper;
+import com.asyncapi.LoggingHelper;
+import com.asyncapi.Connection;
+import com.asyncapi.PubSubBase;
+import com.asyncapi.models.ModelContract;
 
 import com.fasterxml.jackson.databind.ObjectMapper; 
 import com.fasterxml.jackson.databind.ObjectWriter; 

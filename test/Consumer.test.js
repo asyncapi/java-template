@@ -39,13 +39,13 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.annotation.JsonView;
 
-import com.ibm.mq.samples.jms.ConnectionHelper;
-import com.ibm.mq.samples.jms.LoggingHelper;
-import com.ibm.mq.samples.jms.Connection;
-import com.ibm.mq.samples.jms.PubSubBase;
+import com.asyncapi.ConnectionHelper;
+import com.asyncapi.LoggingHelper;
+import com.asyncapi.Connection;
+import com.asyncapi.PubSubBase;
 
-import com.ibm.mq.samples.jms.models.ModelContract;
-import com.ibm.mq.samples.jms.models.Song;
+import com.asyncapi.models.ModelContract;
+import com.asyncapi.models.Song;
 `
   );
 });

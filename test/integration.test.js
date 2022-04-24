@@ -22,7 +22,7 @@ describe('template integration tests using the generator', () => {
     jest.setTimeout(30000);
   
     const OUTPUT_DIR = generateFolderName();
-    const PACKAGE = 'com.ibm.mq.samples.jms';
+    const PACKAGE = 'com.asyncapi';
     const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
     const params = {
       server: 'production'
@@ -50,7 +50,7 @@ describe('template integration tests using the generator', () => {
     jest.setTimeout(30000);
   
     const OUTPUT_DIR = generateFolderName();
-    const PACKAGE = 'com.ibm.mq.samples.jms';
+    const PACKAGE = 'com.asyncapi';
     const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
     const params = {
       server: 'production'
@@ -76,7 +76,7 @@ describe('template integration tests using the generator', () => {
     jest.setTimeout(30000);
   
     const OUTPUT_DIR = generateFolderName();
-    const PACKAGE = 'com.ibm.mq.samples.jms';
+    const PACKAGE = 'com.asyncapi';
     const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
     const params = {
       server: 'production'
