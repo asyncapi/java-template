@@ -79,7 +79,7 @@
       "package": {
         "description": "Java package name for generated code",
         "required": false,
-        "default": "com.ibm.mq.samples.jms"
+        "default": "com.asyncapi"
       },
       "mqTopicPrefix": {
         "description": "MQ topic prefix. Used for ibmmq protocols. Default will work with dev MQ instance",

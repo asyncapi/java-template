@@ -52,17 +52,17 @@ These commands will allow you to run the Java Template publisher/subscriber mode
     ```
 5. Run your generated Subscriber
     ```
-    java -cp target/asyncapi-java-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoSubscriber
+    java -cp target/asyncapi-java-generator-0.1.0.jar com.asyncapi.DemoSubscriber
     ```
 6. In a seperate terminal, navigate to the `output` directory above and run your generated Publisher
     ```
     cd ~/asyncapi-java-tutorial/output
-    java -cp target/asyncapi-java-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoProducer
+    java -cp target/asyncapi-java-generator-0.1.0.jar com.asyncapi.DemoProducer
     ```
 
 The messages will now be seen to be being sent from the running publisher to the running subscriber, using Kafka topics. Your output from your subscriber should look something like
 ```
-Oct 14, 2021 9:53:23 AM com.ibm.mq.samples.jms.SingleReleasedSubscriber receive
+Oct 14, 2021 9:53:23 AM com.asyncapi.SingleReleasedSubscriber receive
 INFO: Received message: {
   “title” : “Hackathon”,
   “artist” : “Java”,
@@ -70,7 +70,7 @@ INFO: Received message: {
   “genre” : “Java”,
   “length” : 166
 }
-TYPE: com.ibm.mq.samples.jms.models.Single
+TYPE: com.asyncapi.models.Single
 ```
 
 ## Running with Docker

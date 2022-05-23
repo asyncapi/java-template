@@ -31,4 +31,4 @@ RUN mvn compile &&\
     mvn package
 
 # Change this to the entrypoint for your application!
-CMD java -cp target/asyncapi-java-generator-0.1.0.jar com.ibm.mq.samples.jms.DemoSubscriber;
+CMD java -cp target/asyncapi-java-generator-0.1.0.jar com.asyncpi.DemoSubscriber;
