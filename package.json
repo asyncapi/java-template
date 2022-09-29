@@ -102,7 +102,7 @@
     }
   },
   "devDependencies": {
-    "@asyncapi/generator": "^1.9.11",
+    "@asyncapi/generator": "^1.9.12",
     "@asyncapi/parser": "^1.17.0",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/github": "^7.0.4",
