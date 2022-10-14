@@ -10,7 +10,7 @@ For instructions on installing maven for your operating system, please see the [
 These commands will allow you to run the template publisher/subscriber model using Apache Kafka.
 
 1. Install dependencies
-\`\`\`sh
+    \`\`\`sh
     mvn compile
     \`\`\`
 
@@ -18,21 +18,21 @@ These commands will allow you to run the template publisher/subscriber model usi
 
 
 2. Create .jar package
-\`\`\`sh
+    \`\`\`sh
     mvn package
     \`\`\`
     Using maven generate the .jar file to run.
 
 3. Run Publisher
-\`\`\`sh
+    \`\`\`sh
     java -cp target/asyncapi-java-generator-0.1.0.jar: ${params.package}.DemoProducer
     \`\`\`
 
     This command runs the publisher function of this template from the generated .jar file.
 
 
-4. In a seperate terminal, Run Subscriber
-\`\`\`sh
+4. In a separate terminal, Run Subscriber
+    \`\`\`sh
     java -cp target/asyncapi-java-generator-0.1.0.jar: ${params.package}.DemoSubscriber
     \`\`\`
 

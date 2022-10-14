@@ -54,7 +54,7 @@ These commands will allow you to run the Java Template publisher/subscriber mode
     ```
     java -cp target/asyncapi-java-generator-0.1.0.jar com.asyncapi.DemoSubscriber
     ```
-6. In a seperate terminal, navigate to the `output` directory above and run your generated Publisher
+6. In a separate terminal, navigate to the `output` directory above and run your generated Publisher
     ```
     cd ~/asyncapi-java-tutorial/output
     java -cp target/asyncapi-java-generator-0.1.0.jar com.asyncapi.DemoProducer
