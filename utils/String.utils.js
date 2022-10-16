@@ -14,8 +14,8 @@
 * limitations under the License.
 */
 
-/* 
- * Converts from lowercase slash seperated to camel case java class names
+/*
+ * Converts from lowercase slash separated to camel case java class names
  */
 export function toJavaClassName(name) {
   const components = name.split((/[^A-Za-z0-9]/));
