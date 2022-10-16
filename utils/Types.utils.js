@@ -14,46 +14,61 @@
 * limitations under the License.
 */
 
-/* 
- * Converts from async api defined types (https://www.asyncapi.com/docs/specifications/v2.0.0#dataTypeFormat)
+/*
+ * Converts from async api defined types (https://www.asyncapi.com/docs/specifications/v2.5.0#dataTypeFormat)
  * to native Java types
  */
-export function asyncApiTypeToJavaType(asyncApiType) {
-  switch (asyncApiType) {
-  case 'integer':
-    return 'int';
+export function asyncApiToJavaType(type, format) {
+  // try to use the format first, as it is more specific
+  let asyncApiType = asyncApiFormatToJavaType(format);
 
-  case 'long':
-    return 'Long';
+  if (!asyncApiType) {
+    // no recognised format, so resort to using the type
+    asyncApiType = asyncApiTypeToJavaType(type);
+  }
 
-  case 'float':
-    return 'float';
-
-  case 'double':
-    return 'double';
-
-  case 'string':
-    return 'String';
-          
-  case 'byte':
-    return 'byte';
-
-  case 'binary':
-    return 'String';
-
-  case 'boolean':
-    return 'boolean';
-
-  case 'date':
-    return 'String';
-
-  case 'dateTime':
-    return 'String';
-
-  case 'password':
-    return 'String';
-  default:
+  if (!asyncApiType) {
+    // still nothing recognised, so need to report an error
     throw new Error('Unsupported Type');
+  }
+
+  return asyncApiType;
+}
+
+function asyncApiFormatToJavaType(format) {
+  switch (format) {
+    case 'int32':
+      return 'int';
+    case 'int64':
+      return 'long';
+    case 'float':
+      return 'float';
+    case 'double':
+      return 'double';
+    case 'byte':
+      return 'byte';
+    case 'binary':
+      return 'String';
+    case 'date':
+      return 'String';
+    case 'date-time':
+      return 'String';
+    case 'password':
+      return 'String';
+  }
+}
+function asyncApiTypeToJavaType(type) {
+  switch (type) {
+    case 'integer':
+      return 'int';
+    case 'number':
+      // using double by default, as no format
+      //  was specified
+      return 'double';
+    case 'string':
+      return 'String';
+    case 'boolean':
+      return 'boolean';
   }
 }
 
@@ -73,7 +88,7 @@ export function setLocalVariables(properties) {
  */
 export function defineVariablesForProperties(properties) {
   return Object.entries(properties).map(([name, property]) => {
-    return `public ${asyncApiTypeToJavaType(property.type())} ${name};`;
+    return `public ${asyncApiToJavaType(property.type(), property.format())} ${name};`;
   });
 }
 
@@ -91,7 +106,7 @@ export function passJavaArgs(properties) {
  */
 export function createJavaArgsFromProperties(properties) {
   return Object.entries(properties).map(([name, property]) => {
-    return `${asyncApiTypeToJavaType(property.type())} ${name}`;
+    return `${asyncApiToJavaType(property.type(), property.format())} ${name}`;
   });
 }
 
