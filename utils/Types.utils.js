@@ -37,38 +37,38 @@ export function asyncApiToJavaType(type, format) {
 
 function asyncApiFormatToJavaType(format) {
   switch (format) {
-    case 'int32':
-      return 'int';
-    case 'int64':
-      return 'long';
-    case 'float':
-      return 'float';
-    case 'double':
-      return 'double';
-    case 'byte':
-      return 'byte';
-    case 'binary':
-      return 'String';
-    case 'date':
-      return 'String';
-    case 'date-time':
-      return 'String';
-    case 'password':
-      return 'String';
+  case 'int32':
+    return 'int';
+  case 'int64':
+    return 'long';
+  case 'float':
+    return 'float';
+  case 'double':
+    return 'double';
+  case 'byte':
+    return 'byte';
+  case 'binary':
+    return 'String';
+  case 'date':
+    return 'String';
+  case 'date-time':
+    return 'String';
+  case 'password':
+    return 'String';
   }
 }
 function asyncApiTypeToJavaType(type) {
   switch (type) {
-    case 'integer':
-      return 'int';
-    case 'number':
-      // using double by default, as no format
-      //  was specified
-      return 'double';
-    case 'string':
-      return 'String';
-    case 'boolean':
-      return 'boolean';
+  case 'integer':
+    return 'int';
+  case 'number':
+    // using double by default, as no format
+    //  was specified
+    return 'double';
+  case 'string':
+    return 'String';
+  case 'boolean':
+    return 'boolean';
   }
 }
 
@@ -86,9 +86,13 @@ export function setLocalVariables(properties) {
 /* 
  * Helper class to define variables 
  */
-export function defineVariablesForProperties(properties) {
-  return Object.entries(properties).map(([name, property]) => {
-    return `public ${asyncApiToJavaType(property.type(), property.format())} ${name};`;
+export function defineVariablesForProperties(payload) {
+  return Object.entries(payload.properties()).map(([name, property]) => {
+    let varDeclaration = `public ${asyncApiToJavaType(property.type(), property.format())} ${name};`;
+    if (payload.required() && payload.required().includes(name)) {
+      varDeclaration = `@JsonProperty(required = true)\n${  varDeclaration}`;
+    }
+    return varDeclaration;
   });
 }
 
