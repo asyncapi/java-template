@@ -32,6 +32,7 @@ export function Models(asyncapi, params) {
       <File name={`${packagePath}models/${messageNameUpperCase}.java`}>
         <PackageDeclaration path={`${params.package}.models`} />
         <ImportDeclaration path={`${params.package}.models.ModelContract`} />
+        <ImportDeclaration path={`java.util.UUID`} />
 
         <Class name={messageNameUpperCase} extendsClass="ModelContract">
           <Indent size={2} type={IndentationTypes.SPACES}>
