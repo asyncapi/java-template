@@ -37,38 +37,40 @@ export function asyncApiToJavaType(type, format) {
 
 function asyncApiFormatToJavaType(format) {
   switch (format) {
-    case 'int32':
-      return 'int';
-    case 'int64':
-      return 'long';
-    case 'float':
-      return 'float';
-    case 'double':
-      return 'double';
-    case 'byte':
-      return 'byte';
-    case 'binary':
-      return 'String';
-    case 'date':
-      return 'String';
-    case 'date-time':
-      return 'String';
-    case 'password':
-      return 'String';
+  case 'int32':
+    return 'int';
+  case 'int64':
+    return 'long';
+  case 'float':
+    return 'float';
+  case 'double':
+    return 'double';
+  case 'byte':
+    return 'byte';
+  case 'binary':
+    return 'String';
+  case 'date':
+    return 'String';
+  case 'date-time':
+    return 'String';
+  case 'password':
+    return 'String';
+  case 'uuid':
+    return 'UUID';
   }
 }
 function asyncApiTypeToJavaType(type) {
   switch (type) {
-    case 'integer':
-      return 'int';
-    case 'number':
-      // using double by default, as no format
-      //  was specified
-      return 'double';
-    case 'string':
-      return 'String';
-    case 'boolean':
-      return 'boolean';
+  case 'integer':
+    return 'int';
+  case 'number':
+    // using double by default, as no format
+    //  was specified
+    return 'double';
+  case 'string':
+    return 'String';
+  case 'boolean':
+    return 'boolean';
   }
 }
 
@@ -115,18 +117,18 @@ export function createJavaArgsFromProperties(properties) {
  */
 export function createJavaConstructorArgs(properties) {
   return Object.entries(properties).map(([name, property]) => {
-    return `${asyncApiTypeToDemoValue(property.type())}`;
+    return `${asyncApiToDemoValue(property.type(), property.format())}`;
   });
 }
 
 /* 
  * Generates an example value from asyncAPI datatype in Java
  */
-export function asyncApiTypeToDemoValue(asyncApiType) {
+export function asyncApiToDemoValue(type, format) {
   const strWords = ['ASyncAPI', 'Java', 'React', 'Hackathon', 'Community', 'Open Source', 'Publish', 'Subscribe', 'Topic', 'Demo', 'Example', 'Template', 'Producer', 'Consumer', 'Generator', 'Message', 'Endpoint'];
   const boolWords = ['true', 'false'];
 
-  switch (asyncApiType) {
+  switch (type) {
   case ('integer' || 'long'):
     return parseInt(Math.random() * 1000, 10);
 
@@ -134,6 +136,9 @@ export function asyncApiTypeToDemoValue(asyncApiType) {
     return Math.random();
 
   case ('string' || 'binary' || 'password'):
+    if (format === 'uuid') {
+      return 'UUID.randomUUID()';
+    }
     return `"${  strWords[Math.floor(Math.random()*strWords.length)]}"`;
 
   case 'byte':
