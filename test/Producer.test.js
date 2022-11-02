@@ -59,6 +59,7 @@ test('Generates all imports from path', async() => {
   expect(testProducer.ProducerImports({asyncapi: generator.asyncapi, params: generator.templateParams})).toBe(`
 import java.util.logging.*;
 import java.io.Serializable;
+import java.util.UUID;
 
 import javax.jms.Destination;
 import javax.jms.JMSProducer;

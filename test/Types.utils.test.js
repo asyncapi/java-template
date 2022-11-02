@@ -18,8 +18,12 @@ test('Check string type is converted to String', () => {
   expect(typesUtils.asyncApiToJavaType('string')).toBe('String');
 });
 
-test('Check password type is converted to String', () => {
+test('Check password format is converted to String', () => {
   expect(typesUtils.asyncApiToJavaType('string', 'password')).toBe('String');
+});
+
+test('Check uuid format is converted to UUID', () => {
+  expect(typesUtils.asyncApiToJavaType('string', 'uuid')).toBe('UUID');
 });
 
 test('Check byte type is not changed', () => {
@@ -110,9 +114,9 @@ test('Create Java Args from Properties', async () => {
 
 // Test function asyncApiTypeToDemoValue
 test('Check integer type is a random number', () => {
-  expect(typesUtils.asyncApiTypeToDemoValue('integer')).toEqual(expect.any(Number));
+  expect(typesUtils.asyncApiToDemoValue('integer')).toEqual(expect.any(Number));
 });
 
 test('Unexpected type throws an error', () => {
-  expect(() => { typesUtils.asyncApiTypeToDemoValue('test');}).toThrow();
+  expect(() => { typesUtils.asyncApiToDemoValue('test');}).toThrow();
 });
