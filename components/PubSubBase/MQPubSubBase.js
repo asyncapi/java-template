@@ -77,7 +77,7 @@ function getPubSubContent(params) {
             MQFirst.get("APP_PASSWORD").toString(),
             null,
             topicName,
-            null);
+            MQFirst.get("CIPHER_SUITE").toString());
           
           // Build connection helper
           ch = new ConnectionHelper(id, myConnection);

@@ -160,7 +160,8 @@ test('EnvJson extracts correct values', async () => {
       CHANNEL: 'DEV.APP.SVRCONN',
       QMGR: 'QM1',
       APP_USER: 'app',
-      APP_PASSWORD: 'passw0rd'
+      APP_PASSWORD: 'passw0rd',
+      CIPHER_SPEC: '*TLS12'
     }]
   });
   expect(generatedJson).toBe(expectedJson);
