@@ -143,7 +143,7 @@ export function EnvJson({ asyncapi, params }) {
         "QMGR": "${qmgr}",
         "APP_USER": "${user}",
         "APP_PASSWORD": "${password}",
-        "CIPHER_SPEC": "${cipher}"
+        "CIPHER_SUITE": "${cipher}"
       }]
     }
     `;

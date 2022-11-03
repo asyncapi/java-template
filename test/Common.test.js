@@ -161,7 +161,7 @@ test('EnvJson extracts correct values', async () => {
       QMGR: 'QM1',
       APP_USER: 'app',
       APP_PASSWORD: 'passw0rd',
-      CIPHER_SPEC: '*TLS12'
+      CIPHER_SUITE: '*TLS12'
     }]
   });
   expect(generatedJson).toBe(expectedJson);
