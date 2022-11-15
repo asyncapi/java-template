@@ -89,6 +89,7 @@
     },
     "supportedProtocols": [
       "ibmmq",
+      "ibmmq-secure",
       "kafka",
       "kafka-secure"
     ],

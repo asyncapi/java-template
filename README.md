@@ -132,7 +132,7 @@ components/* | Contains reusable components
 Path | Description
 ---|---
 output/env.json | Used for setting environmental variables such as username and password
-output/com/ibm/mq/samples/jms/PubSubBase.java | The base used for generated publishers and subscribers
+output/com/asyncapi/PubSubBase.java | The base used for generated publishers and subscribers
 
 
 ## Container Information

@@ -16,6 +16,7 @@
 
 import { createJavaArgsFromProperties } from '../utils/Types.utils';
 import { collateModelNames } from '../utils/Models.utils';
+import { MQCipherToJava } from './Connection/MQTLS';
 
 export function Class({ childrenContent, name, implementsClass, extendsClass }) {
   if (childrenContent === undefined) { 
@@ -124,7 +125,15 @@ export function EnvJson({ asyncapi, params }) {
     const mqChannel = getMqValues(url,'mqChannel');
     const host = URLtoHost(url);
     const domain = host.split(':', 1);
-   
+    let cipher = protocol === 'ibmmq-secure' ? 'ANY' : '';
+
+    if (
+        protocol === 'ibmmq-secure' && 
+        asyncapi.server(params.server).bindings().ibmmq.cipherSpec
+       ) {
+      cipher = MQCipherToJava(asyncapi.server(params.server).bindings().ibmmq.cipherSpec);
+    }
+
     return `
     {
       "MQ_ENDPOINTS": [{
@@ -133,7 +142,8 @@ export function EnvJson({ asyncapi, params }) {
         "CHANNEL": "${mqChannel}",
         "QMGR": "${qmgr}",
         "APP_USER": "${user}",
-        "APP_PASSWORD": "${password}"
+        "APP_PASSWORD": "${password}",
+        "CIPHER_SUITE": "${cipher}"
       }]
     }
     `;
