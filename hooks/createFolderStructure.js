@@ -25,7 +25,13 @@ async function createFolderStructure(generator) {
 
   const targetDir = generator.targetDir;
   const packageDir = targetDir + packagePath;
+  const modelDir = `${targetDir + packagePath}models`;
 
-  fs.mkdirSync(packageDir, {recursive: true});
-  fs.mkdirSync(`${targetDir + packagePath}models`);
+  if (!fs.existsSync(packageDir)) {
+    fs.mkdirSync(packageDir, {recursive: true});
+  }
+
+  if (!fs.existsSync(modelDir)) {
+    fs.mkdirSync(`${targetDir + packagePath}models`);
+  }
 }
