@@ -28,6 +28,16 @@ You will then need to enter the directory you have just created, for example wit
 cd ~/asyncapi-java-tutorial
 ```
 
+## TLS
+
+If you are connecting to servers using the ibmmq-secure binding and have a `cipherSpec` defined in your service specification, you will need to generate certificates and configure a keystore before your generated application will function. Please see [secure communication between IBM MQ endpoints with TLS](https://developer.ibm.com/tutorials/mq-secure-msgs-tls/) for more details.
+
+With a keystore configured, the commands for steps 5 and 6 of the next section will need to include details of this, in the following format:
+
+```
+java -cp target/asyncapi-java-generator-0.1.0.jar -Djavax.net.ssl.trustStoreType=jks -Djavax.net.ssl.trustStore=clientkey.jks -Djavax.net.ssl.trustStorePassword=password -Dcom.ibm.mq.cfg.useIBMCipherMappings=false com.asyncapi.DemoSubscriber
+```
+
 ## Running the Publisher/Subscriber Template
 These commands will allow you to run the Java Template publisher/subscriber model using IBM MQ.
 1. Run the AsyncAPI Generator. <br>**Note:** You may need to change the username and password values if you have not followed the IBM MQ tutorial.
@@ -59,6 +69,7 @@ These commands will allow you to run the Java Template publisher/subscriber mode
     cd ~/asyncapi-java-tutorial/output
     java -cp target/asyncapi-java-generator-0.1.0.jar com.asyncapi.DemoProducer
     ```
+
 
 The messages will now be seen to be being sent from the running publisher to the running subscriber, using MQ topics. Your output from your subscriber should look something like
 ```

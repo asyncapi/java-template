@@ -24,6 +24,7 @@ export function DemoProducer({ params, messageName, className, constructorArgs }
 import ${params.package}.${className}Producer;
 import ${params.package}.ConnectionHelper;
 import ${params.package}.models.${messageName};
+import java.util.UUID;
 
 public class DemoProducer {
     public static void main(String[] args) {

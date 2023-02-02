@@ -67,6 +67,7 @@ export function ProducerImports({ params }) {
   return `
 import java.util.logging.*;
 import java.io.Serializable;
+import java.util.UUID;
 
 import ${params.package}.ConnectionHelper;
 import ${params.package}.LoggingHelper;

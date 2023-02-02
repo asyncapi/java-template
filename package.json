@@ -89,6 +89,7 @@
     },
     "supportedProtocols": [
       "ibmmq",
+      "ibmmq-secure",
       "kafka",
       "kafka-secure"
     ],
@@ -102,8 +103,8 @@
     }
   },
   "devDependencies": {
-    "@asyncapi/generator": "^1.9.13",
-    "@asyncapi/parser": "^1.17.0",
+    "@asyncapi/generator": "^1.9.17",
+    "@asyncapi/parser": "^1.18.0",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/github": "^7.0.4",
     "@semantic-release/npm": "^7.1.3",
