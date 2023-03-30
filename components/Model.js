@@ -23,7 +23,7 @@ export function ModelConstructor({ message }) {
 
 export function ModelClassVariables({ message }) {
   // TODO: Supoort ofMany messages
-  const argsString = defineVariablesForProperties(message.payload().properties());
+  const argsString = defineVariablesForProperties(message.payload());
   
   return argsString.join(`
 `);

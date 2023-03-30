@@ -88,9 +88,13 @@ export function setLocalVariables(properties) {
 /* 
  * Helper class to define variables 
  */
-export function defineVariablesForProperties(properties) {
-  return Object.entries(properties).map(([name, property]) => {
-    return `public ${asyncApiToJavaType(property.type(), property.format())} ${name};`;
+export function defineVariablesForProperties(payload) {
+  return Object.entries(payload.properties()).map(([name, property]) => {
+    let varDeclaration = `public ${asyncApiToJavaType(property.type(), property.format())} ${name};`;
+    if (payload.required() && payload.required().includes(name)) {
+      varDeclaration = `@JsonProperty(required = true)\n${  varDeclaration}`;
+    }
+    return varDeclaration;
   });
 }
 

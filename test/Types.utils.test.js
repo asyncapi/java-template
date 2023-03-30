@@ -63,9 +63,9 @@ test('Define Variables For Properties', async () => {
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
   await generator.generateFromFile(path.resolve('test', 'mocks/single-channel.yml'));
     
-  const properties = generator.asyncapi.components().message('song').payload().properties();
+  const payload = generator.asyncapi.components().message('song').payload();
 
-  expect(typesUtils.defineVariablesForProperties(properties)).toStrictEqual(['public String title;', 'public String artist;', 'public String album;', 'public String genre;', 'public int length;'],);
+  expect(typesUtils.defineVariablesForProperties(payload)).toStrictEqual(['public String title;', 'public String artist;', 'public String album;', 'public String genre;', 'public int length;'],);
 });
 
 // Test class passJavaArgs
