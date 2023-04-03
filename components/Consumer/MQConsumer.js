@@ -1,5 +1,5 @@
 /*
-* (c) Copyright IBM Corporation 2021
+* (c) Copyright IBM Corporation 2023
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 * limitations under the License.
 */
 import { toJavaClassName } from '../../utils/String.utils';
+import { apiBase } from "../../utils/DependencyResolver.utils";
 
 export function ConsumerDeclaration() {
   return `
@@ -21,18 +22,19 @@ export function ConsumerDeclaration() {
     `;
 }
 
-export function ConsumerImports({ params, message }) {
+export function ConsumerImports({ server, params, message }) {
+  let prefix = apiBase(server.protocol(), params.messagingApi);
   return `
 import java.util.logging.*;
 import java.io.Serializable;
 
-import javax.jms.Destination;
-import javax.jms.JMSConsumer;
-import javax.jms.JMSContext;
-import javax.jms.Message;
-import javax.jms.TextMessage;
-import javax.jms.JMSRuntimeException;
-import javax.jms.JMSException;
+import ${prefix}.Destination;
+import ${prefix}.JMSConsumer;
+import ${prefix}.JMSContext;
+import ${prefix}.Message;
+import ${prefix}.TextMessage;
+import ${prefix}.JMSRuntimeException;
+import ${prefix}.JMSException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;

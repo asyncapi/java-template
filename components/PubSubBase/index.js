@@ -22,5 +22,6 @@ function getModule({ asyncapi, params }) {
 }
 
 export function PubSubBase(asyncapi, params) {
-  return getModule({ asyncapi, params }).PubSubBase(params);
+  const server = asyncapi.server(params.server);
+  return getModule({ asyncapi, params }).PubSubBase({ params, server });
 }

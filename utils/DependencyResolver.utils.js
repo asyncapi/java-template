@@ -1,19 +1,47 @@
-const dependencyMap = [
-  { 
+const dependencyMap = [{
     protocols: ['ibmmq', 'ibmmq-secure'],
-    dependencies: [
-      { groupId: 'com.ibm.mq', artifactId: 'com.ibm.mq.allclient', version: '9.2.3.0' }
-    ]
+    api: {
+      "jms": {
+        base: "javax.jms",
+        dependencies: [{
+            groupId: 'com.ibm.mq',
+            artifactId: 'com.ibm.mq.allclient',
+            version: '9.3.2.0'
+          },
+          {
+            groupId: 'javax.jms',
+            artifactId: 'javax.jms-api',
+            version: '2.0.1'
+          }
+        ]
+      },
+      "jakarta": {
+        base: "jakarta.jms",
+        dependencies: [{
+            groupId: 'com.ibm.mq',
+            artifactId: 'com.ibm.mq.jakarta.client',
+            version: '9.3.2.0'
+          },
+          {
+            groupId: 'jakarta.jms',
+            artifactId: 'jakarta.jms-api',
+            version: '3.1.0'
+          }
+        ]
+      }
+    }
   },
   {
     protocols: ['kafka', 'kafka-secure'],
-    dependencies: [
-      { groupId: 'org.apache.kafka', artifactId: 'kafka-clients', version: '2.8.0' }
-    ]
+    dependencies: [{
+      groupId: 'org.apache.kafka',
+      artifactId: 'kafka-clients',
+      version: '2.8.0'
+    }]
   }
 ];
 
-export function resolveDependencies(protocol) {
+function resolveDependencies(protocol, chosenMessagingApi) {
   const foundMapping = dependencyMap.find(item => item.protocols.includes(protocol));
 
   if (!foundMapping) {
@@ -21,5 +49,20 @@ export function resolveDependencies(protocol) {
     throw new Error(`This template does not currently support the protocol ${protocol}`);
   }
 
-  return foundMapping.dependencies;
+  // Kafka doesnt require JMS/Jakarta so support a static list of deps
+  if (foundMapping.dependencies) {
+    return foundMapping.dependencies;
+  }
+
+  return foundMapping.api[chosenMessagingApi].dependencies;
 }
+
+function apiBase(protocol, chosenMessagingApi) {
+  const foundMapping = dependencyMap.find(item => item.protocols.includes(protocol));
+  return foundMapping.api[chosenMessagingApi].base;
+}
+
+export {
+  resolveDependencies,
+  apiBase
+};

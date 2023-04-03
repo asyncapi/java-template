@@ -25,7 +25,8 @@ export function SendMessage({ asyncapi, params }) {
   return getModule({ asyncapi, params }).SendMessage();
 }
 export function ProducerImports({ asyncapi, params }) {
-  return getModule({ asyncapi, params }).ProducerImports({ params });
+  const server = asyncapi.server(params.server);
+  return getModule({ asyncapi, params }).ProducerImports({ server, params });
 }
 export function ProducerDeclaration({ asyncapi, params }) {
   return getModule({ asyncapi, params }).ProducerDeclaration();

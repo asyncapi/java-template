@@ -1,5 +1,5 @@
 /*
-* (c) Copyright IBM Corporation 2021
+* (c) Copyright IBM Corporation 2023
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -13,14 +13,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+import { apiBase } from "../../utils/DependencyResolver.utils";
 
-export function ConnectionHelper({ params }) {
+export function ConnectionHelper({ server, params }) {
+  let prefix = apiBase(server.protocol(), params.messagingApi);
   return `
 import java.util.logging.*;
 
-import javax.jms.Destination;
-import javax.jms.JMSContext;
-import javax.jms.JMSException;
+import ${prefix}.Destination;
+import ${prefix}.JMSContext;
+import ${prefix}.JMSException;
 
 import com.ibm.msg.client.jms.JmsConnectionFactory;
 import com.ibm.msg.client.jms.JmsFactoryFactory;

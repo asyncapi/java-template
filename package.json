@@ -85,6 +85,11 @@
         "description": "MQ topic prefix. Used for ibmmq protocols. Default will work with dev MQ instance",
         "required": false,
         "default": "dev//"
+      },
+      "messagingApi": {
+        "description": "Which messaging API to use. Supported options are jms and jakarta",
+        "required": false,
+        "default": "jms"
       }
     },
     "supportedProtocols": [

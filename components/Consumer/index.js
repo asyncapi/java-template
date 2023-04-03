@@ -25,7 +25,8 @@ export function ConsumerDeclaration({ asyncapi, params }) {
   return getModule({ asyncapi, params }).ConsumerDeclaration();
 }
 export function ConsumerImports({ asyncapi, params, message }) {
-  return getModule({ asyncapi, params }).ConsumerImports({ asyncapi, params, message });
+  const server = asyncapi.server(params.server);
+  return getModule({ asyncapi, params }).ConsumerImports({ server, asyncapi, params, message });
 }
 export function ReceiveMessage({ asyncapi, params, message }) {
   return getModule({ asyncapi, params }).ReceiveMessage({ message });

@@ -1,5 +1,5 @@
 /*
-* (c) Copyright IBM Corporation 2021
+* (c) Copyright IBM Corporation 2023
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+import { apiBase } from "../../utils/DependencyResolver.utils";
 
 export function ProducerDeclaration() {
   return `
@@ -62,18 +63,19 @@ export function ProducerClose() {
   return '';
 }
 
-export function ProducerImports({ params }) {
+export function ProducerImports({ server, params }) {
+  let prefix = apiBase(server.protocol(), params.messagingApi);
   return `
 import java.util.logging.*;
 import java.io.Serializable;
 import java.util.UUID;
 
-import javax.jms.Destination;
-import javax.jms.JMSProducer;
-import javax.jms.JMSContext;
-import javax.jms.Message;
-import javax.jms.JMSRuntimeException;
-import javax.jms.ObjectMessage;
+import ${prefix}.Destination;
+import ${prefix}.JMSProducer;
+import ${prefix}.JMSContext;
+import ${prefix}.Message;
+import ${prefix}.JMSRuntimeException;
+import ${prefix}.ObjectMessage;
 
 
 import ${params.package}.ConnectionHelper;

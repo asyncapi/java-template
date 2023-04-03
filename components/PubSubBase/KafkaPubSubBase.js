@@ -1,5 +1,5 @@
 /*
-* (c) Copyright IBM Corporation 2021
+* (c) Copyright IBM Corporation 2023
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ import { File } from '@asyncapi/generator-react-sdk';
 import { javaPackageToPath } from '../../utils/String.utils';
 import { PackageDeclaration } from '../Common';
 
-function getPubSubContent(params) {
+function getPubSubContent({ server, params }) {
   return `
 
     import java.util.logging.*;
@@ -85,12 +85,12 @@ function getPubSubContent(params) {
     `;
 }
 
-export function PubSubBase(params) {
+export function PubSubBase({ server, params }) {
   const packagePath = javaPackageToPath(params.package);
   return (
     <File name={`${packagePath}PubSubBase.java`}>
       <PackageDeclaration path={params.package} />
-      {getPubSubContent(params)}
+      {getPubSubContent({ server, params })}
     </File>
   );
 }

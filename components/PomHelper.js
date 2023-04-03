@@ -1,5 +1,5 @@
 /*
-* (c) Copyright IBM Corporation 2021
+* (c) Copyright IBM Corporation 2023
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import { render } from '@asyncapi/generator-react-sdk';
 export function PomHelper({ server, params }) {
   // Resolve additional dependencies depending on protocol supplied
   const supportedProtocol = server.protocol();
-  const dependencies = resolveDependencies(supportedProtocol);
+  const dependencies = resolveDependencies(supportedProtocol, params.messagingApi);
   
   let protocolDependencies = '';
 
@@ -32,7 +32,7 @@ export function PomHelper({ server, params }) {
   return `
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  (c) Copyright IBM Corporation 2021
+  (c) Copyright IBM Corporation 2023
 
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -69,11 +69,6 @@ export function PomHelper({ server, params }) {
   </properties>
 
   <dependencies>
-    <dependency>
-        <groupId>javax.jms</groupId>
-        <artifactId>javax.jms-api</artifactId>
-        <version>2.0.1</version>
-    </dependency>
     <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>

@@ -1,5 +1,5 @@
 /*
-* (c) Copyright IBM Corporation 2021
+* (c) Copyright IBM Corporation 2023
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -13,12 +13,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+import { apiBase } from "../../utils/DependencyResolver.utils";
 
 import { File } from '@asyncapi/generator-react-sdk';
 import { javaPackageToPath } from '../../utils/String.utils';
 import { PackageDeclaration } from '../Common';
 
-function getPubSubContent(params) {
+function getPubSubContent({ server, params }) {
+  let prefix = apiBase(server.protocol(), params.messagingApi);
   return `
 
     import java.util.logging.*;
@@ -31,10 +33,10 @@ function getPubSubContent(params) {
     import ${params.package}.ConnectionHelper;
     import ${params.package}.LoggingHelper;
     
-    import javax.jms.Destination;
-    import javax.jms.JMSContext;
-    import javax.jms.JMSRuntimeException;
-    import javax.jms.JMSException;
+    import ${prefix}.Destination;
+    import ${prefix}.JMSContext;
+    import ${prefix}.JMSRuntimeException;
+    import ${prefix}.JMSException;
     
     
     public class PubSubBase {
@@ -128,12 +130,12 @@ function getPubSubContent(params) {
     `;
 }
 
-export function PubSubBase(params) {
+export function PubSubBase({ server, params }) {
   const packagePath = javaPackageToPath(params.package);
   return (
     <File name={`${packagePath}PubSubBase.java`}>
       <PackageDeclaration path={params.package} />
-      {getPubSubContent(params)}
+      {getPubSubContent({ server, params })}
     </File>
   );
 }
