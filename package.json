@@ -1,7 +1,7 @@
 {
   "name": "@asyncapi/java-template",
   "version": "0.0.1",
-  "description": "Java JMS template for AsyncAPI generator",
+  "description": "Java JMS & Jakarta Messaging template for AsyncAPI generator",
   "main": "template/index.js",
   "scripts": {
     "test": "jest",

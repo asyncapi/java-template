@@ -26,8 +26,8 @@
 This template generates Java application code based from an AsyncAPI document.
 
 Implementations are provided for the following protocols:
-* `ibmmq` - generating Java JMS code (utilising features from the [IBM MQ AsyncAPI bindings](https://github.com/asyncapi/bindings/tree/master/ibmmq))
-* `kafka` - generating Java code  (utilising features from the [Apache Kafka AsyncAPI bindings](https://github.com/asyncapi/bindings/tree/master/kafka))
+* `ibmmq` - generating Java JMS or Jakarta Messaging code (utilising features from the [IBM MQ AsyncAPI bindings](https://github.com/asyncapi/bindings/tree/master/ibmmq))
+* `kafka` - generating Java code (utilising features from the [Apache Kafka AsyncAPI bindings](https://github.com/asyncapi/bindings/tree/master/kafka))
 
 ## Technical requirements
 
@@ -38,7 +38,7 @@ Implementations are provided for the following protocols:
 ## Supported protocols
 
 * ibmmq
-    * This is implemented using the JMS API with the correct jars, in this case ibmmq was chosen. The use of JMS allows allows the template to be extensible to other providers by providing the correct jars at the Maven stage.
+    * This is implemented using the JMS or Jakarta Messaging API with the correct jars, in this case ibmmq was chosen. The use of JMS or Jakarta Messaging allows allows the template to be extensible to other providers by providing the correct jars at the Maven stage.
 * kafka
     * This is implemented using the official client library from the Apache Kafka project.
 
@@ -157,7 +157,7 @@ For further information including network setup, please see the [tutorial](./tut
     * Support for other protocols
 * `ibmmq` protocol enhancements
     * Add support for TLS connections
-    * Add support for more JMS Types alongside JMS Text
+    * Add support for more JMS and Jakarta Messaging Types alongside Text
     * Offer Java event listener support for consumers
 
 ## Contributors ✨
