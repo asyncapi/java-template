@@ -13,22 +13,23 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { apiBase } from "../../utils/DependencyResolver.utils";
+import { getApi } from "../../utils/DependencyResolver.utils";
 
 export function ConnectionHelper({ server, params }) {
-  let prefix = apiBase(server.protocol(), params.messagingApi);
+  let api = getApi(server.protocol(), params.messagingApi);
+  let jmsPrefix = api.base;
+
   return `
 import java.util.logging.*;
 
-import ${prefix}.Destination;
-import ${prefix}.JMSContext;
-import ${prefix}.JMSException;
+import ${jmsPrefix}.Destination;
+import ${jmsPrefix}.JMSContext;
+import ${jmsPrefix}.JMSException;
 
-import com.ibm.msg.client.jms.JmsConnectionFactory;
-import com.ibm.msg.client.jms.JmsFactoryFactory;
-import com.ibm.msg.client.wmq.WMQConstants;
+${api.imports.map(pkg => {
+    return `import ${pkg};`
+}).join("\n")}
 
-import com.ibm.mq.jms.MQDestination;
 import ${params.package}.Connection;
 
 public class ConnectionHelper {

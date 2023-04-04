@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { apiBase } from "../../utils/DependencyResolver.utils";
+import { getApi } from "../../utils/DependencyResolver.utils";
 
 export function ProducerDeclaration() {
   return `
@@ -64,18 +64,18 @@ export function ProducerClose() {
 }
 
 export function ProducerImports({ server, params }) {
-  let prefix = apiBase(server.protocol(), params.messagingApi);
+  let jmsPrefix = getApi(server.protocol(), params.messagingApi).base;
   return `
 import java.util.logging.*;
 import java.io.Serializable;
 import java.util.UUID;
 
-import ${prefix}.Destination;
-import ${prefix}.JMSProducer;
-import ${prefix}.JMSContext;
-import ${prefix}.Message;
-import ${prefix}.JMSRuntimeException;
-import ${prefix}.ObjectMessage;
+import ${jmsPrefix}.Destination;
+import ${jmsPrefix}.JMSProducer;
+import ${jmsPrefix}.JMSContext;
+import ${jmsPrefix}.Message;
+import ${jmsPrefix}.JMSRuntimeException;
+import ${jmsPrefix}.ObjectMessage;
 
 
 import ${params.package}.ConnectionHelper;

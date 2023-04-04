@@ -3,6 +3,12 @@ const dependencyMap = [{
     api: {
       "jms": {
         base: "javax.jms",
+        imports: [
+          "com.ibm.msg.client.jms.JmsConnectionFactory",
+          "com.ibm.msg.client.jms.JmsFactoryFactory",
+          "com.ibm.msg.client.wmq.WMQConstants",
+          "com.ibm.mq.jms.MQDestination"
+        ],
         dependencies: [{
             groupId: 'com.ibm.mq',
             artifactId: 'com.ibm.mq.allclient',
@@ -17,6 +23,12 @@ const dependencyMap = [{
       },
       "jakarta": {
         base: "jakarta.jms",
+        imports: [
+          "com.ibm.msg.client.jakarta.jms.JmsConnectionFactory",
+          "com.ibm.msg.client.jakarta.jms.JmsFactoryFactory",
+          "com.ibm.msg.client.jakarta.wmq.WMQConstants",
+          "com.ibm.mq.jakarta.jms.MQDestination"
+        ],
         dependencies: [{
             groupId: 'com.ibm.mq',
             artifactId: 'com.ibm.mq.jakarta.client',
@@ -57,12 +69,12 @@ function resolveDependencies(protocol, chosenMessagingApi) {
   return foundMapping.api[chosenMessagingApi].dependencies;
 }
 
-function apiBase(protocol, chosenMessagingApi) {
+function getApi(protocol, chosenMessagingApi) {
   const foundMapping = dependencyMap.find(item => item.protocols.includes(protocol));
-  return foundMapping.api[chosenMessagingApi].base;
+  return foundMapping.api[chosenMessagingApi];
 }
 
 export {
   resolveDependencies,
-  apiBase
+  getApi
 };

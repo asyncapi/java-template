@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 import { toJavaClassName } from '../../utils/String.utils';
-import { apiBase } from "../../utils/DependencyResolver.utils";
+import { getApi } from "../../utils/DependencyResolver.utils";
 
 export function ConsumerDeclaration() {
   return `
@@ -23,18 +23,18 @@ export function ConsumerDeclaration() {
 }
 
 export function ConsumerImports({ server, params, message }) {
-  let prefix = apiBase(server.protocol(), params.messagingApi);
+  let jmsPrefix = getApi(server.protocol(), params.messagingApi).base;
   return `
 import java.util.logging.*;
 import java.io.Serializable;
 
-import ${prefix}.Destination;
-import ${prefix}.JMSConsumer;
-import ${prefix}.JMSContext;
-import ${prefix}.Message;
-import ${prefix}.TextMessage;
-import ${prefix}.JMSRuntimeException;
-import ${prefix}.JMSException;
+import ${jmsPrefix}.Destination;
+import ${jmsPrefix}.JMSConsumer;
+import ${jmsPrefix}.JMSContext;
+import ${jmsPrefix}.Message;
+import ${jmsPrefix}.TextMessage;
+import ${jmsPrefix}.JMSRuntimeException;
+import ${jmsPrefix}.JMSException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;

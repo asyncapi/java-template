@@ -13,14 +13,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { apiBase } from "../../utils/DependencyResolver.utils";
+import { getApi } from "../../utils/DependencyResolver.utils";
 
 import { File } from '@asyncapi/generator-react-sdk';
 import { javaPackageToPath } from '../../utils/String.utils';
 import { PackageDeclaration } from '../Common';
 
 function getPubSubContent({ server, params }) {
-  let prefix = apiBase(server.protocol(), params.messagingApi);
+  let jmsPrefix = getApi(server.protocol(), params.messagingApi).base;
   return `
 
     import java.util.logging.*;
@@ -33,10 +33,10 @@ function getPubSubContent({ server, params }) {
     import ${params.package}.ConnectionHelper;
     import ${params.package}.LoggingHelper;
     
-    import ${prefix}.Destination;
-    import ${prefix}.JMSContext;
-    import ${prefix}.JMSRuntimeException;
-    import ${prefix}.JMSException;
+    import ${jmsPrefix}.Destination;
+    import ${jmsPrefix}.JMSContext;
+    import ${jmsPrefix}.JMSRuntimeException;
+    import ${jmsPrefix}.JMSException;
     
     
     public class PubSubBase {
