@@ -64,7 +64,7 @@ test('Gets Class Constructor generates from JavaArgs no properties', () => {
 test('Generates package java from path', () => {
   expect(testCommon.PackageDeclaration({path: 'test.package'})).toBe(`
 /*
-* (c) Copyright IBM Corporation 2021
+* (c) Copyright IBM Corporation 2023
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
