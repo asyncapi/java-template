@@ -128,9 +128,9 @@ export function EnvJson({ asyncapi, params }) {
     let cipher = protocol === 'ibmmq-secure' ? 'ANY' : '';
 
     if (
-        protocol === 'ibmmq-secure' && 
+      protocol === 'ibmmq-secure' && 
         asyncapi.server(params.server).bindings().ibmmq.cipherSpec
-       ) {
+    ) {
       cipher = MQCipherToJava(asyncapi.server(params.server).bindings().ibmmq.cipherSpec);
     }
 

@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { getApi } from "../../utils/DependencyResolver.utils";
+import { getApi } from '../../utils/DependencyResolver.utils';
 
 export function ProducerDeclaration() {
   return `
@@ -64,7 +64,7 @@ export function ProducerClose() {
 }
 
 export function ProducerImports({ server, params }) {
-  let jmsPrefix = getApi(server.protocol(), params.messagingApi).base;
+  const jmsPrefix = getApi(server.protocol(), params.messagingApi).base;
   return `
 import java.util.logging.*;
 import java.io.Serializable;

@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 import { toJavaClassName } from '../../utils/String.utils';
-import { getApi } from "../../utils/DependencyResolver.utils";
+import { getApi } from '../../utils/DependencyResolver.utils';
 
 export function ConsumerDeclaration() {
   return `
@@ -23,7 +23,7 @@ export function ConsumerDeclaration() {
 }
 
 export function ConsumerImports({ server, params, message }) {
-  let jmsPrefix = getApi(server.protocol(), params.messagingApi).base;
+  const jmsPrefix = getApi(server.protocol(), params.messagingApi).base;
   return `
 import java.util.logging.*;
 import java.io.Serializable;

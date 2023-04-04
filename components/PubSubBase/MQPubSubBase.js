@@ -13,14 +13,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { getApi } from "../../utils/DependencyResolver.utils";
+import { getApi } from '../../utils/DependencyResolver.utils';
 
 import { File } from '@asyncapi/generator-react-sdk';
 import { javaPackageToPath } from '../../utils/String.utils';
 import { PackageDeclaration } from '../Common';
 
 function getPubSubContent({ server, params }) {
-  let jmsPrefix = getApi(server.protocol(), params.messagingApi).base;
+  const jmsPrefix = getApi(server.protocol(), params.messagingApi).base;
   return `
 
     import java.util.logging.*;

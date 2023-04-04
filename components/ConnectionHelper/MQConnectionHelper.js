@@ -13,11 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { getApi } from "../../utils/DependencyResolver.utils";
+import { getApi } from '../../utils/DependencyResolver.utils';
 
 export function ConnectionHelper({ server, params }) {
-  let api = getApi(server.protocol(), params.messagingApi);
-  let jmsPrefix = api.base;
+  const api = getApi(server.protocol(), params.messagingApi);
+  const jmsPrefix = api.base;
 
   return `
 import java.util.logging.*;
@@ -27,8 +27,8 @@ import ${jmsPrefix}.JMSContext;
 import ${jmsPrefix}.JMSException;
 
 ${api.imports.map(pkg => {
-    return `import ${pkg};`
-}).join("\n")}
+    return `import ${pkg};`;
+  }).join('\n')}
 
 import ${params.package}.Connection;
 
