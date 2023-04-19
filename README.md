@@ -72,7 +72,7 @@ Name | Description | Required | Default
 `user` | User for the server to generate code for. This can also be provided as an environment variable (see below) | No | app
 `password` | Password for the server to generate code for. This can also be provided as an environment variable (see below) | No | passw0rd
 `package` | Java package name for generated code | No | com.asyncapi
-`mqTopicPrefix` | MQ topic prefix. Used for ibmmq protocols. Default will work with dev MQ instance | No | dev//
+`messagingApi` | Which messaging API to use. Supported options are jms and jakarta. | No | jms
 `asyncapiFileDir` | Custom output location of the AsyncAPI file that you provided as an input | No | The root of the output directory
 
 
