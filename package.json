@@ -123,7 +123,7 @@
     "eslint-plugin-sonarjs": "^0.10.0",
     "jest": "^27.2.5",
     "jest-esm-transformer": "^1.0.0",
-    "semantic-release": "^21.0.1"
+    "semantic-release": "^17.4.4"
   },
   "jest": {
     "transform": {
