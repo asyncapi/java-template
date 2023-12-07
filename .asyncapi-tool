@@ -3,7 +3,7 @@ filters:
   language: 
   - javascript
   technology:
-  - Node.js
+  - Java
   categories:
   - generator-template
   hasCommercial: false
