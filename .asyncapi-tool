@@ -1,0 +1,9 @@
+title: Java Template
+filters:
+  language: 
+  - javascript
+  technology:
+  - Java
+  categories:
+  - generator-template
+  hasCommercial: false
