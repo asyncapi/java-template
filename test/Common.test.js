@@ -17,6 +17,7 @@ const generateFolderName = () => {
   return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
 };
 
+jest.setTimeout(30000);
 
 // Test class Function
 test('Creates Class from parameters', () => {
@@ -146,8 +147,6 @@ test('invalid port', () => {
 // Test EnvJson Function
 
 test('EnvJson extracts correct values', async () => {
-  jest.setTimeout(30000);
-
   const OUTPUT_DIR = generateFolderName();
 
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
@@ -171,8 +170,6 @@ test('EnvJson extracts correct values', async () => {
 // Test ImportModels
 
 test('ImportModels are generated', async () => {
-  jest.setTimeout(30000);
-
   const OUTPUT_DIR = generateFolderName();
 
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
