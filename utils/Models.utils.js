@@ -8,7 +8,8 @@ export function collateModels(asyncapi) {
   const models = {};
 
   for (const message of asyncapi.allMessages().all()) {
-    models[toJavaClassName(message.id())] = message;
+    const id = message.id() || message.name();
+    models[toJavaClassName(id)] = message;
   }
 
   return models;

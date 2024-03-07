@@ -50,6 +50,7 @@ import ${params.package}.models.${toJavaClassName(message.id())};
 }
 
 export function ReceiveMessage({ message }) {
+  const id = message.id() || message.name();
   return `
   public void receive(int requestTimeout) {
     boolean continueProcessing = true;
@@ -73,7 +74,7 @@ export function ReceiveMessage({ message }) {
                 TextMessage textMessage = (TextMessage) receivedMessage;
                 try {
                     logger.info("Received message: " + textMessage.getText());
-                    ${toJavaClassName(message.id())} receivedObject = new ObjectMapper().readValue(textMessage.getText(), ${toJavaClassName(message.id())}.class);
+                    ${toJavaClassName(id)} receivedObject = new ObjectMapper().readValue(textMessage.getText(), ${toJavaClassName(id)}.class);
                     logger.info("Received message type: " + receivedObject.getClass().getName());
 
                     /*

@@ -17,13 +17,13 @@
 function getSecurityConfig({ asyncapi, params }) {
   const server = asyncapi.allServers().get(params.server);
   const protocol = server.protocol();
-  const security = server.security().all();
+  const security = server.security();
 
   let securitySchemeType;
   if (security && security.length > 0) {
-    const securityScheme = security[0];
-    if (securityScheme) {
-      securitySchemeType = securityScheme.type();
+    const securityReq = security[0].all();
+    if (securityReq && securityReq.length > 0) {
+      securitySchemeType = securityReq[0].scheme().type();
     }
   }
 

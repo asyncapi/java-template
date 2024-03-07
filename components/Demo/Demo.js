@@ -38,7 +38,7 @@ export function Demo(asyncapi, params) {
 
   // Get payload from either publish or subscribe
   const message = channel.messages().all()[0];
-  const targetMessageName = message.id();
+  const targetMessageName = message.id() || message.name();
   const targetPayloadProperties = message.payload().properties();
 
   const messageNameTitleCase = toJavaClassName(targetMessageName);
