@@ -6,223 +6,175 @@ const crypto = require('crypto');
 const MAIN_TEST_RESULT_PATH = path.join('test', 'temp', 'integrationTestResult');
 
 describe('kafka integration tests using the generator', () => {
-  const generateFolderName = () => {
-    // You always want to generate to new directory to make sure test runs in clear environment
-    return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
-  };
-
   jest.setTimeout(30000);
 
-  it('should generate Java for a secured, encrypted Kafka', async () => {
-    const OUTPUT_DIR = generateFolderName();
-    const PACKAGE = 'com.asyncapi';
+  const generateJavaProject = async (PACKAGE, params, asyncApiDoc, expectedFiles, expectedConnectionHelperLines) => {
+    const OUTPUT_DIR = path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
     const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
-    const params = {
-      server: 'production'
-    };
-    const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
-    await generator.generateFromFile(path.resolve('test', 'mocks/kafka-example.yml'));
 
-    const expectedFiles = [
+    // try running the generator
+    const generator = new Generator(path.normalize('./'), OUTPUT_DIR, {
+      forceWrite: true,
+      templateParams: { ...params, package: PACKAGE }
+    });
+    await generator.generateFromFile(path.resolve('test', asyncApiDoc));
+
+    // check that the files specific to this AsyncAPI doc are generated
+    for (const file of expectedFiles) {
+      expect(existsSync(path.join(OUTPUT_DIR, `${PACKAGE_PATH}/${file}`))).toBe(true);
+    }
+
+    // check that standard files common to every project are generated
+    const commonFiles = [
       'pom.xml',
+      'Dockerfile',
+      'env.json',
       `${PACKAGE_PATH}/Connection.java`,
       `${PACKAGE_PATH}/ConnectionHelper.java`,
       `${PACKAGE_PATH}/LoggingHelper.java`,
-      `${PACKAGE_PATH}/DemoProducer.java`,
-      `${PACKAGE_PATH}/DemoSubscriber.java`,
       `${PACKAGE_PATH}/PubSubBase.java`,
-      `${PACKAGE_PATH}/SongReleasedProducer.java`,
-      `${PACKAGE_PATH}/SongReleasedSubscriber.java`,
-      `${PACKAGE_PATH}/models/ModelContract.java`,
-      `${PACKAGE_PATH}/models/Song.java`,
-      'Dockerfile',
-      'env.json'
     ];
-
-    for (const file of expectedFiles) {
+    for (const file of commonFiles) {
       expect(existsSync(path.join(OUTPUT_DIR, file))).toBe(true);
     }
 
+    // check that the expected connection parameters are found
     const connectionHelper = readFileSync(path.join(OUTPUT_DIR, `${PACKAGE_PATH}/ConnectionHelper.java`), 'utf-8');
-    expect(connectionHelper.includes('props.put("security.protocol", "SASL_SSL")')).toBe(true);
-    expect(connectionHelper.includes('props.put("sasl.mechanism", "SCRAM-SHA-512")')).toBe(true);
+    for (const expectedLine of expectedConnectionHelperLines) {
+      expect(connectionHelper.includes(expectedLine)).toBe(true);
+    }
+
+    return true;
+  };
+
+  it('should generate Java for a secured, encrypted Kafka', async () => {
+    const verified = await generateJavaProject(
+      'com.asyncapi',
+      {
+        server: 'production'
+      },
+      'mocks/kafka-example.yml',
+      [
+        'DemoProducer.java',
+        'DemoSubscriber.java',
+        'SongReleasedProducer.java',
+        'SongReleasedSubscriber.java',
+        'models/ModelContract.java',
+        'models/Song.java',
+      ],
+      [
+        'props.put("security.protocol", "SASL_SSL")',
+        'props.put("sasl.mechanism", "SCRAM-SHA-512")'
+      ]);
+    expect(verified).toBe(true);
   });
 
   it('should generate Java for an encrypted Kafka', async () => {
-    const OUTPUT_DIR = generateFolderName();
-    const PACKAGE = 'com.custom.package';
-    const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
-    const params = {
-      server: 'production',
-      package: PACKAGE
-    };
-    console.log(OUTPUT_DIR);
-    const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
-    await generator.generateFromFile(path.resolve('test', 'mocks/kafka-example-encrypt.yml'));
-
-    const expectedFiles = [
-      'pom.xml',
-      `${PACKAGE_PATH}/Connection.java`,
-      `${PACKAGE_PATH}/ConnectionHelper.java`,
-      `${PACKAGE_PATH}/LoggingHelper.java`,
-      `${PACKAGE_PATH}/DemoProducer.java`,
-      `${PACKAGE_PATH}/PubSubBase.java`,
-      `${PACKAGE_PATH}/SongReleasedProducer.java`,
-      `${PACKAGE_PATH}/models/ModelContract.java`,
-      `${PACKAGE_PATH}/models/Song.java`,
-      'Dockerfile',
-      'env.json'
-    ];
-
-    for (const file of expectedFiles) {
-      expect(existsSync(path.join(OUTPUT_DIR, file))).toBe(true);
-    }
-
-    const connectionHelper = readFileSync(path.join(OUTPUT_DIR, `${PACKAGE_PATH}/ConnectionHelper.java`), 'utf-8');
-    expect(connectionHelper.includes('props.put("security.protocol", "SSL")')).toBe(true);
+    const verified = await generateJavaProject(
+      'com.custom.package',
+      {
+        server: 'production'
+      },
+      'mocks/kafka-example-encrypt.yml',
+      [
+        'DemoProducer.java',
+        'SongReleasedProducer.java',
+        'models/ModelContract.java',
+        'models/Song.java',
+      ],
+      [
+        'props.put("security.protocol", "SSL")',
+      ]);
+    expect(verified).toBe(true);
   });
 
   it('should generate Java for a plain Kafka', async () => {
-    const OUTPUT_DIR = generateFolderName();
-    const PACKAGE = 'asyncapi.kafka';
-    const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
-    const params = {
-      server: 'production',
-      package: PACKAGE
-    };
-    const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
-    await generator.generateFromFile(path.resolve('test', 'mocks/kafka-example-plain.yml'));
-
-    const expectedFiles = [
-      'pom.xml',
-      `${PACKAGE_PATH}/Connection.java`,
-      `${PACKAGE_PATH}/ConnectionHelper.java`,
-      `${PACKAGE_PATH}/LoggingHelper.java`,
-      `${PACKAGE_PATH}/DemoProducer.java`,
-      `${PACKAGE_PATH}/DemoSubscriber.java`,
-      `${PACKAGE_PATH}/PubSubBase.java`,
-      `${PACKAGE_PATH}/SongReleasedProducer.java`,
-      `${PACKAGE_PATH}/SongReleasedSubscriber.java`,
-      `${PACKAGE_PATH}/models/ModelContract.java`,
-      `${PACKAGE_PATH}/models/Song.java`,
-      'Dockerfile',
-      'env.json'
-    ];
-
-    for (const file of expectedFiles) {
-      expect(existsSync(path.join(OUTPUT_DIR, file))).toBe(true);
-    }
-
-    const connectionHelper = readFileSync(path.join(OUTPUT_DIR, `${PACKAGE_PATH}/ConnectionHelper.java`), 'utf-8');
-    expect(connectionHelper.includes('props.put("security.protocol", "PLAINTEXT")')).toBe(true);
+    const verified = await generateJavaProject(
+      'plain',
+      {
+        server: 'production'
+      },
+      'mocks/kafka-example-plain.yml',
+      [
+        'DemoProducer.java',
+        'DemoSubscriber.java',
+        'SongReleasedProducer.java',
+        'SongReleasedSubscriber.java',
+        'models/ModelContract.java',
+        'models/Song.java',
+      ],
+      [
+        'props.put("security.protocol", "PLAINTEXT")',
+      ]);
+    expect(verified).toBe(true);
   });
 
   it('should generate Java for a secured Kafka', async () => {
-    const OUTPUT_DIR = generateFolderName();
-    const PACKAGE = 'asyncapi.kafka';
-    const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
-    const params = {
-      server: 'production',
-      package: PACKAGE
-    };
-    const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
-    await generator.generateFromFile(path.resolve('test', 'mocks/kafka-example-auth.yml'));
-
-    const expectedFiles = [
-      'pom.xml',
-      `${PACKAGE_PATH}/Connection.java`,
-      `${PACKAGE_PATH}/ConnectionHelper.java`,
-      `${PACKAGE_PATH}/LoggingHelper.java`,
-      `${PACKAGE_PATH}/DemoSubscriber.java`,
-      `${PACKAGE_PATH}/PubSubBase.java`,
-      `${PACKAGE_PATH}/SongReleasedSubscriber.java`,
-      `${PACKAGE_PATH}/models/ModelContract.java`,
-      `${PACKAGE_PATH}/models/Song.java`,
-      'Dockerfile',
-      'env.json'
-    ];
-
-    for (const file of expectedFiles) {
-      expect(existsSync(path.join(OUTPUT_DIR, file))).toBe(true);
-    }
-    const connectionHelper = readFileSync(path.join(OUTPUT_DIR, `${PACKAGE_PATH}/ConnectionHelper.java`), 'utf-8');
-    expect(connectionHelper.includes('props.put("security.protocol", "SASL_PLAINTEXT")')).toBe(true);
-    expect(connectionHelper.includes('props.put("sasl.mechanism", "PLAIN")')).toBe(true);
+    const verified = await generateJavaProject(
+      'secured.kafka.doc',
+      {
+        server: 'production',
+      },
+      'mocks/kafka-example-auth.yml',
+      [
+        'DemoSubscriber.java',
+        'SongReleasedSubscriber.java',
+        'models/ModelContract.java',
+        'models/Song.java',
+      ],
+      [
+        'props.put("security.protocol", "SASL_PLAINTEXT")',
+        'props.put("sasl.mechanism", "PLAIN")',
+      ]);
+    expect(verified).toBe(true);
   });
 
   it('should generate Java for the streetlights example', async () => {
-    const OUTPUT_DIR = generateFolderName();
-    const PACKAGE = 'com.asyncapi.examples.streetlights.v2';
-    const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
-    const params = {
-      server: 'mtls-connections',
-      package: PACKAGE
-    };
-    const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
-    await generator.generateFromFile(path.resolve('test', 'mocks/kafka-streetlights-v2.yml'));
-
-    const expectedFiles = [
-      'pom.xml',
-      `${PACKAGE_PATH}/Connection.java`,
-      `${PACKAGE_PATH}/ConnectionHelper.java`,
-      `${PACKAGE_PATH}/LoggingHelper.java`,
-      `${PACKAGE_PATH}/DemoSubscriber.java`,
-      `${PACKAGE_PATH}/PubSubBase.java`,
-      `${PACKAGE_PATH}/SmartylightingStreetlights10ActionStreetlightIdDimProducer.java`,
-      `${PACKAGE_PATH}/SmartylightingStreetlights10ActionStreetlightIdTurnOffProducer.java`,
-      `${PACKAGE_PATH}/SmartylightingStreetlights10ActionStreetlightIdTurnOnProducer.java`,
-      `${PACKAGE_PATH}/SmartylightingStreetlights10EventStreetlightIdLightingMeasuredSubscriber.java`,
-      `${PACKAGE_PATH}/models/DimLight.java`,
-      `${PACKAGE_PATH}/models/LightMeasured.java`,
-      `${PACKAGE_PATH}/models/ModelContract.java`,
-      `${PACKAGE_PATH}/models/TurnOnOff.java`,
-      'Dockerfile',
-      'env.json'
-    ];
-
-    for (const file of expectedFiles) {
-      expect(existsSync(path.join(OUTPUT_DIR, file))).toBe(true);
-    }
-    const connectionHelper = readFileSync(path.join(OUTPUT_DIR, `${PACKAGE_PATH}/ConnectionHelper.java`), 'utf-8');
-    expect(connectionHelper.includes('props.put("security.protocol", "SSL")')).toBe(true);
+    const verified = await generateJavaProject(
+      'com.asyncapi.examples.streetlights.v2',
+      {
+        server: 'mtls-connections'
+      },
+      'mocks/kafka-streetlights-v2.yml',
+      [
+        'DemoSubscriber.java',
+        'SmartylightingStreetlights10ActionStreetlightIdDimProducer.java',
+        'SmartylightingStreetlights10ActionStreetlightIdTurnOffProducer.java',
+        'SmartylightingStreetlights10ActionStreetlightIdTurnOnProducer.java',
+        'SmartylightingStreetlights10EventStreetlightIdLightingMeasuredSubscriber.java',
+        'models/DimLight.java',
+        'models/LightMeasured.java',
+        'models/ModelContract.java',
+        'models/TurnOnOff.java',
+      ],
+      [
+        'props.put("security.protocol", "SSL")',
+      ]);
+    expect(verified).toBe(true);
   });
 
   it('should generate Java for a v3 AsyncAPI', async () => {
-    const OUTPUT_DIR = generateFolderName();
-    console.log(OUTPUT_DIR);
-    const PACKAGE = 'com.asyncapi.examples.streetlights.v3';
-    const PACKAGE_PATH = path.join(...PACKAGE.split('.'));
-    const params = {
-      server: 'scram-connections',
-      package: PACKAGE
-    };
-    const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
-    await generator.generateFromFile(path.resolve('test', 'mocks/kafka-streetlights-v3.yml'));
-
-    const expectedFiles = [
-      'pom.xml',
-      `${PACKAGE_PATH}/Connection.java`,
-      `${PACKAGE_PATH}/ConnectionHelper.java`,
-      `${PACKAGE_PATH}/LoggingHelper.java`,
-      `${PACKAGE_PATH}/DemoSubscriber.java`,
-      `${PACKAGE_PATH}/PubSubBase.java`,
-      `${PACKAGE_PATH}/LightingMeasuredSubscriber.java`,
-      `${PACKAGE_PATH}/LightsDimProducer.java`,
-      `${PACKAGE_PATH}/LightTurnOffProducer.java`,
-      `${PACKAGE_PATH}/LightTurnOnProducer.java`,
-      `${PACKAGE_PATH}/models/DimLight.java`,
-      `${PACKAGE_PATH}/models/LightMeasured.java`,
-      `${PACKAGE_PATH}/models/ModelContract.java`,
-      `${PACKAGE_PATH}/models/TurnOn.java`,
-      'Dockerfile',
-      'env.json'
-    ];
-
-    for (const file of expectedFiles) {
-      expect(existsSync(path.join(OUTPUT_DIR, file))).toBe(true);
-    }
-    const connectionHelper = readFileSync(path.join(OUTPUT_DIR, `${PACKAGE_PATH}/ConnectionHelper.java`), 'utf-8');
-    expect(connectionHelper.includes('props.put("security.protocol", "SASL_SSL")')).toBe(true);
-    expect(connectionHelper.includes('props.put("sasl.mechanism", "SCRAM-SHA-256")')).toBe(true);
+    const verified = await generateJavaProject(
+      'com.asyncapi.examples.streetlights.v3',
+      {
+        server: 'scram-connections',
+      },
+      'mocks/kafka-streetlights-v3.yml',
+      [
+        'DemoSubscriber.java',
+        'LightingMeasuredSubscriber.java',
+        'LightsDimProducer.java',
+        'LightTurnOffProducer.java',
+        'LightTurnOnProducer.java',
+        'models/DimLight.java',
+        'models/LightMeasured.java',
+        'models/ModelContract.java',
+        'models/TurnOn.java',
+      ],
+      [
+        'props.put("security.protocol", "SASL_SSL")',
+        'props.put("sasl.mechanism", "SCRAM-SHA-256")',
+      ]);
+    expect(verified).toBe(true);
   });
 });

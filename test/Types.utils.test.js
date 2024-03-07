@@ -46,69 +46,27 @@ test('Check local variables is changed', () => {
   ]);
 });
 
-// Test class defineVariablesForProperties
 test('Define Variables For Properties', async () => {
-  const generateFolderName = () => {
-    return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
-  };
-        
   jest.setTimeout(30000);
-        
-  const OUTPUT_DIR = generateFolderName();
-    
+
+  const OUTPUT_DIR = path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
+
   const params = {
     server: 'production'
   };
-        
+
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
   await generator.generateFromFile(path.resolve('test', 'mocks/single-channel.yml'));
-    
+
   const payload = generator.asyncapi.allMessages().get('song').payload();
+  const properties = generator.asyncapi.allMessages().get('song').payload().properties();
 
+  // Test class defineVariablesForProperties
   expect(typesUtils.defineVariablesForProperties(payload)).toStrictEqual(['public String title;', 'public String artist;', 'public String album;', 'public String genre;', 'public int length;'],);
-});
 
-// Test class passJavaArgs
-test('Pass Java Args', async () => {
-  const generateFolderName = () => {
-    return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
-  };
-        
-  jest.setTimeout(30000);
-        
-  const OUTPUT_DIR = generateFolderName();
-    
-  const params = {
-    server: 'production'
-  };
-        
-  const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
-  await generator.generateFromFile(path.resolve('test', 'mocks/single-channel.yml'));
-    
-  const properties = generator.asyncapi.allMessages().get('song').payload().properties();
-
+  // Test class passJavaArgs
   expect(typesUtils.passJavaArgs(properties)).toStrictEqual('title,artist,album,genre,length');
-});
-
-// Test class createJavaArgsFromProperties
-test('Create Java Args from Properties', async () => {
-  const generateFolderName = () => {
-    return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
-  };
-        
-  jest.setTimeout(30000);
-        
-  const OUTPUT_DIR = generateFolderName();
-    
-  const params = {
-    server: 'production'
-  };
-        
-  const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
-  await generator.generateFromFile(path.resolve('test', 'mocks/single-channel.yml'));
-    
-  const properties = generator.asyncapi.allMessages().get('song').payload().properties();
-
+  // Test class createJavaArgsFromProperties
   expect(typesUtils.createJavaArgsFromProperties(properties)).toStrictEqual(['String title', 'String artist', 'String album', 'String genre', 'int length']);
 });
 
