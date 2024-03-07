@@ -20,12 +20,12 @@ import { ProducerConstructor, SendMessage, ProducerImports, ProducerDeclaration,
 import { toJavaClassName, javaPackageToPath } from '../../utils/String.utils';
 
 export function Producers(asyncapi, channels, params) {
-  return Object.entries(channels).map(([channelName, channel]) => {
-    const name = channelName;
-    const className = `${toJavaClassName(channelName)}Producer`;
-    const packagePath = javaPackageToPath(params.package);
+  return channels.map((channel) => {
+    if (channel.operations().filterBySend().length > 0) {
+      const name = channel.id();
+      const className = `${toJavaClassName(name)}Producer`;
+      const packagePath = javaPackageToPath(params.package);
 
-    if (channel.publish()) {
       return (
         <File name={`${packagePath}${className}.java`}>
             

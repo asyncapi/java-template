@@ -38,7 +38,7 @@ import ${params.package}.Connection;
 import ${params.package}.PubSubBase;
 
 import ${params.package}.models.ModelContract;
-import ${params.package}.models.${toJavaClassName(message.uid())};
+import ${params.package}.models.${toJavaClassName(message.id())};
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -59,7 +59,7 @@ export function ReceiveMessage({ message }) {
             for (ConsumerRecord<String, String> record : records) {
 
                 logger.info("Received message: " + record.value());
-                ${toJavaClassName(message.uid())} receivedObject = new ObjectMapper().readValue(record.value(), ${toJavaClassName(message.uid())}.class);
+                ${toJavaClassName(message.id())} receivedObject = new ObjectMapper().readValue(record.value(), ${toJavaClassName(message.id())}.class);
                 logger.info("Received message type: " + receivedObject.getClass().getName());
 
                 /*

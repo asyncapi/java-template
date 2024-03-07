@@ -15,16 +15,15 @@
 */
 
 function getSecurityConfig({ asyncapi, params }) {
-  const server = asyncapi.server(params.server);
+  const server = asyncapi.allServers().get(params.server);
   const protocol = server.protocol();
-  const security = server.security();
+  const security = server.security().all();
 
   let securitySchemeType;
-  if (security && security.length > 0 && asyncapi.hasComponents()) {
-    const securitySchemeName = Object.keys(security[0].json())[0];
-    const securityScheme = asyncapi.components().securityScheme(securitySchemeName);
+  if (security && security.length > 0) {
+    const securityScheme = security[0];
     if (securityScheme) {
-      securitySchemeType = securityScheme.json().type;
+      securitySchemeType = securityScheme.type();
     }
   }
 

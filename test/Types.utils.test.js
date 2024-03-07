@@ -63,7 +63,7 @@ test('Define Variables For Properties', async () => {
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
   await generator.generateFromFile(path.resolve('test', 'mocks/single-channel.yml'));
     
-  const payload = generator.asyncapi.components().message('song').payload();
+  const payload = generator.asyncapi.allMessages().get('song').payload();
 
   expect(typesUtils.defineVariablesForProperties(payload)).toStrictEqual(['public String title;', 'public String artist;', 'public String album;', 'public String genre;', 'public int length;'],);
 });
@@ -85,7 +85,7 @@ test('Pass Java Args', async () => {
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
   await generator.generateFromFile(path.resolve('test', 'mocks/single-channel.yml'));
     
-  const properties = generator.asyncapi.components().message('song').payload().properties();
+  const properties = generator.asyncapi.allMessages().get('song').payload().properties();
 
   expect(typesUtils.passJavaArgs(properties)).toStrictEqual('title,artist,album,genre,length');
 });
@@ -107,7 +107,7 @@ test('Create Java Args from Properties', async () => {
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
   await generator.generateFromFile(path.resolve('test', 'mocks/single-channel.yml'));
     
-  const properties = generator.asyncapi.components().message('song').payload().properties();
+  const properties = generator.asyncapi.allMessages().get('song').payload().properties();
 
   expect(typesUtils.createJavaArgsFromProperties(properties)).toStrictEqual(['String title', 'String artist', 'String album', 'String genre', 'int length']);
 });
