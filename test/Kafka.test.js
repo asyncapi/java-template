@@ -5,9 +5,7 @@ const crypto = require('crypto');
 
 const MAIN_TEST_RESULT_PATH = path.join('test', 'temp', 'integrationTestResult');
 
-
 describe('kafka integration tests using the generator', () => {
-
   const generateFolderName = () => {
     // You always want to generate to new directory to make sure test runs in clear environment
     return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
@@ -46,10 +44,9 @@ describe('kafka integration tests using the generator', () => {
     }
 
     const connectionHelper = readFileSync(path.join(OUTPUT_DIR, `${PACKAGE_PATH}/ConnectionHelper.java`), 'utf-8');
-    expect(connectionHelper.includes("props.put(\"security.protocol\", \"SASL_SSL\")")).toBe(true);
-    expect(connectionHelper.includes("props.put(\"sasl.mechanism\", \"SCRAM-SHA-512\")")).toBe(true);
+    expect(connectionHelper.includes('props.put("security.protocol", "SASL_SSL")')).toBe(true);
+    expect(connectionHelper.includes('props.put("sasl.mechanism", "SCRAM-SHA-512")')).toBe(true);
   });
-
 
   it('should generate Java for an encrypted Kafka', async () => {
     const OUTPUT_DIR = generateFolderName();
@@ -82,9 +79,8 @@ describe('kafka integration tests using the generator', () => {
     }
 
     const connectionHelper = readFileSync(path.join(OUTPUT_DIR, `${PACKAGE_PATH}/ConnectionHelper.java`), 'utf-8');
-    expect(connectionHelper.includes("props.put(\"security.protocol\", \"SSL\")")).toBe(true);
+    expect(connectionHelper.includes('props.put("security.protocol", "SSL")')).toBe(true);
   });
-
 
   it('should generate Java for a plain Kafka', async () => {
     const OUTPUT_DIR = generateFolderName();
@@ -118,9 +114,8 @@ describe('kafka integration tests using the generator', () => {
     }
 
     const connectionHelper = readFileSync(path.join(OUTPUT_DIR, `${PACKAGE_PATH}/ConnectionHelper.java`), 'utf-8');
-    expect(connectionHelper.includes("props.put(\"security.protocol\", \"PLAINTEXT\")")).toBe(true);
+    expect(connectionHelper.includes('props.put("security.protocol", "PLAINTEXT")')).toBe(true);
   });
-
 
   it('should generate Java for a secured Kafka', async () => {
     const OUTPUT_DIR = generateFolderName();
@@ -151,10 +146,9 @@ describe('kafka integration tests using the generator', () => {
       expect(existsSync(path.join(OUTPUT_DIR, file))).toBe(true);
     }
     const connectionHelper = readFileSync(path.join(OUTPUT_DIR, `${PACKAGE_PATH}/ConnectionHelper.java`), 'utf-8');
-    expect(connectionHelper.includes("props.put(\"security.protocol\", \"SASL_PLAINTEXT\")")).toBe(true);
-    expect(connectionHelper.includes("props.put(\"sasl.mechanism\", \"PLAIN\")")).toBe(true);
+    expect(connectionHelper.includes('props.put("security.protocol", "SASL_PLAINTEXT")')).toBe(true);
+    expect(connectionHelper.includes('props.put("sasl.mechanism", "PLAIN")')).toBe(true);
   });
-
 
   it('should generate Java for the streetlights example', async () => {
     const OUTPUT_DIR = generateFolderName();
@@ -190,9 +184,8 @@ describe('kafka integration tests using the generator', () => {
       expect(existsSync(path.join(OUTPUT_DIR, file))).toBe(true);
     }
     const connectionHelper = readFileSync(path.join(OUTPUT_DIR, `${PACKAGE_PATH}/ConnectionHelper.java`), 'utf-8');
-    expect(connectionHelper.includes("props.put(\"security.protocol\", \"SSL\")")).toBe(true);
+    expect(connectionHelper.includes('props.put("security.protocol", "SSL")')).toBe(true);
   });
-
 
   it('should generate Java for a v3 AsyncAPI', async () => {
     const OUTPUT_DIR = generateFolderName();
@@ -229,8 +222,7 @@ describe('kafka integration tests using the generator', () => {
       expect(existsSync(path.join(OUTPUT_DIR, file))).toBe(true);
     }
     const connectionHelper = readFileSync(path.join(OUTPUT_DIR, `${PACKAGE_PATH}/ConnectionHelper.java`), 'utf-8');
-    expect(connectionHelper.includes("props.put(\"security.protocol\", \"SASL_SSL\")")).toBe(true);
-    expect(connectionHelper.includes("props.put(\"sasl.mechanism\", \"SCRAM-SHA-256\")")).toBe(true);
+    expect(connectionHelper.includes('props.put("security.protocol", "SASL_SSL")')).toBe(true);
+    expect(connectionHelper.includes('props.put("sasl.mechanism", "SCRAM-SHA-256")')).toBe(true);
   });
-
 });
