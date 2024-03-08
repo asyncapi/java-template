@@ -33,6 +33,7 @@ export function Models(asyncapi, params) {
         <PackageDeclaration path={`${params.package}.models`} />
         <ImportDeclaration path={`${params.package}.models.ModelContract`} />
         <ImportDeclaration path={'java.util.UUID'} />
+        <ImportDeclaration path={'com.fasterxml.jackson.annotation.JsonProperty'} />
 
         <Class name={messageNameUpperCase} extendsClass="ModelContract">
           <Indent size={2} type={IndentationTypes.SPACES}>
