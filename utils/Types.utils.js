@@ -133,13 +133,18 @@ export function asyncApiToDemoValue(type, format) {
   const boolWords = ['true', 'false'];
 
   switch (type) {
-  case ('integer' || 'long'):
+  case 'integer':
+  case 'long':
     return parseInt(Math.random() * 1000, 10);
 
-  case ('float' || 'double'):
+  case 'float':
+  case 'double':
+  case 'number':
     return Math.random();
 
-  case ('string' || 'binary' || 'password'):
+  case 'string':
+  case 'binary':
+  case 'password':
     if (format === 'uuid') {
       return 'UUID.randomUUID()';
     }
@@ -151,7 +156,8 @@ export function asyncApiToDemoValue(type, format) {
   case 'boolean':
     return boolWords[Math.floor(Math.random()*boolWords.length)];
 
-  case ('date' || 'dateTime'):
+  case 'date':
+  case 'dateTime':
     return (new Date()).toISOString().split('T')[0];
 
   default:
