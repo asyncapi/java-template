@@ -13,7 +13,8 @@ const consumerModuleMap = [
 ];
 
 function getModule({ asyncapi, params }) {
-  const protocol = asyncapi.server(params.server).protocol();
+  const server = asyncapi.allServers().get(params.server);
+  const protocol = server.protocol();
   const foundModule = consumerModuleMap.find(item => item.protocols.includes(protocol));
   if (!foundModule) {
     throw new Error(`This template does not currently support the protocol ${protocol}`);

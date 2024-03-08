@@ -14,34 +14,36 @@
 * limitations under the License.
 */
 
+function getSecurityProtocol(protocol, securitySchemeType) {
+  if (protocol === 'kafka') {
+    if (securitySchemeType) {
+      return 'SASL_PLAINTEXT';
+    }
+    return 'PLAINTEXT';
+  } else if (protocol === 'kafka-secure') {
+    if (securitySchemeType) {
+      return 'SASL_SSL';
+    }
+    return 'SSL';
+  }
+}
+
 function getSecurityConfig({ asyncapi, params }) {
-  const server = asyncapi.server(params.server);
+  const server = asyncapi.allServers().get(params.server);
   const protocol = server.protocol();
   const security = server.security();
 
   let securitySchemeType;
-  if (security && security.length > 0 && asyncapi.hasComponents()) {
-    const securitySchemeName = Object.keys(security[0].json())[0];
-    const securityScheme = asyncapi.components().securityScheme(securitySchemeName);
-    if (securityScheme) {
-      securitySchemeType = securityScheme.json().type;
+  if (security && security.length > 0) {
+    const securityReq = security[0].all();
+    if (securityReq && securityReq.length > 0) {
+      securitySchemeType = securityReq[0].scheme().type();
     }
   }
 
-  let securityProtocol, saslMechanism, authModule;
-  if (protocol === 'kafka') {
-    if (securitySchemeType) {
-      securityProtocol = 'SASL_PLAINTEXT';
-    } else {
-      securityProtocol = 'PLAINTEXT';
-    }
-  } else if (protocol === 'kafka-secure') {
-    if (securitySchemeType) {
-      securityProtocol = 'SASL_SSL';
-    } else {
-      securityProtocol = 'SSL';
-    }
-  }
+  let securityProtocol = getSecurityProtocol(protocol, securitySchemeType);
+
+  let saslMechanism, authModule;
   if (securitySchemeType) {
     switch (securitySchemeType) {
     case 'plain':

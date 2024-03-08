@@ -22,6 +22,7 @@ export function ConsumerDeclaration() {
 }
 
 export function ConsumerImports({ params, message }) {
+  const id = message.id() || message.name();
   return `
 import java.time.Duration;
 import java.util.logging.*;
@@ -38,7 +39,7 @@ import ${params.package}.Connection;
 import ${params.package}.PubSubBase;
 
 import ${params.package}.models.ModelContract;
-import ${params.package}.models.${toJavaClassName(message.uid())};
+import ${params.package}.models.${toJavaClassName(id)};
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -47,6 +48,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 }
 
 export function ReceiveMessage({ message }) {
+  const id = message.id() || message.name();
   return `
   public void receive(int requestTimeout) {
     boolean continueProcessing = true;
@@ -59,7 +61,7 @@ export function ReceiveMessage({ message }) {
             for (ConsumerRecord<String, String> record : records) {
 
                 logger.info("Received message: " + record.value());
-                ${toJavaClassName(message.uid())} receivedObject = new ObjectMapper().readValue(record.value(), ${toJavaClassName(message.uid())}.class);
+                ${toJavaClassName(id)} receivedObject = new ObjectMapper().readValue(record.value(), ${toJavaClassName(id)}.class);
                 logger.info("Received message type: " + receivedObject.getClass().getName());
 
                 /*

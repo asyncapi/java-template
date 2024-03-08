@@ -20,14 +20,14 @@ import { ConsumerDeclaration, ConsumerImports, ConsumerConstructor, ReceiveMessa
 import { toJavaClassName, javaPackageToPath } from '../../utils/String.utils';
 
 export function Consumers(asyncapi, channels, params) {
-  return Object.entries(channels).map(([channelName, channel]) => {
-    const name = channelName;
-    const className = `${toJavaClassName(channelName)}Subscriber`;
+  return channels.map((channel) => {
+    if (channel.operations().filterByReceive().length > 0) {
+      const name = channel.id();
+      const className = `${toJavaClassName(name)}Subscriber`;
 
-    const packagePath = javaPackageToPath(params.package);
+      const packagePath = javaPackageToPath(params.package);
 
-    if (channel.subscribe()) {
-      const message = channel.subscribe().message();
+      const message = channel.messages().all()[0];
 
       return (
         <File name={`${packagePath}${className}.java`}>
@@ -35,7 +35,7 @@ export function Consumers(asyncapi, channels, params) {
           <ConsumerImports asyncapi={asyncapi} params={params} message={message}></ConsumerImports>
     
           <Class name={className} extendsClass="PubSubBase">
-            <ConsumerDeclaration asyncapi={asyncapi} params={params} name={channelName} />
+            <ConsumerDeclaration asyncapi={asyncapi} params={params} name={name} />
   
             <ClassConstructor name={className}>
               <ConsumerConstructor asyncapi={asyncapi} params={params} name={name}/>

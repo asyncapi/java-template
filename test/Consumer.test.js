@@ -6,23 +6,23 @@ const crypto = require('crypto');
 
 const MAIN_TEST_RESULT_PATH = path.join('test', 'temp', 'integrationTestResult');
 
+jest.setTimeout(30000);
+
 // Test Imports function
 test('Generates all imports from path', async() => {
   const generateFolderName = () => {
     return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
   };
-  
-  jest.setTimeout(30000);
-  
+
   const OUTPUT_DIR = generateFolderName();
   const params = {
     server: 'production'
   };
-  
+
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
   await generator.generateFromFile(path.resolve('test', 'mocks/single-channel.yml'));
-  
-  expect(testConsumer.ConsumerImports({asyncapi: generator.asyncapi, params: generator.templateParams, message: { name: 'Song', uid: () => { return 'Song'; }}})).toBe(`
+
+  expect(testConsumer.ConsumerImports({asyncapi: generator.asyncapi, params: generator.templateParams, message: { name: 'Song', id: () => { return 'Song'; }}})).toBe(`
 import java.util.logging.*;
 import java.io.Serializable;
 

@@ -13,7 +13,8 @@ const connectionModuleMap = [
 ];
 
 export default function({ asyncapi, params }) {
-  const protocol = asyncapi.server(params.server).protocol();
+  const server = asyncapi.allServers().get(params.server);
+  const protocol = server.protocol();
   const foundModule = connectionModuleMap.find(item => item.protocols.includes(protocol));
   if (!foundModule) {
     throw new Error(`This template does not currently support the protocol ${protocol}`);

@@ -34,8 +34,8 @@ import { Producers } from '../components/Files/Producers';
 import { Consumers } from '../components/Files/Consumers';
 
 export default function({ asyncapi, params }) {
-  const channels = asyncapi.channels();
-  const server = asyncapi.server(params.server);
+  const channels = asyncapi.allChannels().all();
+  const server = asyncapi.allServers().get(params.server);
 
   const toRender = {
     producers: Producers(asyncapi, channels, params),

@@ -58,6 +58,7 @@
   },
   "generator": {
     "renderer": "react",
+    "apiVersion": "v3",
     "parameters": {
       "server": {
         "description": "The server you want to use in the code.",
@@ -103,7 +104,7 @@
     }
   },
   "devDependencies": {
-    "@asyncapi/generator": "^1.9.17",
+    "@asyncapi/generator": "^1.17.7",
     "@asyncapi/parser": "^3.0.7",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/github": "^7.0.4",
@@ -127,6 +128,10 @@
     "collectCoverageFrom": [
       "{filters,hooks}/**/*.js",
       "!hooks/generateExtraFormats.js"
-    ]
+    ],
+    "moduleNameMapper": {
+      "^nimma/legacy$": "<rootDir>/node_modules/nimma/dist/legacy/cjs/index.js",
+      "^nimma/(.*)": "<rootDir>/node_modules/nimma/dist/cjs/$1"
+    }
   }
 }

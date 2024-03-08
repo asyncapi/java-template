@@ -22,23 +22,24 @@ import { createJavaConstructorArgs } from '../../utils/Types.utils';
 import { PackageDeclaration } from '../Common';
 
 export function Demo(asyncapi, params) {
-  const channels = Object.entries(asyncapi.channels()).map(([key, value]) => ({key,value}));
-
-  const foundPubAndSub = channels.filter((el) => {
-    return el.value.hasPublish() && el.value.hasSubscribe();
+  const foundPubAndSub = asyncapi.allChannels().filterBy((chan) => {
+    return chan.operations().filterBySend().length > 0 &&
+           chan.operations().filterByReceive().length > 0;
   });
 
-  const foundPubOrSub = channels.filter((el) => {
-    return el.value.hasPublish() || el.value.hasSubscribe();
+  const foundPubOrSub = asyncapi.allChannels().filterBy((chan) => {
+    return chan.operations().filterBySend().length > 0 ||
+           chan.operations().filterByReceive().length > 0;
   });
 
   // Prioritise channel with both, fallback to an OR
   const channel = foundPubAndSub.length ? foundPubAndSub[0] : foundPubOrSub[0];
-  const channelName = channel.key;
+  const channelName = channel.id();
 
   // Get payload from either publish or subscribe
-  const targetMessageName = channel.value.hasPublish() ? channel.value.publish().message().uid() : channel.value.subscribe().message().uid();
-  const targetPayloadProperties = channel.value.hasPublish() ? channel.value.publish().message().payload().properties() : channel.value.subscribe().message().payload().properties();
+  const message = channel.messages().all()[0];
+  const targetMessageName = message.id() || message.name();
+  const targetPayloadProperties = message.payload().properties();
 
   const messageNameTitleCase = toJavaClassName(targetMessageName);
 
@@ -49,7 +50,7 @@ export function Demo(asyncapi, params) {
 
   const constructorArgs = createJavaConstructorArgs(targetPayloadProperties).join(', ');
   const generatedClasses = [];
-  if (channel.value.hasPublish()) {
+  if (channel.operations().filterBySend().length > 0) {
     generatedClasses.push(
       <File name={producerPath}>
         <PackageDeclaration path={params.package} />
@@ -57,7 +58,7 @@ export function Demo(asyncapi, params) {
       </File>
     );
   }
-  if (channel.value.hasSubscribe()) {
+  if (channel.operations().filterByReceive().length > 0) {
     generatedClasses.push(
       <File name={subscriberPath}>
         <PackageDeclaration path={params.package} />

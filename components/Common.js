@@ -107,8 +107,9 @@ public void close() {
 }
 
 export function EnvJson({ asyncapi, params }) {
-  const url = asyncapi.server(params.server).url();
-  const protocol = asyncapi.server(params.server).protocol();
+  const server = asyncapi.allServers().get(params.server);
+  const url = server.url();
+  const protocol = server.protocol();
   let user = params.user;
   let password = params.password;
 
@@ -126,12 +127,13 @@ export function EnvJson({ asyncapi, params }) {
     const host = URLtoHost(url);
     const domain = host.split(':', 1);
     let cipher = protocol === 'ibmmq-secure' ? 'ANY' : '';
+    const server = asyncapi.allServers().get(params.server);
 
     if (
-        protocol === 'ibmmq-secure' && 
-        asyncapi.server(params.server).bindings().ibmmq.cipherSpec
-       ) {
-      cipher = MQCipherToJava(asyncapi.server(params.server).bindings().ibmmq.cipherSpec);
+      protocol === 'ibmmq-secure' &&
+        server.bindings().get('ibmmq').value().cipherSpec
+    ) {
+      cipher = MQCipherToJava(server.bindings().get('ibmmq').value().cipherSpec);
     }
 
     return `
@@ -176,20 +178,9 @@ import ${params.package}.models.${messageName};`;
 
 /* Used to resolve a channel object to message name */
 export function ChannelToMessage(channel, asyncapi) {
-  // Get payload from either publish or subscribe
-  const targetPayloadProperties = Object.prototype.hasOwnProperty.call(channel, 'publish') ? 
-    channel.publish().message().payload().properties() :
-    channel.subscribe().message().payload().properties();
-
-  // Find message name from messages array
-  const messages = asyncapi.components().messages();
-  let targetMessageName;
-
-  for (const message in messages) {
-    if (messages[message].payload().properties().toString() === targetPayloadProperties.toString()) {
-      targetMessageName = message;
-    }
-  }
+  const message = channel.messages().all()[0];
+  const targetPayloadProperties = message.payload().properties();
+  const targetMessageName = message.name();
 
   const messageNameTitleCase = targetMessageName.charAt(0).toUpperCase() + targetMessageName.slice(1);
 

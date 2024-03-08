@@ -13,6 +13,12 @@ const yaml = 'mocks/single-channel.yml';
 
 const MAIN_TEST_RESULT_PATH = path.join('test', 'temp', 'integrationTestResult');
 
+const generateFolderName = () => {
+  return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
+};
+
+jest.setTimeout(30000);
+
 // Test class Function
 test('Creates Class from parameters', () => {
   expect(testCommon.Class({childrenContent: 'TestChild' , name: 'TestName' , implementsClass: 'TestImplement' , extendsClass: 'TestExtend' })).toBe(`
@@ -141,17 +147,11 @@ test('invalid port', () => {
 // Test EnvJson Function
 
 test('EnvJson extracts correct values', async () => {
-  const generateFolderName = () => {
-    return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
-  };
-
-  jest.setTimeout(30000);
-
   const OUTPUT_DIR = generateFolderName();
 
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
   await generator.generateFromFile(path.resolve('test', yaml));
-  
+
   const generatedJson = JSON.stringify(JSON.parse(testCommon.EnvJson({asyncapi: generator.asyncapi, params: generator.templateParams})));
   const expectedJson = JSON.stringify({
     MQ_ENDPOINTS: [{
@@ -170,12 +170,6 @@ test('EnvJson extracts correct values', async () => {
 // Test ImportModels
 
 test('ImportModels are generated', async () => {
-  const generateFolderName = () => {
-    return path.resolve(MAIN_TEST_RESULT_PATH, crypto.randomBytes(4).toString('hex'));
-  };
-
-  jest.setTimeout(30000);
-
   const OUTPUT_DIR = generateFolderName();
 
   const generator = new Generator(path.normalize('./'), OUTPUT_DIR, { forceWrite: true, templateParams: params });
