@@ -43,6 +43,11 @@ describe('kafka integration tests using the generator', () => {
     for (const expectedLine of expectedConnectionHelperLines) {
       expect(connectionHelper.includes(expectedLine)).toBe(true);
     }
+    const connectionEnv = readFileSync(path.join(OUTPUT_DIR, 'env.json'), 'utf-8');
+    const foundStreetlightsScram = connectionEnv.includes('"BOOTSTRAP_ADDRESS": "test.mykafkacluster.org:18092"');
+    const foundStreetlightsMtls = connectionEnv.includes('"BOOTSTRAP_ADDRESS": "test.mykafkacluster.org:28092"');
+    const foundRecordLabelKafka = connectionEnv.includes('"BOOTSTRAP_ADDRESS": "my-kafka-hostname:9092"');
+    expect(foundStreetlightsScram || foundStreetlightsMtls || foundRecordLabelKafka).toBe(true);
 
     return true;
   };

@@ -109,6 +109,7 @@ public void close() {
 export function EnvJson({ asyncapi, params }) {
   const server = asyncapi.allServers().get(params.server);
   const url = server.url();
+  const hostname = server.host() || server.url();
   const protocol = server.protocol();
   let user = params.user;
   let password = params.password;
@@ -153,7 +154,7 @@ export function EnvJson({ asyncapi, params }) {
     return `
     {
       "KAFKA_ENDPOINTS": [{
-        "BOOTSTRAP_ADDRESS": "${url}",
+        "BOOTSTRAP_ADDRESS": "${hostname}",
         "APP_USER": "${user}",
         "APP_PASSWORD": "${password}"
       }]
