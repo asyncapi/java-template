@@ -139,6 +139,7 @@ export function asyncApiToDemoValue(type, format) {
 
   case 'float':
   case 'double':
+  case 'number':
     return Math.random();
 
   case 'string':
