@@ -42,6 +42,9 @@ components:
           genre:
             type: string
             description: Primary song genre
+          something:
+            type: number
+            description: some non-integer number
           length:
             type: integer
             description: Track length in seconds
