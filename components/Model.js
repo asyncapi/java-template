@@ -15,15 +15,16 @@
 */
 
 import { setLocalVariables, defineVariablesForProperties } from '../utils/Types.utils';
+import { getMessagePayload } from '../utils/Models.utils';
 
 export function ModelConstructor({ message }) {
   // TODO: Supoort ofMany messages
-  return (setLocalVariables(message.payload().properties()).join(''));
+  return (setLocalVariables(getMessagePayload(message).properties()).join(''));
 }
 
 export function ModelClassVariables({ message }) {
   // TODO: Supoort ofMany messages
-  const argsString = defineVariablesForProperties(message.payload());
+  const argsString = defineVariablesForProperties(getMessagePayload(message));
   
   return argsString.join(`
 `);

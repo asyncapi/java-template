@@ -1,0 +1,34 @@
+asyncapi: 3.0.0
+info:
+  title: ORDERS.JSON
+  version: 1.0.0
+  contact:
+    email: username@example.com
+channels:
+  ORDERS.JSON:
+    address: ORDERS.JSON
+    bindings:
+      kafka:
+        partitions: 3
+        replicas: 3
+    messages:
+      message:
+        examples:
+          - payload: {"id":"973fb57a-4fcc-42df-8710-440c7c3ec32c","customer":"Dionne Howell","customerid":"26b87be0-2be7-4e2d-b5de-43d83d51ee49","description":"M Acid-washed Capri Jeans","price":47.85,"quantity":7,"region":"EMEA","ordertime":"2024-03-09 15:37:19.769"}
+operations:
+  receiveMessage:
+    action: receive
+    channel:
+      $ref: '#/channels/ORDERS.JSON'
+    messages:
+      - $ref: '#/channels/ORDERS.JSON/messages/message'
+servers:
+  gateway-group:
+    host: my-kafka-hostname:9092
+    protocol: kafka-secure
+    security:
+      - $ref: '#/components/securitySchemes/EGW-SECURITY'
+components:
+  securitySchemes:
+    EGW-SECURITY:
+      type: plain

@@ -15,7 +15,7 @@
 */
 
 import { createJavaArgsFromProperties } from '../utils/Types.utils';
-import { collateModelNames } from '../utils/Models.utils';
+import { collateModelNames, getMessagePayload } from '../utils/Models.utils';
 import { MQCipherToJava } from './Connection/MQTLS';
 
 export function Class({ childrenContent, name, implementsClass, extendsClass }) {
@@ -180,7 +180,7 @@ import ${params.package}.models.${messageName};`;
 /* Used to resolve a channel object to message name */
 export function ChannelToMessage(channel, asyncapi) {
   const message = channel.messages().all()[0];
-  const targetPayloadProperties = message.payload().properties();
+  const targetPayloadProperties = getMessagePayload(message).properties();
   const targetMessageName = message.name();
 
   const messageNameTitleCase = targetMessageName.charAt(0).toUpperCase() + targetMessageName.slice(1);
