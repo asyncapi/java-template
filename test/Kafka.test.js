@@ -33,6 +33,7 @@ describe('kafka integration tests using the generator', () => {
       `${PACKAGE_PATH}/ConnectionHelper.java`,
       `${PACKAGE_PATH}/LoggingHelper.java`,
       `${PACKAGE_PATH}/PubSubBase.java`,
+      `${PACKAGE_PATH}/models/ModelContract.java`,
     ];
     for (const file of commonFiles) {
       expect(existsSync(path.join(OUTPUT_DIR, file))).toBe(true);
@@ -64,7 +65,6 @@ describe('kafka integration tests using the generator', () => {
         'DemoSubscriber.java',
         'SongReleasedProducer.java',
         'SongReleasedSubscriber.java',
-        'models/ModelContract.java',
         'models/Song.java',
       ],
       [
@@ -84,7 +84,6 @@ describe('kafka integration tests using the generator', () => {
       [
         'DemoProducer.java',
         'SongReleasedProducer.java',
-        'models/ModelContract.java',
         'models/Song.java',
       ],
       [
@@ -105,7 +104,6 @@ describe('kafka integration tests using the generator', () => {
         'DemoSubscriber.java',
         'SongReleasedProducer.java',
         'SongReleasedSubscriber.java',
-        'models/ModelContract.java',
         'models/Song.java',
       ],
       [
@@ -124,7 +122,6 @@ describe('kafka integration tests using the generator', () => {
       [
         'DemoSubscriber.java',
         'SongReleasedSubscriber.java',
-        'models/ModelContract.java',
         'models/Song.java',
       ],
       [
@@ -149,7 +146,6 @@ describe('kafka integration tests using the generator', () => {
         'SmartylightingStreetlights10EventStreetlightIdLightingMeasuredSubscriber.java',
         'models/DimLight.java',
         'models/LightMeasured.java',
-        'models/ModelContract.java',
         'models/TurnOnOff.java',
       ],
       [
@@ -173,12 +169,30 @@ describe('kafka integration tests using the generator', () => {
         'LightTurnOnProducer.java',
         'models/DimLight.java',
         'models/LightMeasured.java',
-        'models/ModelContract.java',
         'models/TurnOn.java',
       ],
       [
         'props.put("security.protocol", "SASL_SSL")',
         'props.put("sasl.mechanism", "SCRAM-SHA-256")',
+      ]);
+    expect(verified).toBe(true);
+  });
+
+  it('should generate code for an AsyncAPI doc without payload schema', async () => {
+    const verified = await generateJavaProject(
+      'com.eem',
+      {
+        server: 'gateway-group',
+      },
+      'mocks/kafka-orders-v3.yml',
+      [
+        'DemoSubscriber.java',
+        'ORDERSJSONSubscriber.java',
+        'models/Message.java',
+      ],
+      [
+        'props.put("security.protocol", "SASL_SSL")',
+        'props.put("sasl.mechanism", "PLAIN")',
       ]);
     expect(verified).toBe(true);
   });

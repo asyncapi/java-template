@@ -19,7 +19,7 @@ import { PackageDeclaration, ImportDeclaration, Class, ClassConstructor } from '
 import { ModelClassVariables, ModelConstructor } from '../Model';
 import { javaPackageToPath } from '../../utils/String.utils';
 import { Indent, IndentationTypes } from '@asyncapi/generator-react-sdk';
-import { collateModels } from '../../utils/Models.utils';
+import { collateModels, getMessagePayload } from '../../utils/Models.utils';
 
 export function Models(asyncapi, params) {
   const models = collateModels(asyncapi);
@@ -40,7 +40,7 @@ export function Models(asyncapi, params) {
             <ModelClassVariables message={message}></ModelClassVariables>
           </Indent>
 
-          <ClassConstructor name={messageNameUpperCase} properties={message.payload().properties()}>
+          <ClassConstructor name={messageNameUpperCase} properties={getMessagePayload(message).properties()}>
             <ModelConstructor message={message}/>
           </ClassConstructor>
           <ClassConstructor name={messageNameUpperCase}>

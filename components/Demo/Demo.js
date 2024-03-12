@@ -19,6 +19,7 @@ import { DemoProducer } from './DemoProducer';
 import { javaPackageToPath, toJavaClassName } from '../../utils/String.utils';
 import { File } from '@asyncapi/generator-react-sdk';
 import { createJavaConstructorArgs } from '../../utils/Types.utils';
+import { getMessagePayload } from '../../utils/Models.utils';
 import { PackageDeclaration } from '../Common';
 
 export function Demo(asyncapi, params) {
@@ -39,7 +40,7 @@ export function Demo(asyncapi, params) {
   // Get payload from either publish or subscribe
   const message = channel.messages().all()[0];
   const targetMessageName = message.id() || message.name();
-  const targetPayloadProperties = message.payload().properties();
+  const targetPayloadProperties = getMessagePayload(message).properties();
 
   const messageNameTitleCase = toJavaClassName(targetMessageName);
 

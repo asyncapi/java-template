@@ -33,7 +33,8 @@
   "dependencies": {
     "@asyncapi/generator-filters": "^2.1.0",
     "@asyncapi/generator-hooks": "^0.1.0",
-    "@asyncapi/generator-react-sdk": "^1.0.11"
+    "@asyncapi/generator-react-sdk": "^1.0.11",
+    "generate-schema": "^2.6.0"
   },
   "release": {
     "branches": [
