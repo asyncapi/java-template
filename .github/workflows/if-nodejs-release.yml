@@ -48,7 +48,7 @@ jobs:
         name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 16
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
       - if: steps.packagejson.outputs.exists == 'true'
@@ -85,7 +85,7 @@ jobs:
         name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 16
       - if: steps.packagejson.outputs.exists == 'true'
         name: Install dependencies
         run: npm install
