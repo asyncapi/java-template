@@ -18,6 +18,7 @@ import { toJavaClassName } from '../../utils/String.utils';
 export function ConsumerDeclaration() {
   return `
   private KafkaConsumer consumer = null;
+  private static final Logger logger = Logger.getLogger(${toJavaClassName('YourConsumerClass')}.class.getName());
     `;
 }
 
